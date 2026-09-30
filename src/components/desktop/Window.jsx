@@ -156,7 +156,7 @@ function TrafficLight({ className, label, symbol, onClick }) {
       <svg
         aria-hidden="true"
         viewBox="0 0 12 12"
-        className="size-3 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"
+        className="size-3 opacity-0 group-hover:opacity-100 group-has-[:focus-visible]:opacity-100"
         fill="none"
         stroke="rgb(0 0 0 / 0.6)"
         strokeWidth="1.4"

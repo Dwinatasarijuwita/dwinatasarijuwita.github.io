@@ -1,5 +1,5 @@
 import { motion, useDragControls, useMotionValue, useReducedMotion } from 'motion/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { WindowActiveContext } from '../../hooks/useWindowActive'
 import { clampPosition } from '../../lib/windowBounds'
 import { DOCK_HEIGHT, MENU_BAR_HEIGHT } from './constants'
@@ -30,11 +30,20 @@ export default function Window({
   const y = useMotionValue(shown.y)
   const [minimizeOrigin, setMinimizeOrigin] = useState('50% 100%')
   const [isHeld, setIsHeld] = useState(false)
+  const sectionRef = useRef(null)
 
   useEffect(() => {
     x.set(shown.x)
     y.set(shown.y)
   }, [shown.x, shown.y, x, y])
+
+  // Like macOS, the front window takes keyboard focus; otherwise it stays on the Dock icon that opened it.
+  useEffect(() => {
+    const section = sectionRef.current
+    if (isActive && !isMinimized && section && !section.contains(document.activeElement)) {
+      section.focus({ preventScroll: true })
+    }
+  }, [isActive, isMinimized])
 
   const hidden = reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.9 }
   const minimized = reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.1 }
@@ -49,11 +58,13 @@ export default function Window({
 
   return (
     <motion.section
+      ref={sectionRef}
+      tabIndex={-1}
       role="dialog"
       aria-label={title}
       aria-hidden={isMinimized || undefined}
       inert={isMinimized}
-      className={`absolute left-0 top-0 flex flex-col overflow-hidden bg-white ${
+      className={`absolute left-0 top-0 flex flex-col overflow-hidden bg-white outline-none ${
         isMaximized ? 'rounded-none' : 'rounded-xl border border-black/10'
       } ${
         isActive ? 'shadow-2xl' : 'shadow-lg'

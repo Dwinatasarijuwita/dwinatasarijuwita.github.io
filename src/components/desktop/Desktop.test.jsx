@@ -120,6 +120,26 @@ describe('Desktop', () => {
     expect(screen.getByRole('dialog', { name: 'Resume' })).toBeInTheDocument()
   })
 
+  it('moves focus from the Dock into the window it opens', () => {
+    render(<Desktop />)
+    dockButton('Photos').focus()
+    openFromDock('Photos')
+    expect(screen.getByRole('dialog', { name: 'Photos' })).toHaveFocus()
+  })
+
+  it('moves focus to the window brought to the front and leaves focus inside it alone', () => {
+    render(<Desktop />)
+    openFromDock('Contact')
+    const contact = screen.getByRole('dialog', { name: 'Contact' })
+    const closeButton = within(contact).getByRole('button', { name: 'Close Contact' })
+    closeButton.focus()
+    fireEvent.pointerDown(contact)
+    expect(closeButton).toHaveFocus()
+
+    openFromDock('About Me')
+    expect(screen.getByRole('dialog', { name: 'About Me' })).toHaveFocus()
+  })
+
   it('keeps windows in their own layer so the Dock and menu bar stay on top', () => {
     render(<Desktop />)
     openFromDock('About Me')

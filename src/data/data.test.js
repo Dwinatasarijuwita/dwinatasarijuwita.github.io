@@ -10,6 +10,8 @@ describe('profile', () => {
     expect(profile.email).toBe('tasyakstr@gmail.com')
     expect(profile.phoneNumber).toBe('085718259166')
     expect(profile.github).toBe('https://github.com/Dwinatasarijuwita')
+    expect(profile.linkedin).toBe('https://www.linkedin.com/in/dwi-natasari-juwita-970474218/')
+    expect(profile.instagram).toBe('https://www.instagram.com/tasyakstr/')
     expect(profile.resume).toEqual({ url: '/resume.pdf', downloadName: 'Dwi Natasari Juwita - CV.pdf' })
   })
 })

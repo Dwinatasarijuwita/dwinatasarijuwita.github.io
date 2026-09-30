@@ -11,6 +11,8 @@ describe('apps', () => {
       ['music', 'Music Favorite'],
       ['photos', 'Photos'],
       ['github', 'GitHub'],
+      ['linkedin', 'LinkedIn'],
+      ['instagram', 'Instagram'],
     ])
   })
 
@@ -31,16 +33,18 @@ describe('apps', () => {
       ['music', 'dock'],
       ['photos', 'dock'],
       ['github', 'dock'],
+      ['linkedin', 'dock'],
+      ['instagram', 'dock'],
     ])
     const resume = apps.find((app) => app.id === 'resume')
     expect(resume.desktopLabel).toBe('Dwi Natasari Juwita - CV.pdf')
     expect(resume.kind).toBe('file')
   })
 
-  it('makes GitHub a link to the GitHub profile instead of a window', () => {
-    const github = apps.find((app) => app.id === 'github')
-    expect(github.kind).toBe('link')
-    expect(github.url).toBe(profile.github)
-    expect(github.Component).toBeUndefined()
+  it.each(['github', 'linkedin', 'instagram'])('makes %s a link to the profile instead of a window', (id) => {
+    const app = apps.find((item) => item.id === id)
+    expect(app.kind).toBe('link')
+    expect(app.url).toBe(profile[id])
+    expect(app.Component).toBeUndefined()
   })
 })

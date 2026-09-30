@@ -55,4 +55,18 @@ export const apps = [
     title: 'GitHub',
     url: profile.github,
   },
+  {
+    id: 'linkedin',
+    placement: 'dock',
+    kind: 'link',
+    title: 'LinkedIn',
+    url: profile.linkedin,
+  },
+  {
+    id: 'instagram',
+    placement: 'dock',
+    kind: 'link',
+    title: 'Instagram',
+    url: profile.instagram,
+  },
 ]

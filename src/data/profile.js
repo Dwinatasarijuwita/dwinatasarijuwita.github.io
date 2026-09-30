@@ -16,6 +16,8 @@ export const profile = {
   email: 'tasyakstr@gmail.com',
   phoneNumber: '085718259166',
   github: 'https://github.com/Dwinatasarijuwita',
+  linkedin: 'https://www.linkedin.com/in/dwi-natasari-juwita-970474218/',
+  instagram: 'https://www.instagram.com/tasyakstr/',
   resume: {
     url: `${import.meta.env.BASE_URL}resume.pdf`,
     downloadName: 'Dwi Natasari Juwita - CV.pdf',

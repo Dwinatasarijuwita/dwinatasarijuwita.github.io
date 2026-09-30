@@ -26,11 +26,15 @@ describe('Dock', () => {
     expect(onOpen).toHaveBeenCalledWith('music')
   })
 
-  it('opens GitHub in a new tab as a link', () => {
+  it.each([
+    ['GitHub', 'https://github.com/Dwinatasarijuwita'],
+    ['LinkedIn', 'https://www.linkedin.com/in/dwi-natasari-juwita-970474218/'],
+    ['Instagram', 'https://www.instagram.com/tasyakstr/'],
+  ])('opens %s in a new tab as a link', (name, href) => {
     const onOpen = vi.fn()
     render(<Dock apps={apps} windows={windowsWith([])} onOpen={onOpen} />)
-    const link = within(screen.getByRole('navigation', { name: 'Dock' })).getByRole('link', { name: 'GitHub' })
-    expect(link).toHaveAttribute('href', 'https://github.com/Dwinatasarijuwita')
+    const link = within(screen.getByRole('navigation', { name: 'Dock' })).getByRole('link', { name })
+    expect(link).toHaveAttribute('href', href)
     expect(link).toHaveAttribute('target', '_blank')
     expect(link).toHaveAttribute('rel', 'noopener noreferrer')
     fireEvent.click(link)

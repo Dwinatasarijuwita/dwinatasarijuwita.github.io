@@ -9,7 +9,6 @@ export function useIsMobile() {
     const query = window.matchMedia(MOBILE_QUERY)
     const onChange = (event) => setIsMobile(event.matches)
     query.addEventListener('change', onChange)
-    setIsMobile(query.matches)
     return () => query.removeEventListener('change', onChange)
   }, [])
 

@@ -1,5 +1,5 @@
 import { motion, useDragControls, useMotionValue, useReducedMotion } from 'motion/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { DOCK_HEIGHT } from './constants'
 
 export default function Window({
@@ -19,6 +19,7 @@ export default function Window({
   const reduceMotion = useReducedMotion()
   const x = useMotionValue(position.x)
   const y = useMotionValue(position.y)
+  const [minimizeOrigin, setMinimizeOrigin] = useState('50% 100%')
 
   useEffect(() => {
     x.set(isMaximized ? 0 : position.x)
@@ -50,7 +51,7 @@ export default function Window({
         height: isMaximized ? `calc(100% - ${DOCK_HEIGHT}px)` : size.height,
         maxWidth: '100%',
         maxHeight: `calc(100% - ${DOCK_HEIGHT}px)`,
-        transformOrigin: isMinimized ? dockOrigin(constraintsRef.current, position) : '50% 50%',
+        transformOrigin: isMinimized ? minimizeOrigin : '50% 50%',
       }}
       initial={hidden}
       animate={isMinimized ? minimized : { opacity: 1, scale: 1 }}
@@ -83,7 +84,10 @@ export default function Window({
             className="bg-[#febc2e]"
             label={`Minimize ${title}`}
             symbol="−"
-            onClick={() => onMinimize(id)}
+            onClick={() => {
+              setMinimizeOrigin(dockOrigin(constraintsRef.current, position))
+              onMinimize(id)
+            }}
           />
           <TrafficLight
             className="bg-[#28c840]"

@@ -100,7 +100,7 @@ export default function Window({
           onPointerDown={(event) => event.stopPropagation()}
           onDoubleClick={(event) => event.stopPropagation()}
         >
-          <TrafficLight className="bg-[#ff5f57]" label={`Tutup ${title}`} symbol="close" onClick={() => onClose(id)} />
+          <TrafficLight className="bg-[#ff5f57]" label={`Close ${title}`} symbol="close" onClick={() => onClose(id)} />
           <TrafficLight
             className="bg-[#febc2e]"
             label={`Minimize ${title}`}

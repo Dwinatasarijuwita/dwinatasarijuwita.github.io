@@ -41,7 +41,7 @@ export default function PhotosApp() {
   }, [index])
 
   if (!photo) {
-    return <p className="p-6 text-sm text-gray-500">Belum ada foto.</p>
+    return <p className="p-6 text-sm text-gray-500">No photos yet.</p>
   }
 
   return (
@@ -50,7 +50,7 @@ export default function PhotosApp() {
         <motion.img
           key={photo.id}
           src={photo.src}
-          alt={`Foto ${index + 1} dari ${photos.length}`}
+          alt={`Photo ${index + 1} of ${photos.length}`}
           draggable={false}
           className="max-h-full max-w-full touch-pan-y select-none object-contain"
           drag="x"
@@ -64,7 +64,7 @@ export default function PhotosApp() {
       </div>
       {/* w-max + mx-auto centres the strip when it fits and still scrolls from the left when it doesn't. */}
       <div ref={stripRef} className="shrink-0 overflow-x-auto border-t border-black/5 bg-white">
-        <ul aria-label="Semua foto" className="mx-auto flex w-max gap-1 p-1">
+        <ul aria-label="All photos" className="mx-auto flex w-max gap-1 p-1">
           {photos.map((item, itemIndex) => {
             const isCurrent = itemIndex === index
             return (
@@ -72,7 +72,7 @@ export default function PhotosApp() {
                 <button
                   ref={isCurrent ? activeThumbRef : null}
                   type="button"
-                  aria-label={`Tampilkan foto ${itemIndex + 1}`}
+                  aria-label={`Show photo ${itemIndex + 1}`}
                   aria-current={isCurrent || undefined}
                   onClick={() => show(itemIndex)}
                   className={`block h-16 w-24 overflow-hidden sm:h-20 sm:w-28 ${

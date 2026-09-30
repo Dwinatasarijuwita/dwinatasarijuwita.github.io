@@ -45,7 +45,7 @@ export default function HomeScreen() {
     <div className="fixed inset-0 flex flex-col overflow-hidden bg-cover bg-center text-white" style={wallpaperStyle}>
       <StatusBar />
       <main className="flex-1 overflow-y-auto px-5 pt-4">
-        <section aria-label="Sapaan" className="flex items-center gap-4 rounded-3xl bg-white/20 p-4 backdrop-blur-xl">
+        <section aria-label="Greeting" className="flex items-center gap-4 rounded-3xl bg-white/20 p-4 backdrop-blur-xl">
           <Avatar size="md" />
           <div className="min-w-0">
             <p className="text-lg font-semibold">{profile.name}</p>
@@ -53,7 +53,7 @@ export default function HomeScreen() {
           </div>
         </section>
         {gridApps.length > 0 && (
-          <ul aria-label="Aplikasi" className="mt-6 grid grid-cols-4 gap-y-6">
+          <ul aria-label="Apps" className="mt-6 grid grid-cols-4 gap-y-6">
             {gridApps.map((item) => (
               <li key={item.id}>
                 <LaunchButton app={item} onLaunch={launch} showLabel />

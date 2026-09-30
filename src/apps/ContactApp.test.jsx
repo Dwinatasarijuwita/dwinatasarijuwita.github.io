@@ -19,10 +19,10 @@ describe('ContactApp', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /tasyakstr@gmail\.com/ }))
 
-    expect(await screen.findByText(/Email berhasil disalin/)).toBeInTheDocument()
-    expect(screen.getByRole('status')).toHaveTextContent('Email berhasil disalin')
+    expect(await screen.findByText(/Email copied/)).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveTextContent('Email copied')
     expect(writeText).toHaveBeenCalledWith('tasyakstr@gmail.com')
-    await waitFor(() => expect(screen.queryByText(/Email berhasil disalin/)).not.toBeInTheDocument(), {
+    await waitFor(() => expect(screen.queryByText(/Email copied/)).not.toBeInTheDocument(), {
       timeout: 3000,
     })
   })

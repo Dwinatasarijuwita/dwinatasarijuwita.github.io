@@ -22,7 +22,7 @@ describe('ResumeApp', () => {
     render(<ResumeApp />)
 
     expect(await screen.findByTitle('Resume Dwi Natasari Juwita')).toHaveAttribute('src', '/resume.pdf')
-    const download = screen.getByRole('link', { name: 'Unduh' })
+    const download = screen.getByRole('link', { name: 'Download' })
     expect(download).toHaveAttribute('href', '/resume.pdf')
     expect(download).toHaveAttribute('download', 'Dwi Natasari Juwita - CV.pdf')
     expect(fetch).toHaveBeenCalledWith('/resume.pdf', { method: 'HEAD' })
@@ -33,26 +33,26 @@ describe('ResumeApp', () => {
     setMobile(true)
     render(<ResumeApp />)
 
-    expect(await screen.findByRole('link', { name: 'Buka PDF' })).toHaveAttribute('target', '_blank')
-    expect(screen.getByRole('link', { name: 'Unduh CV' })).toHaveAttribute('download', 'Dwi Natasari Juwita - CV.pdf')
+    expect(await screen.findByRole('link', { name: 'Open PDF' })).toHaveAttribute('target', '_blank')
+    expect(screen.getByRole('link', { name: 'Download CV' })).toHaveAttribute('download', 'Dwi Natasari Juwita - CV.pdf')
     expect(screen.queryByTitle('Resume Dwi Natasari Juwita')).not.toBeInTheDocument()
   })
 
   it('says the CV is coming soon when the file is missing', async () => {
     stubFetch({ ok: false, contentType: 'text/html' })
     render(<ResumeApp />)
-    expect(await screen.findByText('CV segera hadir')).toBeInTheDocument()
+    expect(await screen.findByText('CV coming soon')).toBeInTheDocument()
   })
 
   it('treats an HTML page served with 200 (Vite dev fallback) as missing', async () => {
     stubFetch({ ok: true, contentType: 'text/html' })
     render(<ResumeApp />)
-    expect(await screen.findByText('CV segera hadir')).toBeInTheDocument()
+    expect(await screen.findByText('CV coming soon')).toBeInTheDocument()
   })
 
   it('treats a network error as missing', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')))
     render(<ResumeApp />)
-    expect(await screen.findByText('CV segera hadir')).toBeInTheDocument()
+    expect(await screen.findByText('CV coming soon')).toBeInTheDocument()
   })
 })

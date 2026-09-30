@@ -32,7 +32,7 @@ export default function MenuBar({ appName, autoHide = false }) {
       >
         <div className="flex items-center gap-4">
           <Avatar size="xs" />
-          <span aria-label="Aplikasi aktif" className="font-semibold">
+          <span aria-label="Active app" className="font-semibold">
             {appName}
           </span>
         </div>

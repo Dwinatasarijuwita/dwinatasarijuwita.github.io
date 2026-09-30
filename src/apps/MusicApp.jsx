@@ -9,14 +9,14 @@ export default function MusicApp() {
         <div
           aria-hidden="true"
           className="flex size-28 shrink-0 items-center justify-center rounded-lg text-5xl text-white shadow-lg"
-          style={{ background: gradientFor('Lagu Favorit') }}
+          style={{ background: gradientFor('Favorite Songs') }}
         >
           ♪
         </div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Playlist</p>
-          <h2 className="text-2xl font-bold text-gray-900">Lagu Favorit {profile.nickname}</h2>
-          <p className="text-sm text-gray-500">{songs.length} lagu</p>
+          <h2 className="text-2xl font-bold text-gray-900">{profile.nickname}&apos;s Favorite Songs</h2>
+          <p className="text-sm text-gray-500">{songs.length} songs</p>
         </div>
       </header>
 

@@ -19,14 +19,14 @@ export default function ResumeApp() {
   }, [url])
 
   if (status === 'checking') {
-    return <p className="p-6 text-sm text-gray-500">Memuat CV…</p>
+    return <p className="p-6 text-sm text-gray-500">Loading CV…</p>
   }
 
   if (status === 'missing') {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-2 p-6 text-center">
-        <p className="text-lg font-semibold text-gray-900">CV segera hadir</p>
-        <p className="text-sm text-gray-500">Silakan cek lagi nanti.</p>
+        <p className="text-lg font-semibold text-gray-900">CV coming soon</p>
+        <p className="text-sm text-gray-500">Please check back later.</p>
       </div>
     )
   }
@@ -35,7 +35,7 @@ export default function ResumeApp() {
     return (
       <div className="space-y-4 p-6">
         <h2 className="text-xl font-semibold text-gray-900">Resume {profile.name}</h2>
-        <p className="text-sm text-gray-600">Lihat atau unduh CV lengkap dalam format PDF.</p>
+        <p className="text-sm text-gray-600">View or download the full CV as a PDF.</p>
         <div className="flex flex-col gap-3">
           <a
             href={url}
@@ -43,14 +43,14 @@ export default function ResumeApp() {
             rel="noopener noreferrer"
             className="rounded-xl bg-gray-900 px-4 py-3 text-center font-medium text-white"
           >
-            Buka PDF
+            Open PDF
           </a>
           <a
             href={url}
             download={downloadName}
             className="rounded-xl bg-gray-100 px-4 py-3 text-center font-medium text-gray-900"
           >
-            Unduh CV
+            Download CV
           </a>
         </div>
       </div>
@@ -65,7 +65,7 @@ export default function ResumeApp() {
           download={downloadName}
           className="rounded-md bg-white px-3 py-1 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-gray-200 hover:bg-gray-100"
         >
-          Unduh
+          Download
         </a>
       </div>
       <iframe title={`Resume ${profile.name}`} src={url} className="min-h-0 flex-1 bg-white" />

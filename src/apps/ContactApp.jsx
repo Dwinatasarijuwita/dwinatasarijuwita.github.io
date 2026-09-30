@@ -34,7 +34,7 @@ export default function ContactApp() {
               <button
                 type="button"
                 onClick={copyEmail}
-                title="Klik untuk menyalin"
+                title="Click to copy"
                 className="break-all text-left text-blue-600 hover:underline"
               >
                 {profile.email}
@@ -46,7 +46,7 @@ export default function ContactApp() {
             )}
             {/* Empty until copied, so it takes no space until the notice appears. */}
             <p role="status" className="text-xs font-medium text-green-600">
-              {copied && '✓ Email berhasil disalin'}
+              {copied && '✓ Email copied'}
             </p>
           </dd>
         </div>

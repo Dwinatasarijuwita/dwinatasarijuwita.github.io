@@ -19,7 +19,7 @@ export default function AppSheet({ app, origin, onClose }) {
     >
       <header className="flex shrink-0 items-center border-b border-gray-200 px-2 pb-2 pt-4">
         <button type="button" onClick={onClose} className="px-2 py-1 text-blue-600">
-          ‹ Kembali
+          ‹ Back
         </button>
         <h2 className="flex-1 text-center font-semibold">{title}</h2>
         <span className="w-[76px]" aria-hidden="true" />
@@ -30,7 +30,7 @@ export default function AppSheet({ app, origin, onClose }) {
       <div className="flex shrink-0 justify-center pb-2 pt-3">
         <motion.button
           type="button"
-          aria-label="Tutup aplikasi"
+          aria-label="Close app"
           onClick={onClose}
           drag="y"
           dragConstraints={{ top: 0, bottom: 0 }}

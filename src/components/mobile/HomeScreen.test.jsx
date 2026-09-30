@@ -11,7 +11,7 @@ afterEach(() => {
 describe('HomeScreen', () => {
   it('shows the greeting widget and the four apps in the dock', () => {
     render(<HomeScreen />)
-    expect(within(screen.getByRole('region', { name: 'Sapaan' })).getByText('Dwi Natasari Juwita')).toBeInTheDocument()
+    expect(within(screen.getByRole('region', { name: 'Greeting' })).getByText('Dwi Natasari Juwita')).toBeInTheDocument()
     const dock = screen.getByRole('navigation', { name: 'Dock' })
     expect(within(dock).getAllByRole('button')).toHaveLength(4)
   })
@@ -28,7 +28,7 @@ describe('HomeScreen', () => {
   it('closes the app with the back button', async () => {
     render(<HomeScreen />)
     tap('About Me')
-    fireEvent.click(screen.getByRole('button', { name: /Kembali/ }))
+    fireEvent.click(screen.getByRole('button', { name: /Back/ }))
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
   })
 
@@ -51,7 +51,7 @@ describe('HomeScreen', () => {
     const back = vi.spyOn(window.history, 'back').mockImplementation(() => {})
     render(<HomeScreen />)
     tap('About Me')
-    const closeButton = screen.getByRole('button', { name: /Kembali/ })
+    const closeButton = screen.getByRole('button', { name: /Back/ })
     fireEvent.click(closeButton)
     fireEvent.click(closeButton)
     expect(back).toHaveBeenCalledTimes(1)
@@ -60,7 +60,7 @@ describe('HomeScreen', () => {
   it('shows Photos as an app icon below the greeting while the Dock keeps four apps', () => {
     render(<HomeScreen />)
     expect(within(screen.getByRole('navigation', { name: 'Dock' })).getAllByRole('button')).toHaveLength(4)
-    const grid = screen.getByRole('list', { name: 'Aplikasi' })
+    const grid = screen.getByRole('list', { name: 'Apps' })
     expect(within(grid).getByRole('button', { name: 'Photos' })).toHaveTextContent('Photos')
   })
 })

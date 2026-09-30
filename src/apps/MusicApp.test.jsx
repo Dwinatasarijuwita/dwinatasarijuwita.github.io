@@ -12,8 +12,8 @@ vi.mock('../data/songs', () => ({
 describe('MusicApp', () => {
   it('shows the playlist header', () => {
     render(<MusicApp />)
-    expect(screen.getByRole('heading', { name: 'Lagu Favorit Tasya Kasturi' })).toBeInTheDocument()
-    expect(screen.getByText('2 lagu')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: "Tasya Kasturi's Favorite Songs" })).toBeInTheDocument()
+    expect(screen.getByText('2 songs')).toBeInTheDocument()
   })
 
   it('links each song to Spotify in a new tab', () => {

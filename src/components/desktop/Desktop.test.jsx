@@ -4,7 +4,7 @@ import Desktop from './Desktop'
 
 const dockButton = (name) => within(screen.getByRole('navigation', { name: 'Dock' })).getByRole('button', { name })
 const openFromDock = (name) => fireEvent.click(dockButton(name))
-const activeApp = () => screen.getByLabelText('Aplikasi aktif')
+const activeApp = () => screen.getByLabelText('Active app')
 const resumeFile = () => screen.getByRole('button', { name: 'Dwi Natasari Juwita - CV.pdf' })
 
 beforeEach(() => {
@@ -34,7 +34,7 @@ describe('Desktop', () => {
   it('closes a window with the red button', async () => {
     render(<Desktop />)
     openFromDock('Contact')
-    fireEvent.click(screen.getByRole('button', { name: 'Tutup Contact' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Close Contact' }))
     await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Contact' })).not.toBeInTheDocument())
     expect(activeApp()).toHaveTextContent('Dwi Natasari Juwita')
     expect(dockButton('Contact')).toHaveAttribute('data-open', 'false')
@@ -151,7 +151,7 @@ describe('Desktop', () => {
   it('draws the traffic light symbols as centred icons, not text', () => {
     render(<Desktop />)
     openFromDock('About Me')
-    for (const name of ['Tutup About Me', 'Minimize About Me', 'Maximize About Me']) {
+    for (const name of ['Close About Me', 'Minimize About Me', 'Maximize About Me']) {
       const button = screen.getByRole('button', { name })
       expect(button.querySelector('svg')).not.toBeNull()
       expect(button).toHaveTextContent(/^$/)

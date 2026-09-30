@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Avatar from '../components/Avatar'
 import { profile } from '../data/profile'
+import { formatPhone, whatsappUrl } from '../lib/contact'
 
 export default function ContactApp() {
   const [copied, setCopied] = useState(false)
@@ -25,12 +26,31 @@ export default function ContactApp() {
     <div className="flex flex-col items-center gap-4 p-6 text-center">
       <Avatar size="lg" />
       <h2 className="text-xl font-semibold text-gray-900">{profile.name}</h2>
-      <div className="w-full rounded-xl bg-gray-50 p-4 text-left">
-        <p className="text-xs font-medium text-gray-500">email</p>
-        <a href={`mailto:${profile.email}`} className="break-all text-blue-600 hover:underline">
-          {profile.email}
-        </a>
-      </div>
+      <dl className="w-full divide-y divide-gray-200 rounded-xl bg-gray-50 text-left">
+        <div className="px-4 py-3">
+          <dt className="text-xs font-medium text-gray-500">email</dt>
+          <dd>
+            <a href={`mailto:${profile.email}`} className="break-all text-blue-600 hover:underline">
+              {profile.email}
+            </a>
+          </dd>
+        </div>
+        {profile.phoneNumber && (
+          <div className="px-4 py-3">
+            <dt className="text-xs font-medium text-gray-500">WhatsApp</dt>
+            <dd>
+              <a
+                href={whatsappUrl(profile.phoneNumber)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                {formatPhone(profile.phoneNumber)}
+              </a>
+            </dd>
+          </div>
+        )}
+      </dl>
       {canCopy && (
         <button
           type="button"

@@ -38,4 +38,13 @@ describe('ContactApp', () => {
     render(<ContactApp />)
     expect(screen.queryByRole('button', { name: 'Salin email' })).not.toBeInTheDocument()
   })
+
+  it('links the phone number to a WhatsApp chat in a new tab', () => {
+    render(<ContactApp />)
+    const link = screen.getByRole('link', { name: /0857-1825-9166/ })
+    expect(link).toHaveAttribute('href', 'https://wa.me/6285718259166')
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+    expect(screen.getByText('WhatsApp')).toBeInTheDocument()
+  })
 })

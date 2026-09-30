@@ -8,6 +8,7 @@ describe('profile', () => {
     expect(profile.initials).toBe('DJ')
     expect(profile.nickname).toBe('Tasya Kasturi')
     expect(profile.email).toBe('tasyakstr@gmail.com')
+    expect(profile.phoneNumber).toBe('085718259166')
     expect(profile.resume).toEqual({ url: '/resume.pdf', downloadName: 'Dwi Natasari Juwita - CV.pdf' })
   })
 })

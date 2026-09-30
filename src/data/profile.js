@@ -10,6 +10,7 @@ export const profile = {
     { label: 'Lokasi', value: '...' },
   ],
   email: 'tasyakstr@gmail.com',
+  phoneNumber: '085718259166',
   resume: {
     url: `${import.meta.env.BASE_URL}resume.pdf`,
     downloadName: 'Dwi Natasari Juwita - CV.pdf',

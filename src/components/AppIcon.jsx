@@ -18,11 +18,12 @@ const ICONS = {
     ),
   },
   contact: {
-    background: 'linear-gradient(180deg, #7dd3fc, #0284c7)',
+    background: 'linear-gradient(180deg, #d6d3d1, #78716c)',
     glyph: (
       <>
-        <rect x="3" y="6" width="18" height="12" rx="2" />
-        <path d="m3 7 9 6 9-6" />
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <circle cx="9" cy="11" r="2" />
+        <path d="M5.5 16c.6-1.5 1.9-2.3 3.5-2.3s2.9.8 3.5 2.3M14.5 10h3.5M14.5 13.5h3.5" />
       </>
     ),
   },

@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
+import { profile } from '../data/profile'
 import AboutApp from './AboutApp'
 
 describe('AboutApp', () => {
@@ -7,8 +8,8 @@ describe('AboutApp', () => {
     render(<AboutApp />)
     expect(screen.getByRole('heading', { name: 'Dwi Natasari Juwita' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'Avatar Dwi Natasari Juwita' })).toBeInTheDocument()
-    expect(screen.getByText('Write your tagline here')).toBeInTheDocument()
-    expect(screen.getByText('Write your introduction here.')).toBeInTheDocument()
+    expect(screen.getByText(profile.tagline)).toBeInTheDocument()
+    expect(screen.getByText(profile.intro[0])).toBeInTheDocument()
   })
 
   it('lists the quick facts', () => {

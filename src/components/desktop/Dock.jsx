@@ -44,6 +44,7 @@ function DockItem({ app, isOpen, mouseX, onOpen }) {
         type="button"
         aria-label={app.title}
         data-open={isOpen}
+        data-minimize-target={app.id}
         onClick={() => onOpen(app.id)}
         style={{ width: size, height: size }}
         className="rounded-[22%] focus-visible:outline-2 focus-visible:outline-white"

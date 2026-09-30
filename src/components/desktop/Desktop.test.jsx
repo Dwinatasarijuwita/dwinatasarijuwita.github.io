@@ -1,16 +1,25 @@
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import Desktop from './Desktop'
 
 const dockButton = (name) => within(screen.getByRole('navigation', { name: 'Dock' })).getByRole('button', { name })
 const openFromDock = (name) => fireEvent.click(dockButton(name))
 const activeApp = () => screen.getByLabelText('Aplikasi aktif')
+const resumeFile = () => screen.getByRole('button', { name: 'Dwi Natasari Juwita - CV.pdf' })
+
+beforeEach(() => {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, headers: { get: () => 'text/html' } }))
+})
+
+afterEach(() => {
+  vi.unstubAllGlobals()
+})
 
 describe('Desktop', () => {
-  it('starts with no windows and Finder active', () => {
+  it('starts with no windows and the owner name in the menu bar', () => {
     render(<Desktop />)
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    expect(activeApp()).toHaveTextContent('Finder')
+    expect(activeApp()).toHaveTextContent('Dwi Natasari Juwita')
   })
 
   it('opens a window from the Dock and marks it active', () => {
@@ -27,7 +36,7 @@ describe('Desktop', () => {
     openFromDock('Contact')
     fireEvent.click(screen.getByRole('button', { name: 'Tutup Contact' }))
     await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Contact' })).not.toBeInTheDocument())
-    expect(activeApp()).toHaveTextContent('Finder')
+    expect(activeApp()).toHaveTextContent('Dwi Natasari Juwita')
     expect(dockButton('Contact')).toHaveAttribute('data-open', 'false')
   })
 
@@ -38,7 +47,7 @@ describe('Desktop', () => {
 
     expect(screen.queryByRole('dialog', { name: 'Music Favorite' })).not.toBeInTheDocument()
     expect(dockButton('Music Favorite')).toHaveAttribute('data-open', 'true')
-    expect(activeApp()).toHaveTextContent('Finder')
+    expect(activeApp()).toHaveTextContent('Dwi Natasari Juwita')
 
     openFromDock('Music Favorite')
     expect(screen.getByRole('dialog', { name: 'Music Favorite' })).toBeInTheDocument()
@@ -77,5 +86,26 @@ describe('Desktop', () => {
     const win = screen.getByRole('dialog', { name: 'About Me' })
     expect(win.style.maxWidth).toBe('100%')
     expect(win.style.maxHeight).toBe('calc(100% - 88px)')
+  })
+
+  it('shows Resume as a file on the desktop instead of in the Dock', () => {
+    render(<Desktop />)
+    const dock = screen.getByRole('navigation', { name: 'Dock' })
+    expect(within(dock).queryByRole('button', { name: 'Resume' })).not.toBeInTheDocument()
+    expect(within(dock).getAllByRole('button')).toHaveLength(3)
+
+    fireEvent.click(resumeFile())
+    expect(screen.getByRole('dialog', { name: 'Resume' })).toBeInTheDocument()
+    expect(activeApp()).toHaveTextContent('Resume')
+  })
+
+  it('restores a minimized Resume from its desktop file', () => {
+    render(<Desktop />)
+    fireEvent.click(resumeFile())
+    fireEvent.click(screen.getByRole('button', { name: 'Minimize Resume' }))
+    expect(screen.queryByRole('dialog', { name: 'Resume' })).not.toBeInTheDocument()
+
+    fireEvent.click(resumeFile())
+    expect(screen.getByRole('dialog', { name: 'Resume' })).toBeInTheDocument()
   })
 })

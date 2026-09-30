@@ -6,7 +6,7 @@ import Home from '.'
 describe('Home', () => {
   it('shows the macOS desktop on wide screens', () => {
     render(<Home />)
-    expect(screen.getByLabelText('Aplikasi aktif')).toHaveTextContent('Finder')
+    expect(screen.getByLabelText('Aplikasi aktif')).toHaveTextContent('Dwi Natasari Juwita')
     expect(screen.queryByRole('region', { name: 'Sapaan' })).not.toBeInTheDocument()
   })
 

@@ -19,4 +19,16 @@ describe('apps', () => {
       expect(app.initialPosition).toEqual({ x: expect.any(Number), y: expect.any(Number) })
     }
   })
+
+  it('places Resume on the desktop as a file and the rest in the Dock', () => {
+    expect(apps.map((app) => [app.id, app.placement])).toEqual([
+      ['about', 'dock'],
+      ['resume', 'desktop'],
+      ['contact', 'dock'],
+      ['music', 'dock'],
+    ])
+    const resume = apps.find((app) => app.id === 'resume')
+    expect(resume.desktopLabel).toBe('Dwi Natasari Juwita - CV.pdf')
+    expect(resume.kind).toBe('file')
+  })
 })

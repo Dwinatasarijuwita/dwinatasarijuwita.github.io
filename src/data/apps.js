@@ -2,10 +2,12 @@ import AboutApp from '../apps/AboutApp'
 import ContactApp from '../apps/ContactApp'
 import MusicApp from '../apps/MusicApp'
 import ResumeApp from '../apps/ResumeApp'
+import { profile } from './profile'
 
 export const apps = [
   {
     id: 'about',
+    placement: 'dock',
     title: 'About Me',
     Component: AboutApp,
     size: { width: 540, height: 420 },
@@ -13,6 +15,9 @@ export const apps = [
   },
   {
     id: 'resume',
+    placement: 'desktop',
+    kind: 'file',
+    desktopLabel: profile.resume.downloadName,
     title: 'Resume',
     Component: ResumeApp,
     size: { width: 720, height: 560 },
@@ -20,6 +25,7 @@ export const apps = [
   },
   {
     id: 'contact',
+    placement: 'dock',
     title: 'Contact',
     Component: ContactApp,
     size: { width: 400, height: 420 },
@@ -27,6 +33,7 @@ export const apps = [
   },
   {
     id: 'music',
+    placement: 'dock',
     title: 'Music Favorite',
     Component: MusicApp,
     size: { width: 460, height: 520 },

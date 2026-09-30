@@ -88,7 +88,7 @@ export default function Window({
             label={`Minimize ${title}`}
             symbol="−"
             onClick={() => {
-              setMinimizeOrigin(dockOrigin(constraintsRef.current, shown))
+              setMinimizeOrigin(minimizeTargetOrigin(id, constraintsRef.current, shown))
               onMinimize(id)
             }}
           />
@@ -109,9 +109,14 @@ export default function Window({
   )
 }
 
-function dockOrigin(area, position) {
+function minimizeTargetOrigin(id, area, position) {
   if (!area) return '50% 100%'
-  return `${area.clientWidth / 2 - position.x}px ${area.clientHeight - position.y}px`
+  const areaBox = area.getBoundingClientRect()
+  const target = document.querySelector(`[data-minimize-target="${id}"]`)?.getBoundingClientRect()
+  if (!target) return `${area.clientWidth / 2 - position.x}px ${area.clientHeight - position.y}px`
+  const x = target.left + target.width / 2 - areaBox.left - position.x
+  const y = target.top + target.height / 2 - areaBox.top - position.y
+  return `${x}px ${y}px`
 }
 
 function TrafficLight({ className, label, symbol, onClick }) {

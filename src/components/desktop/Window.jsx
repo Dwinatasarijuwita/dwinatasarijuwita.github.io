@@ -77,11 +77,17 @@ export default function Window({
       dragMomentum={false}
       dragElastic={0}
       dragConstraints={dragBounds}
-      onDragEnd={() => onMove(id, { x: x.get(), y: y.get() })}
+      onDragEnd={() => {
+        // Whole pixels keep the traffic light symbols crisp and centred on Retina screens.
+        const next = { x: Math.round(x.get()), y: Math.round(y.get()) }
+        x.set(next.x)
+        y.set(next.y)
+        onMove(id, next)
+      }}
       onPointerDown={() => onFocus(id)}
     >
       <div
-        className={`flex h-10 shrink-0 select-none items-center border-b border-black/5 px-3 ${
+        className={`flex h-10 shrink-0 select-none items-center px-3 shadow-[inset_0_-1px_0_rgb(0_0_0/0.05)] ${
           isActive ? 'bg-gray-100' : 'bg-gray-50 opacity-70'
         }`}
         style={{ touchAction: 'none' }}

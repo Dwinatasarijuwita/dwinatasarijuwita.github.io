@@ -15,7 +15,7 @@ export default function MusicApp() {
         </div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Playlist</p>
-          <h2 className="text-2xl font-bold text-gray-900">Lagu Favorit {profile.initials}</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Lagu Favorit {profile.nickname}</h2>
           <p className="text-sm text-gray-500">{songs.length} lagu</p>
         </div>
       </header>

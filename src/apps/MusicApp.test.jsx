@@ -12,7 +12,7 @@ vi.mock('../data/songs', () => ({
 describe('MusicApp', () => {
   it('shows the playlist header', () => {
     render(<MusicApp />)
-    expect(screen.getByRole('heading', { name: 'Lagu Favorit DJ' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Lagu Favorit Tasya Kasturi' })).toBeInTheDocument()
     expect(screen.getByText('2 lagu')).toBeInTheDocument()
   })
 

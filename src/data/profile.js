@@ -1,6 +1,7 @@
 export const profile = {
   name: 'Dwi Natasari Juwita',
   initials: 'DJ',
+  nickname: 'Tasya Kasturi',
   tagline: 'Tulis tagline-mu di sini',
   intro: ['Tulis perkenalanmu di sini.'],
   facts: [

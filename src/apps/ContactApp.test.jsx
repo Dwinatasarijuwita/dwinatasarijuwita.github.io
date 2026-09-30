@@ -13,30 +13,32 @@ afterEach(() => {
 })
 
 describe('ContactApp', () => {
-  it('links the email address with mailto', () => {
+  it('copies the email when it is clicked and confirms it, then clears the notice after 2 seconds', async () => {
+    const writeText = mockClipboard()
+    render(<ContactApp />)
+
+    fireEvent.click(screen.getByRole('button', { name: /tasyakstr@gmail\.com/ }))
+
+    expect(await screen.findByText(/Email berhasil disalin/)).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveTextContent('Email berhasil disalin')
+    expect(writeText).toHaveBeenCalledWith('tasyakstr@gmail.com')
+    await waitFor(() => expect(screen.queryByText(/Email berhasil disalin/)).not.toBeInTheDocument(), {
+      timeout: 3000,
+    })
+  })
+
+  it('no longer shows a separate copy button', () => {
+    mockClipboard()
+    render(<ContactApp />)
+    expect(screen.queryByRole('button', { name: 'Salin email' })).not.toBeInTheDocument()
+  })
+
+  it('falls back to a mailto link when the clipboard is unavailable', () => {
     render(<ContactApp />)
     expect(screen.getByRole('link', { name: 'tasyakstr@gmail.com' })).toHaveAttribute(
       'href',
       'mailto:tasyakstr@gmail.com',
     )
-  })
-
-  it('copies the email and confirms, then resets after 2 seconds', async () => {
-    const writeText = mockClipboard()
-    render(<ContactApp />)
-
-    fireEvent.click(screen.getByRole('button', { name: 'Salin email' }))
-
-    expect(await screen.findByRole('button', { name: 'Tersalin ✓' })).toBeInTheDocument()
-    expect(writeText).toHaveBeenCalledWith('tasyakstr@gmail.com')
-    await waitFor(() => expect(screen.getByRole('button', { name: 'Salin email' })).toBeInTheDocument(), {
-      timeout: 3000,
-    })
-  })
-
-  it('hides the copy button when the clipboard is unavailable', () => {
-    render(<ContactApp />)
-    expect(screen.queryByRole('button', { name: 'Salin email' })).not.toBeInTheDocument()
   })
 
   it('links the phone number to a WhatsApp chat in a new tab', () => {

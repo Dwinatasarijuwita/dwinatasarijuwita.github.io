@@ -30,9 +30,23 @@ export default function ContactApp() {
         <div className="px-4 py-3">
           <dt className="text-xs font-medium text-gray-500">email</dt>
           <dd>
-            <a href={`mailto:${profile.email}`} className="break-all text-blue-600 hover:underline">
-              {profile.email}
-            </a>
+            {canCopy ? (
+              <button
+                type="button"
+                onClick={copyEmail}
+                title="Klik untuk menyalin"
+                className="break-all text-left text-blue-600 hover:underline"
+              >
+                {profile.email}
+              </button>
+            ) : (
+              <a href={`mailto:${profile.email}`} className="break-all text-blue-600 hover:underline">
+                {profile.email}
+              </a>
+            )}
+            <p role="status" className="h-4 text-xs font-medium text-green-600">
+              {copied && '✓ Email berhasil disalin'}
+            </p>
           </dd>
         </div>
         {profile.phoneNumber && (
@@ -51,15 +65,6 @@ export default function ContactApp() {
           </div>
         )}
       </dl>
-      {canCopy && (
-        <button
-          type="button"
-          onClick={copyEmail}
-          className="rounded-full bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
-        >
-          {copied ? 'Tersalin ✓' : 'Salin email'}
-        </button>
-      )}
     </div>
   )
 }

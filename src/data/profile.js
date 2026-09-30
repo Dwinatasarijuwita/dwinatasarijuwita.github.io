@@ -5,7 +5,8 @@ export const profile = {
   tagline: 'Business mind, frontend craft',
   intro: [
     "Hi, I'm Tasya, a Frontend Developer based in Jakarta. I turn UI/UX designs into responsive, easy-to-use websites with React, Vue and Tailwind CSS.",
-    'Before I started coding, I studied Management at BINUS University and interned at Bank Mandiri and Generali. That background helps me understand the business goals behind every screen I build. Since 2023 I have been a Frontend Developer at PT Permata Indo Sejahtera, working on projects like the Permata Indonesia company profile and Kerja365.',
+    'I started out studying Management, so I like to understand the "why" behind a feature before building it. Since 2023 I\'ve been building websites at PT Permata Indo Sejahtera, and I love the moment a design finally comes alive in the browser.',
+    "Feel free to look around, and say hi if you'd like to work together!",
   ],
   facts: [
     { label: 'Currently learning', value: '...' },

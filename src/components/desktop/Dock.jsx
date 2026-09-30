@@ -58,7 +58,7 @@ function DockItem({ app, isOpen, mouseX, onOpen }) {
 
   return (
     <div className="group relative flex flex-col items-center">
-      <span className="pointer-events-none absolute -top-9 whitespace-nowrap rounded-md bg-gray-800/90 px-2 py-1 text-xs text-white opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100">
+      <span className="pointer-events-none absolute -top-9 whitespace-nowrap rounded-md bg-gray-800/90 px-2 py-1 text-xs text-white opacity-0 transition group-hover:opacity-100 group-has-[:focus-visible]:opacity-100">
         {app.title}
       </span>
       {app.kind === 'link' ? (

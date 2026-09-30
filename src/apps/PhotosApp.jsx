@@ -9,6 +9,7 @@ export default function PhotosApp() {
   const [index, setIndex] = useState(0)
   const isActive = useWindowActive()
   const activeThumbRef = useRef(null)
+  const stripRef = useRef(null)
   const photo = photos[index]
 
   const show = (next) => setIndex(Math.min(Math.max(next, 0), photos.length - 1))
@@ -24,10 +25,19 @@ export default function PhotosApp() {
   }, [isActive])
 
   useEffect(() => {
-    activeThumbRef.current?.scrollIntoView?.({ block: 'nearest', inline: 'nearest', behavior: 'smooth' })
+    const strip = stripRef.current
+    const target = keepThumbnailVisible(strip, activeThumbRef.current)
+    // Chrome's smooth scroll can settle a few pixels short of the target; snap once it has finished.
+    const settle =
+      target === null
+        ? null
+        : setTimeout(() => {
+            if (Math.abs(strip.scrollLeft - target) > 1) strip.scrollTo?.({ left: target })
+          }, 500)
     for (const neighbour of [photos[index - 1], photos[index + 1]]) {
       if (neighbour) new Image().src = neighbour.src
     }
+    return () => clearTimeout(settle)
   }, [index])
 
   if (!photo) {
@@ -52,27 +62,47 @@ export default function PhotosApp() {
           }}
         />
       </div>
-      <ul aria-label="Semua foto" className="flex shrink-0 gap-1 overflow-x-auto border-t border-black/5 bg-white p-1">
-        {photos.map((item, itemIndex) => {
-          const isCurrent = itemIndex === index
-          return (
-            <li key={item.id} className="shrink-0">
-              <button
-                ref={isCurrent ? activeThumbRef : null}
-                type="button"
-                aria-label={`Tampilkan foto ${itemIndex + 1}`}
-                aria-current={isCurrent || undefined}
-                onClick={() => show(itemIndex)}
-                className={`block h-16 w-24 overflow-hidden sm:h-20 sm:w-28 ${
-                  isCurrent ? 'outline-3 -outline-offset-3 outline-blue-500' : 'opacity-90 hover:opacity-100'
-                }`}
-              >
-                <img src={item.thumb} alt="" loading="lazy" className="size-full object-cover" />
-              </button>
-            </li>
-          )
-        })}
-      </ul>
+      {/* w-max + mx-auto centres the strip when it fits and still scrolls from the left when it doesn't. */}
+      <div ref={stripRef} className="shrink-0 overflow-x-auto border-t border-black/5 bg-white">
+        <ul aria-label="Semua foto" className="mx-auto flex w-max gap-1 p-1">
+          {photos.map((item, itemIndex) => {
+            const isCurrent = itemIndex === index
+            return (
+              <li key={item.id} className="shrink-0">
+                <button
+                  ref={isCurrent ? activeThumbRef : null}
+                  type="button"
+                  aria-label={`Tampilkan foto ${itemIndex + 1}`}
+                  aria-current={isCurrent || undefined}
+                  onClick={() => show(itemIndex)}
+                  className={`block h-16 w-24 overflow-hidden sm:h-20 sm:w-28 ${
+                    isCurrent ? 'outline-3 -outline-offset-3 outline-blue-500' : 'opacity-90 hover:opacity-100'
+                  }`}
+                >
+                  <img src={item.thumb} alt="" loading="lazy" className="size-full object-cover" />
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
     </div>
   )
+}
+
+// Scrolls the strip so the active thumbnail is fully visible and returns the target scroll position,
+// or null when no scrolling is needed.
+function keepThumbnailVisible(strip, thumb) {
+  if (!strip || !thumb) return null
+  const stripBox = strip.getBoundingClientRect()
+  const thumbBox = thumb.getBoundingClientRect()
+  const margin = 4
+  let delta = 0
+  if (thumbBox.left < stripBox.left + margin) delta = thumbBox.left - stripBox.left - margin
+  else if (thumbBox.right > stripBox.right - margin) delta = thumbBox.right - stripBox.right + margin
+  if (!delta) return null
+  const maxScroll = strip.scrollWidth - strip.clientWidth
+  const target = Math.min(Math.max(strip.scrollLeft + delta, 0), maxScroll)
+  strip.scrollTo?.({ left: target, behavior: 'smooth' })
+  return target
 }

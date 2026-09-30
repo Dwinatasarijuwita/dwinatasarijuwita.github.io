@@ -3,9 +3,9 @@ import { photos } from './photos'
 
 describe('photos', () => {
   it('lists every photo in file-name order', () => {
-    expect(photos).toHaveLength(11)
+    expect(photos).toHaveLength(13)
     expect(photos[0].id).toBe('01-self')
-    expect(photos[10].id).toBe('11-self')
+    expect(photos[12].id).toBe('13-hacktiv8')
   })
 
   it('pairs each photo with its small thumbnail', () => {

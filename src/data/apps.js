@@ -1,6 +1,7 @@
 import AboutApp from '../apps/AboutApp'
 import ContactApp from '../apps/ContactApp'
 import MusicApp from '../apps/MusicApp'
+import PhotosApp from '../apps/PhotosApp'
 import ResumeApp from '../apps/ResumeApp'
 import { profile } from './profile'
 
@@ -38,5 +39,13 @@ export const apps = [
     Component: MusicApp,
     size: { width: 460, height: 520 },
     initialPosition: { x: 420, y: 64 },
+  },
+  {
+    id: 'photos',
+    placement: 'dock',
+    title: 'Photos',
+    Component: PhotosApp,
+    size: { width: 860, height: 620 },
+    initialPosition: { x: 180, y: 40 },
   },
 ]

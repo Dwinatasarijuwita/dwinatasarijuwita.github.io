@@ -1,5 +1,6 @@
 import { motion, useDragControls, useMotionValue, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
+import { WindowActiveContext } from '../../hooks/useWindowActive'
 import { clampPosition } from '../../lib/windowBounds'
 import { DOCK_HEIGHT, MENU_BAR_HEIGHT } from './constants'
 
@@ -120,7 +121,9 @@ export default function Window({
         <div className="w-[52px]" aria-hidden="true" />
       </div>
       <div className={`min-h-0 flex-1 overflow-auto ${isHeld ? 'pointer-events-none' : ''}`}>
-        <Component />
+        <WindowActiveContext.Provider value={isActive && !isMinimized}>
+          <Component />
+        </WindowActiveContext.Provider>
       </div>
     </motion.section>
   )

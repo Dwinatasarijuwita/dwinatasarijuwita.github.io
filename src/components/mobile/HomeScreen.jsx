@@ -53,7 +53,7 @@ export default function HomeScreen() {
           </div>
         </section>
         {gridApps.length > 0 && (
-          <ul className="mt-6 grid grid-cols-4 gap-y-6">
+          <ul aria-label="Aplikasi" className="mt-6 grid grid-cols-4 gap-y-6">
             {gridApps.map((item) => (
               <li key={item.id}>
                 <LaunchButton app={item} onLaunch={launch} showLabel />

@@ -92,7 +92,7 @@ describe('Desktop', () => {
     render(<Desktop />)
     const dock = screen.getByRole('navigation', { name: 'Dock' })
     expect(within(dock).queryByRole('button', { name: 'Resume' })).not.toBeInTheDocument()
-    expect(within(dock).getAllByRole('button')).toHaveLength(3)
+    expect(within(dock).getAllByRole('button')).toHaveLength(4)
 
     fireEvent.click(resumeFile())
     expect(screen.getByRole('dialog', { name: 'Resume' })).toBeInTheDocument()
@@ -204,5 +204,11 @@ describe('Desktop', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Maximize About Me' }))
     expect(win).toHaveClass('rounded-xl')
+  })
+
+  it('opens Photos from the Dock', () => {
+    render(<Desktop />)
+    openFromDock('Photos')
+    expect(screen.getByRole('dialog', { name: 'Photos' })).toBeInTheDocument()
   })
 })

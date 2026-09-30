@@ -2,12 +2,13 @@ import { describe, expect, it } from 'vitest'
 import { apps } from './apps'
 
 describe('apps', () => {
-  it('registers the four apps in dock order', () => {
+  it('registers the apps in dock order', () => {
     expect(apps.map((app) => [app.id, app.title])).toEqual([
       ['about', 'About Me'],
       ['resume', 'Resume'],
       ['contact', 'Contact'],
       ['music', 'Music Favorite'],
+      ['photos', 'Photos'],
     ])
   })
 
@@ -26,6 +27,7 @@ describe('apps', () => {
       ['resume', 'desktop'],
       ['contact', 'dock'],
       ['music', 'dock'],
+      ['photos', 'dock'],
     ])
     const resume = apps.find((app) => app.id === 'resume')
     expect(resume.desktopLabel).toBe('Dwi Natasari Juwita - CV.pdf')

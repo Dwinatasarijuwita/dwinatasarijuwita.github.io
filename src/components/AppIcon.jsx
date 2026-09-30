@@ -37,6 +37,21 @@ const ICONS = {
       </>
     ),
   },
+  photos: {
+    background: 'linear-gradient(180deg, #ffffff, #e5e7eb)',
+    glyph: (
+      <>
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#f97316" opacity="0.85" stroke="none" transform="rotate(0 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#facc15" opacity="0.85" stroke="none" transform="rotate(45 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#84cc16" opacity="0.85" stroke="none" transform="rotate(90 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#22c55e" opacity="0.85" stroke="none" transform="rotate(135 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#06b6d4" opacity="0.85" stroke="none" transform="rotate(180 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#6366f1" opacity="0.85" stroke="none" transform="rotate(225 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#a855f7" opacity="0.85" stroke="none" transform="rotate(270 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#ec4899" opacity="0.85" stroke="none" transform="rotate(315 12 12)" />
+      </>
+    ),
+  },
 }
 
 export default function AppIcon({ id, className = '' }) {

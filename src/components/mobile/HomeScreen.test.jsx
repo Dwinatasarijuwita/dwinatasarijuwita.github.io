@@ -56,4 +56,11 @@ describe('HomeScreen', () => {
     fireEvent.click(closeButton)
     expect(back).toHaveBeenCalledTimes(1)
   })
+
+  it('shows Photos as an app icon below the greeting while the Dock keeps four apps', () => {
+    render(<HomeScreen />)
+    expect(within(screen.getByRole('navigation', { name: 'Dock' })).getAllByRole('button')).toHaveLength(4)
+    const grid = screen.getByRole('list', { name: 'Aplikasi' })
+    expect(within(grid).getByRole('button', { name: 'Photos' })).toHaveTextContent('Photos')
+  })
 })

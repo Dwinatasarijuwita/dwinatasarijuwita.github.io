@@ -114,4 +114,62 @@ describe('Desktop', () => {
     openFromDock('About Me')
     expect(screen.getByRole('dialog', { name: 'About Me' }).parentElement).toHaveClass('isolate')
   })
+
+  it('goes full screen on maximize and hides the Dock until the cursor reaches the bottom edge', () => {
+    render(<Desktop />)
+    openFromDock('About Me')
+    const dock = screen.getByRole('navigation', { name: 'Dock' })
+    expect(dock).toHaveAttribute('data-hidden', 'false')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Maximize About Me' }))
+    const win = screen.getByRole('dialog', { name: 'About Me' })
+    expect(win.style.height).toBe('100%')
+    expect(win.style.maxHeight).toBe('100%')
+    expect(dock).toHaveAttribute('data-hidden', 'true')
+
+    fireEvent.mouseEnter(screen.getByTestId('dock-reveal-zone'))
+    expect(dock).toHaveAttribute('data-hidden', 'false')
+    fireEvent.mouseLeave(dock)
+    expect(dock).toHaveAttribute('data-hidden', 'true')
+
+    fireEvent.focus(within(dock).getByRole('button', { name: 'Contact' }))
+    expect(dock).toHaveAttribute('data-hidden', 'false')
+    fireEvent.blur(within(dock).getByRole('button', { name: 'Contact' }))
+
+    fireEvent.click(screen.getByRole('button', { name: 'Maximize About Me' }))
+    expect(dock).toHaveAttribute('data-hidden', 'false')
+  })
+
+  it('shows the Dock again when a normal window becomes active', () => {
+    render(<Desktop />)
+    openFromDock('About Me')
+    fireEvent.click(screen.getByRole('button', { name: 'Maximize About Me' }))
+    openFromDock('Contact')
+    expect(screen.getByRole('navigation', { name: 'Dock' })).toHaveAttribute('data-hidden', 'false')
+  })
+
+  it('draws the traffic light symbols as centred icons, not text', () => {
+    render(<Desktop />)
+    openFromDock('About Me')
+    for (const name of ['Tutup About Me', 'Minimize About Me', 'Maximize About Me']) {
+      const button = screen.getByRole('button', { name })
+      expect(button.querySelector('svg')).not.toBeNull()
+      expect(button).toHaveTextContent(/^$/)
+    }
+  })
+
+  it('hides the Dock again when the cursor leaves the bottom edge without entering it', () => {
+    render(<Desktop />)
+    openFromDock('About Me')
+    fireEvent.click(screen.getByRole('button', { name: 'Maximize About Me' }))
+    const zone = screen.getByTestId('dock-reveal-zone')
+    fireEvent.mouseEnter(zone)
+    fireEvent.mouseLeave(zone, { relatedTarget: document.body })
+    expect(screen.getByRole('navigation', { name: 'Dock' })).toHaveAttribute('data-hidden', 'true')
+  })
+
+  it('only blocks clicks where the Dock itself is drawn', () => {
+    render(<Desktop />)
+    expect(screen.getByRole('navigation', { name: 'Dock' })).toHaveClass('pointer-events-none')
+  })
 })

@@ -60,9 +60,9 @@ export default function Window({
         y,
         zIndex,
         width: isMaximized ? '100%' : size.width,
-        height: isMaximized ? `calc(100% - ${DOCK_HEIGHT}px)` : size.height,
+        height: isMaximized ? '100%' : size.height,
         maxWidth: '100%',
-        maxHeight: `calc(100% - ${DOCK_HEIGHT}px)`,
+        maxHeight: isMaximized ? '100%' : `calc(100% - ${DOCK_HEIGHT}px)`,
         transformOrigin: isMinimized ? minimizeOrigin : '50% 50%',
       }}
       initial={hidden}
@@ -91,11 +91,11 @@ export default function Window({
           onPointerDown={(event) => event.stopPropagation()}
           onDoubleClick={(event) => event.stopPropagation()}
         >
-          <TrafficLight className="bg-[#ff5f57]" label={`Tutup ${title}`} symbol="×" onClick={() => onClose(id)} />
+          <TrafficLight className="bg-[#ff5f57]" label={`Tutup ${title}`} symbol="close" onClick={() => onClose(id)} />
           <TrafficLight
             className="bg-[#febc2e]"
             label={`Minimize ${title}`}
-            symbol="−"
+            symbol="minimize"
             onClick={() => {
               setMinimizeOrigin(minimizeTargetOrigin(id, constraintsRef.current, shown))
               onMinimize(id)
@@ -104,7 +104,7 @@ export default function Window({
           <TrafficLight
             className="bg-[#28c840]"
             label={`Maximize ${title}`}
-            symbol="+"
+            symbol="maximize"
             onClick={() => onToggleMaximize(id)}
           />
         </div>
@@ -128,15 +128,31 @@ function minimizeTargetOrigin(id, area, position) {
   return `${x}px ${y}px`
 }
 
+const SYMBOLS = {
+  close: <path d="M4 4l4 4M8 4l-4 4" />,
+  minimize: <path d="M3.5 6h5" />,
+  maximize: <path d="M6 3.5v5M3.5 6h5" />,
+}
+
 function TrafficLight({ className, label, symbol, onClick }) {
   return (
     <button
       type="button"
       aria-label={label}
       onClick={onClick}
-      className={`flex size-3 items-center justify-center rounded-full text-[9px] font-bold leading-none text-black/60 ${className}`}
+      className={`flex size-3 items-center justify-center rounded-full ${className}`}
     >
-      <span className="opacity-0 group-hover:opacity-100">{symbol}</span>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 12 12"
+        className="size-3 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"
+        fill="none"
+        stroke="rgb(0 0 0 / 0.6)"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      >
+        {SYMBOLS[symbol]}
+      </svg>
     </button>
   )
 }

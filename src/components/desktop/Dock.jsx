@@ -1,26 +1,55 @@
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import AppIcon from '../AppIcon'
 import { DOCK_HEIGHT } from './constants'
 
 const BASE_SIZE = 48
 const HOVER_SIZE = 76
 
-export default function Dock({ apps, windows, onOpen }) {
+export default function Dock({ apps, windows, onOpen, autoHide = false }) {
   const mouseX = useMotionValue(Infinity)
+  const reduceMotion = useReducedMotion()
+  const [revealed, setRevealed] = useState(false)
+  const navRef = useRef(null)
+  const hidden = autoHide && !revealed
+
   return (
-    <nav aria-label="Dock" className="absolute inset-x-0 bottom-2 z-[1000] flex select-none justify-center">
-      <div
-        onMouseMove={(event) => mouseX.set(event.clientX)}
-        onMouseLeave={() => mouseX.set(Infinity)}
-        className="flex items-end gap-3 rounded-2xl border border-white/30 bg-white/25 px-3 pb-1 pt-2 backdrop-blur-xl"
-        style={{ height: DOCK_HEIGHT - 16 }}
+    <>
+      {autoHide && (
+        <div
+          aria-hidden="true"
+          data-testid="dock-reveal-zone"
+          className="absolute inset-x-0 bottom-0 z-[1001] h-2"
+          onMouseEnter={() => setRevealed(true)}
+          onMouseLeave={(event) => {
+            const next = event.relatedTarget
+            if (!(next instanceof Node && navRef.current?.contains(next))) setRevealed(false)
+          }}
+        />
+      )}
+      <motion.nav
+        ref={navRef}
+        aria-label="Dock"
+        data-hidden={hidden}
+        className="pointer-events-none absolute inset-x-0 bottom-2 z-[1000] flex select-none justify-center"
+        animate={hidden ? { y: DOCK_HEIGHT + 8, opacity: reduceMotion ? 0 : 1 } : { y: 0, opacity: 1 }}
+        transition={{ duration: reduceMotion ? 0.1 : 0.25, ease: 'easeOut' }}
+        onMouseLeave={() => setRevealed(false)}
+        onFocus={() => setRevealed(true)}
+        onBlur={() => setRevealed(false)}
       >
-        {apps.map((app) => (
-          <DockItem key={app.id} app={app} isOpen={windows[app.id].isOpen} mouseX={mouseX} onOpen={onOpen} />
-        ))}
-      </div>
-    </nav>
+        <div
+          onMouseMove={(event) => mouseX.set(event.clientX)}
+          onMouseLeave={() => mouseX.set(Infinity)}
+          className="pointer-events-auto flex items-end gap-3 rounded-2xl border border-white/30 bg-white/25 px-3 pb-1 pt-2 shadow-lg ring-1 ring-black/10 backdrop-blur-xl"
+          style={{ height: DOCK_HEIGHT - 16 }}
+        >
+          {apps.map((app) => (
+            <DockItem key={app.id} app={app} isOpen={windows[app.id].isOpen} mouseX={mouseX} onOpen={onOpen} />
+          ))}
+        </div>
+      </motion.nav>
+    </>
   )
 }
 

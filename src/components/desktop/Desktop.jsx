@@ -16,6 +16,7 @@ export default function Desktop() {
   const areaRef = useRef(null)
   const areaSize = useElementSize(areaRef)
   const activeApp = apps.find((app) => app.id === activeId)
+  const isFullScreen = Boolean(activeId && windows[activeId].isMaximized)
   const dockApps = apps.filter((app) => app.placement === 'dock')
   const desktopApps = apps.filter((app) => app.placement === 'desktop')
 
@@ -44,7 +45,7 @@ export default function Desktop() {
             ))}
         </AnimatePresence>
       </div>
-      <Dock apps={dockApps} windows={windows} onOpen={open} />
+      <Dock apps={dockApps} windows={windows} onOpen={open} autoHide={isFullScreen} />
     </div>
   )
 }

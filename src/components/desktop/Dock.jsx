@@ -1,5 +1,6 @@
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
+import { useEdgeReveal } from '../../hooks/useEdgeReveal'
 import AppIcon from '../AppIcon'
 import { DOCK_HEIGHT } from './constants'
 
@@ -9,9 +10,7 @@ const HOVER_SIZE = 76
 export default function Dock({ apps, windows, onOpen, autoHide = false }) {
   const mouseX = useMotionValue(Infinity)
   const reduceMotion = useReducedMotion()
-  const [revealed, setRevealed] = useState(false)
-  const navRef = useRef(null)
-  const hidden = autoHide && !revealed
+  const { hidden, barRef, zoneProps, barProps } = useEdgeReveal(autoHide)
 
   return (
     <>
@@ -20,23 +19,17 @@ export default function Dock({ apps, windows, onOpen, autoHide = false }) {
           aria-hidden="true"
           data-testid="dock-reveal-zone"
           className="absolute inset-x-0 bottom-0 z-[1001] h-2"
-          onMouseEnter={() => setRevealed(true)}
-          onMouseLeave={(event) => {
-            const next = event.relatedTarget
-            if (!(next instanceof Node && navRef.current?.contains(next))) setRevealed(false)
-          }}
+          {...zoneProps}
         />
       )}
       <motion.nav
-        ref={navRef}
+        ref={barRef}
         aria-label="Dock"
         data-hidden={hidden}
         className="pointer-events-none absolute inset-x-0 bottom-2 z-[1000] flex select-none justify-center"
         animate={hidden ? { y: DOCK_HEIGHT + 8, opacity: reduceMotion ? 0 : 1 } : { y: 0, opacity: 1 }}
         transition={{ duration: reduceMotion ? 0.1 : 0.25, ease: 'easeOut' }}
-        onMouseLeave={() => setRevealed(false)}
-        onFocus={() => setRevealed(true)}
-        onBlur={() => setRevealed(false)}
+        {...barProps}
       >
         <div
           onMouseMove={(event) => mouseX.set(event.clientX)}

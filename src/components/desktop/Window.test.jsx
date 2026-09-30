@@ -74,4 +74,10 @@ describe('Window', () => {
     fireEvent.pointerUp(window)
     expect(content).not.toHaveClass('pointer-events-none')
   })
+
+  it('slides up under the menu bar when maximized so it covers the whole screen', async () => {
+    renderWindow({ state: { ...state, isMaximized: true } })
+    const win = screen.getByRole('dialog', { name: 'Resume' })
+    await waitFor(() => expect(translate(win)).toEqual({ x: 0, y: -28 }))
+  })
 })

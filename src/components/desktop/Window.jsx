@@ -1,7 +1,7 @@
 import { motion, useDragControls, useMotionValue, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { clampPosition } from '../../lib/windowBounds'
-import { DOCK_HEIGHT } from './constants'
+import { DOCK_HEIGHT, MENU_BAR_HEIGHT } from './constants'
 
 export default function Window({
   app,
@@ -22,7 +22,7 @@ export default function Window({
   const visibleSize = areaSize
     ? { width: size.width, height: Math.min(size.height, areaSize.height - DOCK_HEIGHT) }
     : size
-  const shown = isMaximized ? { x: 0, y: 0 } : clampPosition(position, visibleSize, areaSize, 0)
+  const shown = isMaximized ? { x: 0, y: -MENU_BAR_HEIGHT } : clampPosition(position, visibleSize, areaSize, 0)
   const farthest = clampPosition({ x: Infinity, y: Infinity }, visibleSize, areaSize, 0)
   const dragBounds = areaSize ? { left: 0, top: 0, right: farthest.x, bottom: farthest.y } : constraintsRef
   const x = useMotionValue(shown.x)
@@ -52,7 +52,9 @@ export default function Window({
       aria-label={title}
       aria-hidden={isMinimized || undefined}
       inert={isMinimized}
-      className={`absolute left-0 top-0 flex flex-col overflow-hidden rounded-xl border border-black/10 bg-white ${
+      className={`absolute left-0 top-0 flex flex-col overflow-hidden bg-white ${
+        isMaximized ? 'rounded-none' : 'rounded-xl border border-black/10'
+      } ${
         isActive ? 'shadow-2xl' : 'shadow-lg'
       } ${isMinimized ? 'pointer-events-none' : ''}`}
       style={{
@@ -60,9 +62,9 @@ export default function Window({
         y,
         zIndex,
         width: isMaximized ? '100%' : size.width,
-        height: isMaximized ? '100%' : size.height,
+        height: isMaximized ? `calc(100% + ${MENU_BAR_HEIGHT}px)` : size.height,
         maxWidth: '100%',
-        maxHeight: isMaximized ? '100%' : `calc(100% - ${DOCK_HEIGHT}px)`,
+        maxHeight: isMaximized ? `calc(100% + ${MENU_BAR_HEIGHT}px)` : `calc(100% - ${DOCK_HEIGHT}px)`,
         transformOrigin: isMinimized ? minimizeOrigin : '50% 50%',
       }}
       initial={hidden}

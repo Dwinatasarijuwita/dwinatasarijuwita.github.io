@@ -123,8 +123,8 @@ describe('Desktop', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Maximize About Me' }))
     const win = screen.getByRole('dialog', { name: 'About Me' })
-    expect(win.style.height).toBe('100%')
-    expect(win.style.maxHeight).toBe('100%')
+    expect(win.style.height).toBe('calc(100% + 28px)')
+    expect(win.style.maxHeight).toBe('calc(100% + 28px)')
     expect(dock).toHaveAttribute('data-hidden', 'true')
 
     fireEvent.mouseEnter(screen.getByTestId('dock-reveal-zone'))
@@ -171,5 +171,38 @@ describe('Desktop', () => {
   it('only blocks clicks where the Dock itself is drawn', () => {
     render(<Desktop />)
     expect(screen.getByRole('navigation', { name: 'Dock' })).toHaveClass('pointer-events-none')
+  })
+
+  it('hides the menu bar in full screen until the cursor reaches the top edge', () => {
+    render(<Desktop />)
+    openFromDock('About Me')
+    const menuBar = screen.getByTestId('menu-bar')
+    expect(menuBar).toHaveAttribute('data-hidden', 'false')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Maximize About Me' }))
+    expect(menuBar).toHaveAttribute('data-hidden', 'true')
+
+    fireEvent.mouseEnter(screen.getByTestId('menu-bar-reveal-zone'))
+    expect(menuBar).toHaveAttribute('data-hidden', 'false')
+    fireEvent.mouseLeave(menuBar)
+    expect(menuBar).toHaveAttribute('data-hidden', 'true')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Maximize About Me' }))
+    expect(menuBar).toHaveAttribute('data-hidden', 'false')
+  })
+
+  it('covers the whole screen with square corners in full screen', () => {
+    render(<Desktop />)
+    openFromDock('About Me')
+    const win = screen.getByRole('dialog', { name: 'About Me' })
+    expect(win).toHaveClass('rounded-xl')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Maximize About Me' }))
+    expect(win).toHaveClass('rounded-none')
+    expect(win).not.toHaveClass('rounded-xl')
+    expect(win.style.height).toBe('calc(100% + 28px)')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Maximize About Me' }))
+    expect(win).toHaveClass('rounded-xl')
   })
 })

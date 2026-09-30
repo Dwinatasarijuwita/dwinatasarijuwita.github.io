@@ -22,7 +22,7 @@ export default function Desktop() {
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-cover bg-center" style={wallpaperStyle}>
-      <MenuBar appName={activeApp?.title ?? profile.name} />
+      <MenuBar appName={activeApp?.title ?? profile.name} autoHide={isFullScreen} />
       <div ref={areaRef} className="absolute inset-x-0 bottom-0 isolate" style={{ top: MENU_BAR_HEIGHT }}>
         <DesktopIcons apps={desktopApps} onOpen={open} />
         <AnimatePresence>

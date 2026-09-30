@@ -28,6 +28,7 @@ export default function Window({
   const x = useMotionValue(shown.x)
   const y = useMotionValue(shown.y)
   const [minimizeOrigin, setMinimizeOrigin] = useState('50% 100%')
+  const [isHeld, setIsHeld] = useState(false)
 
   useEffect(() => {
     x.set(shown.x)
@@ -39,6 +40,9 @@ export default function Window({
 
   function startDrag(event) {
     onFocus(id)
+    // Embedded content such as the PDF iframe would swallow pointer events mid-drag.
+    setIsHeld(true)
+    window.addEventListener('pointerup', () => setIsHeld(false), { once: true })
     if (!isMaximized) dragControls.start(event)
   }
 
@@ -107,7 +111,7 @@ export default function Window({
         <h2 className="flex-1 truncate text-center text-sm font-medium text-gray-700">{title}</h2>
         <div className="w-[52px]" aria-hidden="true" />
       </div>
-      <div className="min-h-0 flex-1 overflow-auto">
+      <div className={`min-h-0 flex-1 overflow-auto ${isHeld ? 'pointer-events-none' : ''}`}>
         <Component />
       </div>
     </motion.section>

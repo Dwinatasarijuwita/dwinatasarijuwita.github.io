@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { createRef } from 'react'
 import { describe, expect, it } from 'vitest'
 import Window from './Window'
@@ -61,5 +61,17 @@ describe('Window', () => {
     renderWindow({ state: { ...state, position: { x: 220, y: 300 } } })
     const win = screen.getByRole('dialog', { name: 'Resume' })
     await waitFor(() => expect(translate(win)).toEqual({ x: 220, y: 300 }))
+  })
+
+  it('stops embedded content (like the PDF) from swallowing the pointer while the title bar is held', () => {
+    renderWindow()
+    const content = screen.getByText('isi').parentElement
+    expect(content).not.toHaveClass('pointer-events-none')
+
+    fireEvent.pointerDown(screen.getByRole('heading', { name: 'Resume' }))
+    expect(content).toHaveClass('pointer-events-none')
+
+    fireEvent.pointerUp(window)
+    expect(content).not.toHaveClass('pointer-events-none')
   })
 })

@@ -9,11 +9,26 @@ afterEach(() => {
 })
 
 describe('HomeScreen', () => {
-  it('shows the greeting widget and the four apps in the dock', () => {
+  it('shows the greeting widget and three apps in the dock', () => {
     render(<HomeScreen />)
     expect(within(screen.getByRole('region', { name: 'Sapaan' })).getByText('Dwi Natasari Juwita')).toBeInTheDocument()
     const dock = screen.getByRole('navigation', { name: 'Dock' })
-    expect(within(dock).getAllByRole('button')).toHaveLength(4)
+    expect(within(dock).getAllByRole('button')).toHaveLength(3)
+    expect(within(dock).queryByRole('button', { name: 'Resume' })).not.toBeInTheDocument()
+  })
+
+  it('shows Resume as a labelled app icon below the greeting widget', () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, headers: { get: () => 'text/html' } }))
+    render(<HomeScreen />)
+    const grid = screen.getByRole('list', { name: 'Aplikasi' })
+    const greeting = screen.getByRole('region', { name: 'Sapaan' })
+    expect(greeting.compareDocumentPosition(grid) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+
+    const resume = within(grid).getByRole('button', { name: 'Resume' })
+    expect(resume).toHaveTextContent('Resume')
+    fireEvent.click(resume)
+    expect(screen.getByRole('dialog', { name: 'Resume' })).toBeInTheDocument()
+    vi.unstubAllGlobals()
   })
 
   it('opens an app full screen and adds a history entry', () => {

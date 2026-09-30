@@ -9,8 +9,6 @@ import AppIcon from '../AppIcon'
 import Avatar from '../Avatar'
 import AppSheet from './AppSheet'
 
-const DOCK_SIZE = 4
-
 export default function HomeScreen() {
   const [openApp, setOpenApp] = useState(null)
   const closingRef = useRef(false)
@@ -38,8 +36,8 @@ export default function HomeScreen() {
   }
 
   const app = apps.find((item) => item.id === openApp?.id)
-  const dockApps = apps.slice(0, DOCK_SIZE)
-  const gridApps = apps.slice(DOCK_SIZE)
+  const dockApps = apps.filter((item) => item.placement === 'dock')
+  const gridApps = apps.filter((item) => item.placement === 'desktop')
 
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden bg-cover bg-center text-white" style={wallpaperStyle}>
@@ -53,7 +51,7 @@ export default function HomeScreen() {
           </div>
         </section>
         {gridApps.length > 0 && (
-          <ul className="mt-6 grid grid-cols-4 gap-y-6">
+          <ul aria-label="Aplikasi" className="mt-6 grid grid-cols-4 gap-y-6">
             {gridApps.map((item) => (
               <li key={item.id}>
                 <LaunchButton app={item} onLaunch={launch} showLabel />

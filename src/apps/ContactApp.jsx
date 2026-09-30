@@ -27,7 +27,7 @@ export default function ContactApp() {
       <Avatar size="lg" />
       <h2 className="text-xl font-semibold text-gray-900">{profile.name}</h2>
       <dl className="w-full divide-y divide-gray-200 rounded-xl bg-gray-50 text-left">
-        <div className="relative px-4 py-3">
+        <div className="px-4 py-3">
           <dt className="text-xs font-medium text-gray-500">email</dt>
           <dd>
             {canCopy ? (
@@ -44,7 +44,8 @@ export default function ContactApp() {
                 {profile.email}
               </a>
             )}
-            <p role="status" className="absolute right-4 top-3 text-xs font-medium text-green-600">
+            {/* Empty until copied, so it takes no space until the notice appears. */}
+            <p role="status" className="text-xs font-medium text-green-600">
               {copied && '✓ Email berhasil disalin'}
             </p>
           </dd>

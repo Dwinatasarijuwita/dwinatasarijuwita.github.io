@@ -20,7 +20,7 @@ describe('profile', () => {
 describe('experience', () => {
   it('lists the work experience from the CV, newest first', () => {
     expect(experience.map((job) => [job.role, job.company, job.period])).toEqual([
-      ['Frontend Developer', 'PT Permata Indo Sejahtera (Permata Indonesia)', 'Apr 2023 – Now'],
+      ['Frontend Developer – Contract', 'PT Permata Indo Sejahtera (Permata Indonesia)', 'Apr 2023 – Now'],
       ['Banking Officer – Internship', 'PT Bank Mandiri (Persero) Tbk', 'Sep 2021 – Dec 2021'],
       ['Insurance Officer – Internship', 'PT Asuransi Jiwa Generali Indonesia', 'Feb 2020 – Oct 2020'],
     ])

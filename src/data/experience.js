@@ -1,6 +1,6 @@
 export const experience = [
   {
-    role: 'Frontend Developer',
+    role: 'Frontend Developer – Contract',
     company: 'PT Permata Indo Sejahtera (Permata Indonesia)',
     period: 'Apr 2023 – Now',
     location: 'Jakarta, Indonesia',

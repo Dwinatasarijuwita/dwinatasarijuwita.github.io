@@ -14,13 +14,14 @@ describe('profile', () => {
 })
 
 describe('songs', () => {
-  it('lists the five favourite songs', () => {
+  it('lists the favourite songs', () => {
     expect(songs.map((song) => song.title)).toEqual([
       'Baby Now That I Found You',
       'Lost Stars',
       'Dan Sore Itu',
       'Teh Hijau',
       'Love Never Felt So Good',
+      'Menikmati Sedih',
     ])
   })
 

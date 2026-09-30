@@ -24,4 +24,9 @@ export const songs = [
     artist: 'Michael Jackson & Justin Timberlake',
     url: 'https://open.spotify.com/track/48td6xvpokdYwvbl3JIiXP',
   },
+  {
+    title: 'Menikmati Sedih',
+    artist: 'Naura Ayu',
+    url: 'https://open.spotify.com/track/2vuaXLcbTV7m4ItKcufkbQ',
+  },
 ]

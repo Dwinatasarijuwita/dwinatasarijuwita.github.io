@@ -1,6 +1,7 @@
 import { AnimatePresence } from 'motion/react'
 import { useRef } from 'react'
 import { apps } from '../../data/apps'
+import { useElementSize } from '../../hooks/useElementSize'
 import { useWindowManager } from '../../hooks/useWindowManager'
 import { wallpaperStyle } from '../../lib/wallpaper'
 import { MENU_BAR_HEIGHT } from './constants'
@@ -11,6 +12,7 @@ import Window from './Window'
 export default function Desktop() {
   const { windows, activeId, open, close, minimize, toggleMaximize, focus, move } = useWindowManager(apps)
   const areaRef = useRef(null)
+  const areaSize = useElementSize(areaRef)
   const activeApp = apps.find((app) => app.id === activeId)
 
   return (
@@ -27,6 +29,7 @@ export default function Desktop() {
                 state={windows[app.id]}
                 isActive={activeId === app.id}
                 constraintsRef={areaRef}
+                areaSize={areaSize}
                 onFocus={focus}
                 onClose={close}
                 onMinimize={minimize}

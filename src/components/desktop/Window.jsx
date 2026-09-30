@@ -1,5 +1,6 @@
 import { motion, useDragControls, useMotionValue, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
+import { clampPosition } from '../../lib/windowBounds'
 import { DOCK_HEIGHT } from './constants'
 
 export default function Window({
@@ -7,6 +8,7 @@ export default function Window({
   state,
   isActive,
   constraintsRef,
+  areaSize,
   onFocus,
   onClose,
   onMinimize,
@@ -17,14 +19,15 @@ export default function Window({
   const { isMinimized, isMaximized, position, zIndex } = state
   const dragControls = useDragControls()
   const reduceMotion = useReducedMotion()
-  const x = useMotionValue(position.x)
-  const y = useMotionValue(position.y)
+  const shown = isMaximized ? { x: 0, y: 0 } : clampPosition(position, size, areaSize, DOCK_HEIGHT)
+  const x = useMotionValue(shown.x)
+  const y = useMotionValue(shown.y)
   const [minimizeOrigin, setMinimizeOrigin] = useState('50% 100%')
 
   useEffect(() => {
-    x.set(isMaximized ? 0 : position.x)
-    y.set(isMaximized ? 0 : position.y)
-  }, [isMaximized, position.x, position.y, x, y])
+    x.set(shown.x)
+    y.set(shown.y)
+  }, [shown.x, shown.y, x, y])
 
   const hidden = reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.9 }
   const minimized = reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.1 }
@@ -85,7 +88,7 @@ export default function Window({
             label={`Minimize ${title}`}
             symbol="−"
             onClick={() => {
-              setMinimizeOrigin(dockOrigin(constraintsRef.current, position))
+              setMinimizeOrigin(dockOrigin(constraintsRef.current, shown))
               onMinimize(id)
             }}
           />

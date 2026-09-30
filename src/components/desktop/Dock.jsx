@@ -38,7 +38,7 @@ export default function Dock({ apps, windows, onOpen, autoHide = false }) {
           style={{ height: DOCK_HEIGHT - 16 }}
         >
           {apps.map((app) => (
-            <DockItem key={app.id} app={app} isOpen={windows[app.id].isOpen} mouseX={mouseX} onOpen={onOpen} />
+            <DockItem key={app.id} app={app} isOpen={windows[app.id]?.isOpen ?? false} mouseX={mouseX} onOpen={onOpen} />
           ))}
         </div>
       </motion.nav>
@@ -61,18 +61,32 @@ function DockItem({ app, isOpen, mouseX, onOpen }) {
       <span className="pointer-events-none absolute -top-9 whitespace-nowrap rounded-md bg-gray-800/90 px-2 py-1 text-xs text-white opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100">
         {app.title}
       </span>
-      <motion.button
-        ref={ref}
-        type="button"
-        aria-label={app.title}
-        data-open={isOpen}
-        data-minimize-target={app.id}
-        onClick={() => onOpen(app.id)}
-        style={{ width: size, height: size }}
-        className="rounded-[22%] focus-visible:outline-2 focus-visible:outline-white"
-      >
-        <AppIcon id={app.id} className="size-full" />
-      </motion.button>
+      {app.kind === 'link' ? (
+        <motion.a
+          ref={ref}
+          href={app.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={app.title}
+          style={{ width: size, height: size }}
+          className="rounded-[22%] focus-visible:outline-2 focus-visible:outline-white"
+        >
+          <AppIcon id={app.id} className="size-full" />
+        </motion.a>
+      ) : (
+        <motion.button
+          ref={ref}
+          type="button"
+          aria-label={app.title}
+          data-open={isOpen}
+          data-minimize-target={app.id}
+          onClick={() => onOpen(app.id)}
+          style={{ width: size, height: size }}
+          className="rounded-[22%] focus-visible:outline-2 focus-visible:outline-white"
+        >
+          <AppIcon id={app.id} className="size-full" />
+        </motion.button>
+      )}
       <span
         aria-hidden="true"
         className={`mt-1 size-1 rounded-full bg-gray-900/80 ${isOpen ? 'opacity-100' : 'opacity-0'}`}

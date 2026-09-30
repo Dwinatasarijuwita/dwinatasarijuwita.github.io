@@ -75,6 +75,21 @@ export default function HomeScreen() {
 }
 
 function LaunchButton({ app, onLaunch, showLabel = false }) {
+  if (app.kind === 'link') {
+    return (
+      <a
+        href={app.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={app.title}
+        className="flex w-full flex-col items-center gap-1"
+      >
+        <AppIcon id={app.id} className="size-14" />
+        {showLabel && <span className="text-xs">{app.title}</span>}
+      </a>
+    )
+  }
+
   return (
     <button
       type="button"

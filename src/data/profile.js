@@ -15,6 +15,7 @@ export const profile = {
   ],
   email: 'tasyakstr@gmail.com',
   phoneNumber: '085718259166',
+  github: 'https://github.com/Dwinatasarijuwita',
   resume: {
     url: `${import.meta.env.BASE_URL}resume.pdf`,
     downloadName: 'Dwi Natasari Juwita - CV.pdf',

@@ -48,4 +48,11 @@ export const apps = [
     size: { width: 860, height: 620 },
     initialPosition: { x: 180, y: 40 },
   },
+  {
+    id: 'github',
+    placement: 'dock',
+    kind: 'link',
+    title: 'GitHub',
+    url: profile.github,
+  },
 ]

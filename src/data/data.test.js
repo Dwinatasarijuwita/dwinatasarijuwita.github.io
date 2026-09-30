@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { experience } from './experience'
 import { profile } from './profile'
 import { songs } from './songs'
 
@@ -13,6 +14,20 @@ describe('profile', () => {
     expect(profile.linkedin).toBe('https://www.linkedin.com/in/dwi-natasari-juwita-970474218/')
     expect(profile.instagram).toBe('https://www.instagram.com/tasyakstr/')
     expect(profile.resume).toEqual({ url: '/resume.pdf', downloadName: 'Dwi Natasari Juwita - CV.pdf' })
+  })
+})
+
+describe('experience', () => {
+  it('lists the work experience from the CV, newest first', () => {
+    expect(experience.map((job) => [job.role, job.company, job.period])).toEqual([
+      ['Frontend Developer', 'PT Permata Indo Sejahtera (Permata Indonesia)', 'Apr 2023 – Now'],
+      ['Banking Officer – Internship', 'PT Bank Mandiri (Persero) Tbk', 'Sep 2021 – Dec 2021'],
+      ['Insurance Officer – Internship', 'PT Asuransi Jiwa Generali Indonesia', 'Feb 2020 – Oct 2020'],
+    ])
+    for (const job of experience) {
+      expect(job.location).toBe('Jakarta, Indonesia')
+      expect(job.highlights.length).toBeGreaterThan(0)
+    }
   })
 })
 

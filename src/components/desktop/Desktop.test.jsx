@@ -99,6 +99,17 @@ describe('Desktop', () => {
     expect(activeApp()).toHaveTextContent('Resume')
   })
 
+  it('shows Work Experience as a document file below the CV and opens it in a window', () => {
+    render(<Desktop />)
+    const files = within(screen.getByRole('list', { name: 'Desktop' })).getAllByRole('button')
+    expect(files.map((file) => file.getAttribute('aria-label'))).toEqual(['Dwi Natasari Juwita - CV.pdf', 'Work Experience'])
+    expect(files[1]).toHaveTextContent('DOC')
+
+    fireEvent.click(files[1])
+    expect(screen.getByRole('dialog', { name: 'Experience' })).toBeInTheDocument()
+    expect(activeApp()).toHaveTextContent('Experience')
+  })
+
   it('restores a minimized Resume from its desktop file', () => {
     render(<Desktop />)
     fireEvent.click(resumeFile())

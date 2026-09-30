@@ -1,5 +1,6 @@
 import AboutApp from '../apps/AboutApp'
 import ContactApp from '../apps/ContactApp'
+import ExperienceApp from '../apps/ExperienceApp'
 import MusicApp from '../apps/MusicApp'
 import PhotosApp from '../apps/PhotosApp'
 import ResumeApp from '../apps/ResumeApp'
@@ -18,6 +19,7 @@ export const apps = [
     id: 'resume',
     placement: 'desktop',
     kind: 'file',
+    fileType: 'pdf',
     desktopLabel: profile.resume.downloadName,
     title: 'Resume',
     Component: ResumeApp,
@@ -47,6 +49,17 @@ export const apps = [
     Component: PhotosApp,
     size: { width: 860, height: 620 },
     initialPosition: { x: 180, y: 40 },
+  },
+  {
+    id: 'experience',
+    placement: 'desktop',
+    kind: 'file',
+    fileType: 'doc',
+    desktopLabel: 'Work Experience',
+    title: 'Experience',
+    Component: ExperienceApp,
+    size: { width: 560, height: 520 },
+    initialPosition: { x: 260, y: 56 },
   },
   {
     id: 'github',

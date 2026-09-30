@@ -10,6 +10,7 @@ describe('apps', () => {
       ['contact', 'Contact'],
       ['music', 'Music Favorite'],
       ['photos', 'Photos'],
+      ['experience', 'Experience'],
       ['github', 'GitHub'],
       ['linkedin', 'LinkedIn'],
       ['instagram', 'Instagram'],
@@ -25,13 +26,14 @@ describe('apps', () => {
     }
   })
 
-  it('places Resume on the desktop as a file and the rest in the Dock', () => {
+  it('places Resume and Work Experience on the desktop and the rest in the Dock', () => {
     expect(apps.map((app) => [app.id, app.placement])).toEqual([
       ['about', 'dock'],
       ['resume', 'desktop'],
       ['contact', 'dock'],
       ['music', 'dock'],
       ['photos', 'dock'],
+      ['experience', 'desktop'],
       ['github', 'dock'],
       ['linkedin', 'dock'],
       ['instagram', 'dock'],
@@ -39,6 +41,15 @@ describe('apps', () => {
     const resume = apps.find((app) => app.id === 'resume')
     expect(resume.desktopLabel).toBe('Dwi Natasari Juwita - CV.pdf')
     expect(resume.kind).toBe('file')
+    expect(resume.fileType).toBe('pdf')
+  })
+
+  it('places Work Experience on the desktop as a document file', () => {
+    const experience = apps.find((app) => app.id === 'experience')
+    expect(experience.placement).toBe('desktop')
+    expect(experience.kind).toBe('file')
+    expect(experience.fileType).toBe('doc')
+    expect(experience.desktopLabel).toBe('Work Experience')
   })
 
   it.each(['github', 'linkedin', 'instagram'])('makes %s a link to the profile instead of a window', (id) => {

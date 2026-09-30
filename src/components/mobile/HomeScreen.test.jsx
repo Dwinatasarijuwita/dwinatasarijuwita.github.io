@@ -64,12 +64,12 @@ describe('HomeScreen', () => {
     expect(within(grid).getByRole('button', { name: 'Photos' })).toHaveTextContent('Photos')
   })
 
-  it('shows GitHub, LinkedIn and Instagram next to Photos, with GitHub as a link that opens a new tab without adding history', () => {
+  it('shows Experience, GitHub, LinkedIn and Instagram after Photos, with GitHub as a link that opens a new tab without adding history', () => {
     const pushState = vi.spyOn(window.history, 'pushState')
     render(<HomeScreen />)
     const items = within(screen.getByRole('list', { name: 'Apps' })).getAllByRole('listitem')
-    expect(items.map((item) => item.textContent)).toEqual(['Photos', 'GitHub', 'LinkedIn', 'Instagram'])
-    const link = within(items[1]).getByRole('link', { name: 'GitHub' })
+    expect(items.map((item) => item.textContent)).toEqual(['Photos', 'Experience', 'GitHub', 'LinkedIn', 'Instagram'])
+    const link = within(items[2]).getByRole('link', { name: 'GitHub' })
     expect(link).toHaveAttribute('href', 'https://github.com/Dwinatasarijuwita')
     expect(link).toHaveAttribute('target', '_blank')
     expect(link).toHaveAttribute('rel', 'noopener noreferrer')

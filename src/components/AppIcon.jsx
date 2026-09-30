@@ -52,6 +52,15 @@ const ICONS = {
       </>
     ),
   },
+  experience: {
+    background: 'linear-gradient(180deg, #7dd3fc, #2563eb)',
+    glyph: (
+      <>
+        <rect x="3" y="7" width="18" height="13" rx="2" />
+        <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18" />
+      </>
+    ),
+  },
   // The official GitHub mark, unmodified and white, as GitHub's brand rules allow for profile links.
   github: {
     background: 'linear-gradient(180deg, #2d333b, #0d1117)',

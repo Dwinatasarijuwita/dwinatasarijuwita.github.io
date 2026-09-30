@@ -7,10 +7,11 @@ afterEach(() => {
 })
 
 describe('MenuBar', () => {
-  it('shows the active app name and the logo', () => {
+  it('shows the active app name and the profile photo instead of a logo', () => {
     render(<MenuBar appName="Music Favorite" />)
     expect(screen.getByLabelText('Aplikasi aktif')).toHaveTextContent('Music Favorite')
-    expect(screen.getByRole('img', { name: 'Logo' })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Avatar Dwi Natasari Juwita' })).toBeInTheDocument()
+    expect(screen.queryByRole('img', { name: 'Logo' })).not.toBeInTheDocument()
   })
 
   it('updates the clock when the minute changes and cleans up its timer', () => {

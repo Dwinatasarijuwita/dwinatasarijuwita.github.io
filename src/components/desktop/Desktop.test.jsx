@@ -108,4 +108,10 @@ describe('Desktop', () => {
     fireEvent.click(resumeFile())
     expect(screen.getByRole('dialog', { name: 'Resume' })).toBeInTheDocument()
   })
+
+  it('keeps windows in their own layer so the Dock and menu bar stay on top', () => {
+    render(<Desktop />)
+    openFromDock('About Me')
+    expect(screen.getByRole('dialog', { name: 'About Me' }).parentElement).toHaveClass('isolate')
+  })
 })

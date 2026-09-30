@@ -19,7 +19,12 @@ export default function Window({
   const { isMinimized, isMaximized, position, zIndex } = state
   const dragControls = useDragControls()
   const reduceMotion = useReducedMotion()
-  const shown = isMaximized ? { x: 0, y: 0 } : clampPosition(position, size, areaSize, DOCK_HEIGHT)
+  const visibleSize = areaSize
+    ? { width: size.width, height: Math.min(size.height, areaSize.height - DOCK_HEIGHT) }
+    : size
+  const shown = isMaximized ? { x: 0, y: 0 } : clampPosition(position, visibleSize, areaSize, 0)
+  const farthest = clampPosition({ x: Infinity, y: Infinity }, visibleSize, areaSize, 0)
+  const dragBounds = areaSize ? { left: 0, top: 0, right: farthest.x, bottom: farthest.y } : constraintsRef
   const x = useMotionValue(shown.x)
   const y = useMotionValue(shown.y)
   const [minimizeOrigin, setMinimizeOrigin] = useState('50% 100%')
@@ -65,7 +70,7 @@ export default function Window({
       dragListener={false}
       dragMomentum={false}
       dragElastic={0}
-      dragConstraints={constraintsRef}
+      dragConstraints={dragBounds}
       onDragEnd={() => onMove(id, { x: x.get(), y: y.get() })}
       onPointerDown={() => onFocus(id)}
     >

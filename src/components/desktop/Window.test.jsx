@@ -54,6 +54,12 @@ describe('Window', () => {
       />,
     )
     const win = screen.getByRole('dialog', { name: 'Resume' })
-    await waitFor(() => expect(translate(win)).toEqual({ x: 180, y: 0 }))
+    await waitFor(() => expect(translate(win)).toEqual({ x: 180, y: 32 }))
+  })
+
+  it('can slide down behind the Dock like on a real Mac', async () => {
+    renderWindow({ state: { ...state, position: { x: 220, y: 300 } } })
+    const win = screen.getByRole('dialog', { name: 'Resume' })
+    await waitFor(() => expect(translate(win)).toEqual({ x: 220, y: 300 }))
   })
 })

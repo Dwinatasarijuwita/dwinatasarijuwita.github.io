@@ -15,11 +15,6 @@ export const songs = [
     url: 'https://open.spotify.com/track/1yt2oBcSF7xveB4Gic5qQk',
   },
   {
-    title: 'Teh Hijau',
-    artist: 'Tulus',
-    url: 'https://open.spotify.com/track/4R9G7azXaZe93KTX65P9fU',
-  },
-  {
     title: 'Love Never Felt So Good',
     artist: 'Michael Jackson & Justin Timberlake',
     url: 'https://open.spotify.com/track/48td6xvpokdYwvbl3JIiXP',

@@ -19,7 +19,6 @@ describe('songs', () => {
       'Baby Now That I Found You',
       'Lost Stars',
       'Dan Sore Itu',
-      'Teh Hijau',
       'Love Never Felt So Good',
       'Menikmati Sedih',
     ])

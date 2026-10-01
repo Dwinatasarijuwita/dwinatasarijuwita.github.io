@@ -54,6 +54,9 @@ describe('ProjectsApp', () => {
     const strip = screen.getByRole('list', { name: 'Screenshots' })
     // Without scroll padding, snapping aligns the first screenshot flush with the window edge.
     expect(strip).toHaveClass('scroll-px-6')
+    // Snapping fights trackpad and mouse-wheel scrolling (it pulls back every frame), so only touch screens snap.
+    expect(strip).toHaveClass('pointer-coarse:snap-x')
+    expect(strip).not.toHaveClass('snap-x')
     const project = projects.find((item) => item.id === 'job-apply')
     within(strip).getAllByRole('img').forEach((img, index) => {
       expect(img).toHaveAttribute('width', String(project.screenshots[index].width))

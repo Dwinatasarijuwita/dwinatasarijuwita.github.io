@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { experience } from './experience'
 import { profile } from './profile'
+import { projects } from './projects'
 import { songs } from './songs'
 
 describe('profile', () => {
@@ -45,6 +46,30 @@ describe('songs', () => {
   it('uses clean Spotify track links without tracking parameters', () => {
     for (const song of songs) {
       expect(song.url).toMatch(/^https:\/\/open\.spotify\.com\/track\/[A-Za-z0-9]+$/)
+    }
+  })
+})
+
+describe('projects', () => {
+  it('lists the Permata Indonesia projects with their live links', () => {
+    expect(projects.map((project) => [project.id, project.name, project.url, project.initials])).toEqual([
+      ['job-apply', 'Permata Job Apply', 'https://karir.permataindonesia.com/apply', 'PJ'],
+      ['company-profile', 'Permata Indonesia Company Profile', 'https://permataindonesia.com/', 'PI'],
+      ['business', 'Permata Indonesia Business', 'https://business.permataindonesia.com', 'PB'],
+    ])
+  })
+
+  it('gives every project its copy, tech stack and screenshots', () => {
+    for (const project of projects) {
+      expect(project.subtitle).toBeTruthy()
+      expect(project.description).toBeTruthy()
+      expect(project.role.length).toBeGreaterThan(0)
+      expect(project.tech).toEqual(['React', 'SCSS'])
+      expect(project.screenshots.length).toBeGreaterThan(0)
+      for (const shot of project.screenshots) {
+        expect(shot.src).toBeTruthy()
+        expect(shot.alt).toContain(project.name)
+      }
     }
   })
 })

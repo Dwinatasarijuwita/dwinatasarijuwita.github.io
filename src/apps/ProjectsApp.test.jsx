@@ -64,6 +64,17 @@ describe('ProjectsApp', () => {
     })
   })
 
+  it('says on every project page that it was built as a team', () => {
+    render(<ProjectsApp />)
+    for (const project of projects) {
+      openDetail(project.name)
+      const detail = screen.getByRole('article', { name: project.name })
+      expect(within(detail).getByText('Team project')).toBeInTheDocument()
+      expect(within(within(detail).getByRole('region', { name: 'My Role' })).getByText('Built together with the team at Permata Indonesia. My part:')).toBeInTheDocument()
+      fireEvent.click(screen.getByRole('button', { name: '‹ Projects' }))
+    }
+  })
+
   it('goes back to the list from the detail view', () => {
     render(<ProjectsApp />)
     openDetail('Permata Job Apply')

@@ -69,8 +69,9 @@ function ProjectDetail({ project, onBack }) {
         <div className="min-w-0">
           <h2 className="text-xl font-bold sm:text-2xl">{project.name}</h2>
           <p className="text-sm text-gray-500">{project.subtitle}</p>
-          <div className="mt-3">
+          <div className="mt-3 flex flex-wrap items-center gap-2">
             <OpenButton project={project} prominent />
+            <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">Team project</span>
           </div>
         </div>
       </header>
@@ -92,6 +93,7 @@ function ProjectDetail({ project, onBack }) {
         <p>{project.description}</p>
       </Section>
       <Section title="My Role">
+        <p className="mb-2">Built together with the team at Permata Indonesia. My part:</p>
         <ul className="list-disc space-y-1 pl-4">
           {project.role.map((item) => (
             <li key={item}>{item}</li>

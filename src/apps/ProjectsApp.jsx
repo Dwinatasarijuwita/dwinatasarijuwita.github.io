@@ -74,12 +74,14 @@ function ProjectDetail({ project, onBack }) {
           </div>
         </div>
       </header>
-      <ul aria-label="Screenshots" className="-mx-6 mt-6 flex snap-x gap-3 overflow-x-auto px-6 pb-2">
+      <ul aria-label="Screenshots" className="-mx-6 mt-6 flex snap-x scroll-px-6 gap-3 overflow-x-auto px-6 pb-2">
         {project.screenshots.map((shot) => (
           <li key={shot.src} className="shrink-0 snap-start">
             <img
               src={shot.src}
               alt={shot.alt}
+              width={shot.width}
+              height={shot.height}
               loading="lazy"
               className="h-48 w-auto rounded-xl border border-gray-200 sm:h-64"
             />

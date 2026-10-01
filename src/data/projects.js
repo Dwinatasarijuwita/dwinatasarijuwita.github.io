@@ -23,8 +23,8 @@ export const projects = [
     ],
     tech: ['React', 'SCSS'],
     screenshots: [
-      { src: jobApply1, alt: 'Permata Job Apply – application form on desktop' },
-      { src: jobApply2, alt: 'Permata Job Apply – application form on mobile' },
+      { src: jobApply1, alt: 'Permata Job Apply – application form on desktop', width: 1280, height: 800 },
+      { src: jobApply2, alt: 'Permata Job Apply – application form on mobile', width: 780, height: 1688 },
     ],
   },
   {
@@ -40,10 +40,10 @@ export const projects = [
     ],
     tech: ['React', 'SCSS'],
     screenshots: [
-      { src: companyProfile1, alt: 'Permata Indonesia Company Profile – Home section' },
-      { src: companyProfile2, alt: 'Permata Indonesia Company Profile – Our Values section' },
-      { src: companyProfile3, alt: 'Permata Indonesia Company Profile – About Us section' },
-      { src: companyProfile4, alt: 'Permata Indonesia Company Profile – Our Service section' },
+      { src: companyProfile1, alt: 'Permata Indonesia Company Profile – Home section', width: 1280, height: 800 },
+      { src: companyProfile2, alt: 'Permata Indonesia Company Profile – Our Values section', width: 1280, height: 800 },
+      { src: companyProfile3, alt: 'Permata Indonesia Company Profile – About Us section', width: 1280, height: 800 },
+      { src: companyProfile4, alt: 'Permata Indonesia Company Profile – Our Service section', width: 1280, height: 800 },
     ],
   },
   {
@@ -60,9 +60,9 @@ export const projects = [
     ],
     tech: ['React', 'SCSS'],
     screenshots: [
-      { src: business1, alt: 'Permata Indonesia Business – landing page' },
-      { src: business2, alt: 'Permata Indonesia Business – our advantages section' },
-      { src: business3, alt: 'Permata Indonesia Business – services section' },
+      { src: business1, alt: 'Permata Indonesia Business – landing page', width: 1280, height: 800 },
+      { src: business2, alt: 'Permata Indonesia Business – our advantages section', width: 1280, height: 800 },
+      { src: business3, alt: 'Permata Indonesia Business – services section', width: 1280, height: 800 },
     ],
   },
 ]

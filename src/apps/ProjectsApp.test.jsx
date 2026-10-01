@@ -48,6 +48,19 @@ describe('ProjectsApp', () => {
     for (const img of shots) expect(img).toHaveAttribute('loading', 'lazy')
   })
 
+  it('reserves each screenshot\'s size before it loads and keeps the strip padding when snapping', () => {
+    render(<ProjectsApp />)
+    openDetail('Permata Job Apply')
+    const strip = screen.getByRole('list', { name: 'Screenshots' })
+    // Without scroll padding, snapping aligns the first screenshot flush with the window edge.
+    expect(strip).toHaveClass('scroll-px-6')
+    const project = projects.find((item) => item.id === 'job-apply')
+    within(strip).getAllByRole('img').forEach((img, index) => {
+      expect(img).toHaveAttribute('width', String(project.screenshots[index].width))
+      expect(img).toHaveAttribute('height', String(project.screenshots[index].height))
+    })
+  })
+
   it('goes back to the list from the detail view', () => {
     render(<ProjectsApp />)
     openDetail('Permata Job Apply')

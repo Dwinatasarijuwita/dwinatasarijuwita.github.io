@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { experience } from './experience'
 import { profile } from './profile'
@@ -72,4 +73,23 @@ describe('projects', () => {
       }
     }
   })
+
+  it('records the real pixel size of every screenshot so the gallery can reserve its space', () => {
+    for (const shot of projects.flatMap((project) => project.screenshots)) {
+      const file = readFileSync(`src/assets/projects/${shot.src.split('/').pop()}`)
+      expect([shot.width, shot.height]).toEqual(jpegSize(file))
+    }
+  })
 })
+
+// Reads width and height from the JPEG start-of-frame segment.
+function jpegSize(bytes) {
+  let offset = 2
+  while (offset < bytes.length) {
+    const marker = bytes[offset + 1]
+    const length = bytes.readUInt16BE(offset + 2)
+    if (marker >= 0xc0 && marker <= 0xc3) return [bytes.readUInt16BE(offset + 7), bytes.readUInt16BE(offset + 5)]
+    offset += 2 + length
+  }
+  throw new Error('No JPEG size found')
+}

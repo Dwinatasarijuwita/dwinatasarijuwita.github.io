@@ -52,14 +52,10 @@ const ICONS = {
       </>
     ),
   },
+  // App Store–like colours and bold white strokes, with our own </> glyph instead of Apple's "A" mark.
   projects: {
-    background: 'linear-gradient(180deg, #38bdf8, #1d4ed8)',
-    glyph: (
-      <>
-        <rect x="4" y="9" width="16" height="11" rx="2" />
-        <path d="M6 6h12M8 3h8" />
-      </>
-    ),
+    background: 'linear-gradient(180deg, #1ec8fa, #1a6ef0)',
+    glyph: <path strokeWidth="2.4" d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4.5l-3 15" />,
   },
   experience: {
     background: 'linear-gradient(180deg, #7dd3fc, #2563eb)',

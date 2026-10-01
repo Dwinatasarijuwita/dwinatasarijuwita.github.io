@@ -18,6 +18,15 @@ describe('ExperienceApp', () => {
     })
   })
 
+  it('connects each job to the next with a timeline line, ending at the last job', () => {
+    render(<ExperienceApp />)
+    const list = screen.getByRole('list', { name: 'Work experience' })
+    expect(list).not.toHaveClass('border-l')
+    const jobs = within(list).getAllByRole('listitem').filter((item) => item.parentElement === list)
+    const hasLine = jobs.map((job) => job.querySelector(':scope > [data-timeline-line]') !== null)
+    expect(hasLine).toEqual(experience.map((_job, index) => index < experience.length - 1))
+  })
+
   it('leaves out projects, which get their own section later', () => {
     render(<ExperienceApp />)
     expect(screen.queryByText(/Kerja365/)).not.toBeInTheDocument()

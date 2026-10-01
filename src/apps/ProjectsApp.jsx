@@ -37,7 +37,7 @@ function ProjectList({ onSelect }) {
             >
               <ProjectIcon initials={project.initials} className="size-14 text-lg" />
               <span className="min-w-0">
-                <span className="block truncate font-semibold">{project.name}</span>
+                <span className="line-clamp-2 font-semibold leading-snug">{project.name}</span>
                 <span className="block truncate text-sm text-gray-500">{project.subtitle}</span>
               </span>
             </button>

@@ -1,6 +1,10 @@
 import business1 from '../assets/projects/business-1.jpg'
 import business2 from '../assets/projects/business-2.jpg'
 import business3 from '../assets/projects/business-3.jpg'
+import careers1 from '../assets/projects/careers-1.jpg'
+import careers2 from '../assets/projects/careers-2.jpg'
+import careers3 from '../assets/projects/careers-3.jpg'
+import careers4 from '../assets/projects/careers-4.jpg'
 import companyProfile1 from '../assets/projects/company-profile-1.jpg'
 import companyProfile2 from '../assets/projects/company-profile-2.jpg'
 import companyProfile3 from '../assets/projects/company-profile-3.jpg'
@@ -9,6 +13,26 @@ import jobApply1 from '../assets/projects/job-apply-1.jpg'
 import jobApply2 from '../assets/projects/job-apply-2.jpg'
 
 export const projects = [
+  {
+    id: 'careers',
+    name: 'Permata Indonesia Careers',
+    subtitle: 'Job listings for job seekers across Indonesia',
+    url: 'https://karir.permataindonesia.com/',
+    initials: 'PC',
+    description:
+      "Permata Indonesia's careers site, where job seekers across Indonesia find open positions and outsourced workers (TKO) sign up to apply.",
+    role: [
+      'Sliced the FAQ section on the home page, and the login and register pages that outsourced workers (TKO) use to sign up, from design into React components styled with SCSS.',
+      'Wired these pages to the backend API.',
+    ],
+    tech: ['React', 'SCSS'],
+    screenshots: [
+      { src: careers1, alt: 'Permata Indonesia Careers – home page', width: 1280, height: 800 },
+      { src: careers2, alt: 'Permata Indonesia Careers – FAQ section', width: 1280, height: 800 },
+      { src: careers3, alt: 'Permata Indonesia Careers – login page', width: 1280, height: 800 },
+      { src: careers4, alt: 'Permata Indonesia Careers – register page', width: 1280, height: 800 },
+    ],
+  },
   {
     id: 'job-apply',
     name: 'Permata Job Apply',

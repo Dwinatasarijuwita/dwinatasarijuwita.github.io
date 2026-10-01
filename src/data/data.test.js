@@ -54,6 +54,7 @@ describe('songs', () => {
 describe('projects', () => {
   it('lists the Permata Indonesia projects with their live links', () => {
     expect(projects.map((project) => [project.id, project.name, project.url, project.initials])).toEqual([
+      ['careers', 'Permata Indonesia Careers', 'https://karir.permataindonesia.com/', 'PC'],
       ['job-apply', 'Permata Job Apply', 'https://karir.permataindonesia.com/apply', 'PJ'],
       ['company-profile', 'Permata Indonesia Company Profile', 'https://permataindonesia.com/', 'PI'],
       ['business', 'Permata Indonesia Business', 'https://business.permataindonesia.com', 'PB'],

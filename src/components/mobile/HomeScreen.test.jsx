@@ -64,17 +64,24 @@ describe('HomeScreen', () => {
     expect(within(grid).getByRole('button', { name: 'Photos' })).toHaveTextContent('Photos')
   })
 
-  it('shows Experience, GitHub, LinkedIn and Instagram after Photos, with GitHub as a link that opens a new tab without adding history', () => {
+  it('shows Projects, Experience, GitHub, LinkedIn and Instagram after Photos, with GitHub as a link that opens a new tab without adding history', () => {
     const pushState = vi.spyOn(window.history, 'pushState')
     render(<HomeScreen />)
     const items = within(screen.getByRole('list', { name: 'Apps' })).getAllByRole('listitem')
-    expect(items.map((item) => item.textContent)).toEqual(['Photos', 'Experience', 'GitHub', 'LinkedIn', 'Instagram'])
-    const link = within(items[2]).getByRole('link', { name: 'GitHub' })
+    expect(items.map((item) => item.textContent)).toEqual(['Photos', 'Projects', 'Experience', 'GitHub', 'LinkedIn', 'Instagram'])
+    const link = within(items[3]).getByRole('link', { name: 'GitHub' })
     expect(link).toHaveAttribute('href', 'https://github.com/Dwinatasarijuwita')
     expect(link).toHaveAttribute('target', '_blank')
     expect(link).toHaveAttribute('rel', 'noopener noreferrer')
     fireEvent.click(link)
     expect(pushState).not.toHaveBeenCalled()
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('opens Projects from the home screen grid', () => {
+    render(<HomeScreen />)
+    fireEvent.click(within(screen.getByRole('list', { name: 'Apps' })).getByRole('button', { name: 'Projects' }))
+    const sheet = screen.getByRole('dialog', { name: 'Projects' })
+    expect(within(sheet).getByRole('list', { name: 'Projects' })).toBeInTheDocument()
   })
 })

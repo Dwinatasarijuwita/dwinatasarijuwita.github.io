@@ -52,6 +52,15 @@ const ICONS = {
       </>
     ),
   },
+  projects: {
+    background: 'linear-gradient(180deg, #38bdf8, #1d4ed8)',
+    glyph: (
+      <>
+        <rect x="4" y="9" width="16" height="11" rx="2" />
+        <path d="M6 6h12M8 3h8" />
+      </>
+    ),
+  },
   experience: {
     background: 'linear-gradient(180deg, #7dd3fc, #2563eb)',
     glyph: (

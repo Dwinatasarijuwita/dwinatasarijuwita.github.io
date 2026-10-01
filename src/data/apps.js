@@ -3,6 +3,7 @@ import ContactApp from '../apps/ContactApp'
 import ExperienceApp from '../apps/ExperienceApp'
 import MusicApp from '../apps/MusicApp'
 import PhotosApp from '../apps/PhotosApp'
+import ProjectsApp from '../apps/ProjectsApp'
 import ResumeApp from '../apps/ResumeApp'
 import { profile } from './profile'
 
@@ -49,6 +50,14 @@ export const apps = [
     Component: PhotosApp,
     size: { width: 860, height: 620 },
     initialPosition: { x: 180, y: 40 },
+  },
+  {
+    id: 'projects',
+    placement: 'dock',
+    title: 'Projects',
+    Component: ProjectsApp,
+    size: { width: 760, height: 560 },
+    initialPosition: { x: 200, y: 44 },
   },
   {
     id: 'experience',

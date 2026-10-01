@@ -92,7 +92,7 @@ describe('Desktop', () => {
     render(<Desktop />)
     const dock = screen.getByRole('navigation', { name: 'Dock' })
     expect(within(dock).queryByRole('button', { name: 'Resume' })).not.toBeInTheDocument()
-    expect(within(dock).getAllByRole('button')).toHaveLength(4)
+    expect(within(dock).getAllByRole('button')).toHaveLength(5)
 
     fireEvent.click(resumeFile())
     expect(screen.getByRole('dialog', { name: 'Resume' })).toBeInTheDocument()
@@ -241,5 +241,12 @@ describe('Desktop', () => {
     render(<Desktop />)
     openFromDock('Photos')
     expect(screen.getByRole('dialog', { name: 'Photos' })).toBeInTheDocument()
+  })
+
+  it('opens Projects from the Dock', () => {
+    render(<Desktop />)
+    openFromDock('Projects')
+    const win = screen.getByRole('dialog', { name: 'Projects' })
+    expect(within(win).getByRole('list', { name: 'Projects' })).toBeInTheDocument()
   })
 })

@@ -67,6 +67,22 @@ describe('ProjectsApp', () => {
     expect(scroller.scrollTop).toBe(0)
   })
 
+  it('keeps keyboard focus inside the app when switching views', () => {
+    render(<ProjectsApp />)
+    const row = within(list()).getByRole('button', { name: /Permata Indonesia Business/ })
+    row.focus()
+    fireEvent.click(row)
+    const back = screen.getByRole('button', { name: '‹ Projects' })
+    expect(back).toHaveFocus()
+    fireEvent.click(back)
+    expect(within(list()).getByRole('button', { name: /Permata Indonesia Business/ })).toHaveFocus()
+  })
+
+  it('does not take focus when it first opens', () => {
+    render(<ProjectsApp />)
+    expect(document.body).toHaveFocus()
+  })
+
   it('starts on the list again when reopened', () => {
     const { unmount } = render(<ProjectsApp />)
     openDetail('Permata Job Apply')

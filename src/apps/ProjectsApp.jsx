@@ -4,10 +4,18 @@ import { projects } from '../data/projects'
 export default function ProjectsApp() {
   const [selectedId, setSelectedId] = useState(null)
   const scrollerRef = useRef(null)
+  const previousIdRef = useRef(null)
   const selected = projects.find((project) => project.id === selectedId)
 
   useEffect(() => {
-    if (scrollerRef.current) scrollerRef.current.scrollTop = 0
+    const scroller = scrollerRef.current
+    if (!scroller) return
+    scroller.scrollTop = 0
+    // The button that switched views has unmounted, so move focus to its counterpart in the new view.
+    const previousId = previousIdRef.current
+    previousIdRef.current = selectedId
+    if (selectedId) scroller.querySelector('[data-back]')?.focus()
+    else if (previousId) scroller.querySelector(`[data-project-id="${previousId}"]`)?.focus()
   }, [selectedId])
 
   return (
@@ -32,6 +40,7 @@ function ProjectList({ onSelect }) {
             {/* The Open link is a sibling, not a child, of this button so clicking it only opens the site. */}
             <button
               type="button"
+              data-project-id={project.id}
               onClick={() => onSelect(project.id)}
               className="flex min-w-0 flex-1 items-center gap-3 rounded-lg text-left focus-visible:outline-2 focus-visible:outline-blue-500"
             >
@@ -52,7 +61,7 @@ function ProjectList({ onSelect }) {
 function ProjectDetail({ project, onBack }) {
   return (
     <article aria-label={project.name} className="p-6">
-      <button type="button" onClick={onBack} className="text-sm text-blue-600 hover:underline">
+      <button type="button" data-back onClick={onBack} className="text-sm text-blue-600 hover:underline">
         ‹ Projects
       </button>
       <header className="mt-4 flex items-center gap-4">

@@ -46,4 +46,14 @@ describe('Dock', () => {
     expect(screen.getByRole('button', { name: 'Contact' })).toHaveAttribute('data-open', 'true')
     expect(screen.getByRole('button', { name: 'About Me' })).toHaveAttribute('data-open', 'false')
   })
+
+  it('separates Trash from the other apps with a divider', () => {
+    render(<Dock apps={apps} windows={windowsWith([])} onOpen={() => {}} />)
+    const dock = screen.getByRole('navigation', { name: 'Dock' })
+    const separators = within(dock).getAllByRole('separator')
+    expect(separators).toHaveLength(1)
+    const trash = within(dock).getByRole('button', { name: 'Trash' })
+    expect(separators[0].compareDocumentPosition(trash) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(within(dock).getByRole('link', { name: 'Instagram' }).compareDocumentPosition(separators[0]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
 })

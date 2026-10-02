@@ -92,7 +92,7 @@ describe('Desktop', () => {
     render(<Desktop />)
     const dock = screen.getByRole('navigation', { name: 'Dock' })
     expect(within(dock).queryByRole('button', { name: 'Resume' })).not.toBeInTheDocument()
-    expect(within(dock).getAllByRole('button')).toHaveLength(5)
+    expect(within(dock).getAllByRole('button')).toHaveLength(6)
 
     fireEvent.click(resumeFile())
     expect(screen.getByRole('dialog', { name: 'Resume' })).toBeInTheDocument()

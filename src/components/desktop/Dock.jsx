@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react'
-import { useRef } from 'react'
+import { Fragment, useRef } from 'react'
 import { useEdgeReveal } from '../../hooks/useEdgeReveal'
 import AppIcon from '../AppIcon'
 import { DOCK_HEIGHT } from './constants'
@@ -37,8 +37,13 @@ export default function Dock({ apps, windows, onOpen, autoHide = false }) {
           className="pointer-events-auto flex items-end gap-3 rounded-2xl border border-white/30 bg-white/25 px-3 pb-1 pt-2 shadow-lg ring-1 ring-black/10 backdrop-blur-xl"
           style={{ height: DOCK_HEIGHT - 16 }}
         >
-          {apps.map((app) => (
-            <DockItem key={app.id} app={app} isOpen={windows[app.id]?.isOpen ?? false} mouseX={mouseX} onOpen={onOpen} />
+          {apps.map((app, index) => (
+            <Fragment key={app.id}>
+              {index > 0 && app.dockGroup === 'end' && apps[index - 1].dockGroup !== 'end' && (
+                <span role="separator" aria-orientation="vertical" className="mb-2 h-10 w-px self-center bg-gray-900/20" />
+              )}
+              <DockItem app={app} isOpen={windows[app.id]?.isOpen ?? false} mouseX={mouseX} onOpen={onOpen} />
+            </Fragment>
           ))}
         </div>
       </motion.nav>

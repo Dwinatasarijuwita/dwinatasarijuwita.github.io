@@ -15,6 +15,7 @@ describe('apps', () => {
       ['github', 'GitHub'],
       ['linkedin', 'LinkedIn'],
       ['instagram', 'Instagram'],
+      ['trash', 'Trash'],
     ])
   })
 
@@ -39,6 +40,7 @@ describe('apps', () => {
       ['github', 'dock'],
       ['linkedin', 'dock'],
       ['instagram', 'dock'],
+      ['trash', 'dock'],
     ])
     const resume = apps.find((app) => app.id === 'resume')
     expect(resume.desktopLabel).toBe('Dwi Natasari Juwita - CV.pdf')
@@ -59,5 +61,12 @@ describe('apps', () => {
     expect(app.kind).toBe('link')
     expect(app.url).toBe(profile[id])
     expect(app.Component).toBeUndefined()
+  })
+
+  it('puts Trash last, in its own Dock group', () => {
+    const trash = apps.at(-1)
+    expect(trash.id).toBe('trash')
+    expect(trash.dockGroup).toBe('end')
+    expect(apps.filter((app) => app.dockGroup === 'end')).toEqual([trash])
   })
 })

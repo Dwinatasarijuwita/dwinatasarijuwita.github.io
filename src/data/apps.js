@@ -5,6 +5,7 @@ import MusicApp from '../apps/MusicApp'
 import PhotosApp from '../apps/PhotosApp'
 import ProjectsApp from '../apps/ProjectsApp'
 import ResumeApp from '../apps/ResumeApp'
+import TrashApp from '../apps/TrashApp'
 import { profile } from './profile'
 
 export const apps = [
@@ -90,5 +91,15 @@ export const apps = [
     kind: 'link',
     title: 'Instagram',
     url: profile.instagram,
+  },
+  // Like on a Mac, Trash sits at the far end of the Dock, after a divider.
+  {
+    id: 'trash',
+    placement: 'dock',
+    dockGroup: 'end',
+    title: 'Trash',
+    Component: TrashApp,
+    size: { width: 720, height: 480 },
+    initialPosition: { x: 240, y: 60 },
   },
 ]

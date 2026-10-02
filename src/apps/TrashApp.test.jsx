@@ -90,4 +90,23 @@ describe('TrashApp', () => {
     expect(fireEvent.keyDown(keep, { key: 'Tab' })).toBe(false)
     expect(keep).toHaveFocus()
   })
+
+  it('keeps focus in the alert when its backdrop is clicked', () => {
+    render(<TrashApp />)
+    fireEvent.click(screen.getByRole('button', { name: 'Empty' }))
+    const backdrop = screen.getByRole('alertdialog').parentElement
+    expect(fireEvent.mouseDown(backdrop)).toBe(false)
+    expect(screen.getByRole('button', { name: 'Keep Them' })).toHaveFocus()
+  })
+
+  it('makes everything behind the alert inert while it is open', () => {
+    render(<TrashApp />)
+    const empty = screen.getByRole('button', { name: 'Empty' })
+    fireEvent.click(empty)
+    expect(empty.closest('[inert]')).not.toBeNull()
+    expect(sidebar().closest('[inert]')).not.toBeNull()
+    expect(screen.getByRole('alertdialog').closest('[inert]')).toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: 'Keep Them' }))
+    expect(document.querySelector('[data-testid="trash"] [inert]')).toBeNull()
+  })
 })

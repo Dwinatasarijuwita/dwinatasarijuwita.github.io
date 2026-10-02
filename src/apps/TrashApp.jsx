@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import AppIcon from '../components/AppIcon'
 import { dreams } from '../data/dreams'
 
@@ -38,7 +39,8 @@ export default function TrashApp() {
   }
 
   function closeEmptyAlert() {
-    setConfirmingEmpty(false)
+    // Empty only becomes focusable again once the alert is gone and the rest of the app is no longer inert.
+    flushSync(() => setConfirmingEmpty(false))
     emptyRef.current.focus()
   }
 
@@ -49,7 +51,7 @@ export default function TrashApp() {
       data-view={view}
       className="group/trash @container relative flex h-full flex-col bg-white text-gray-900"
     >
-      <div className="flex shrink-0 items-center justify-between border-b border-gray-200 bg-gray-100 px-4 py-2">
+      <div inert={confirmingEmpty} className="flex shrink-0 items-center justify-between border-b border-gray-200 bg-gray-100 px-4 py-2">
         <p className="text-sm font-medium text-gray-600">Trash — {dreams.length} dreams</p>
         <button
           ref={emptyRef}
@@ -61,7 +63,7 @@ export default function TrashApp() {
         </button>
       </div>
 
-      <div className="flex min-h-0 flex-1">
+      <div inert={confirmingEmpty} className="flex min-h-0 flex-1">
         <nav
           aria-label="Dreams"
           className="hidden w-full shrink-0 flex-col gap-4 overflow-y-auto bg-gray-50 p-3 group-data-[view=list]/trash:flex @min-[520px]:flex @min-[520px]:w-52 @min-[520px]:border-r @min-[520px]:border-gray-200"
@@ -171,7 +173,8 @@ function EmptyAlert({ onClose }) {
   }
 
   return (
-    <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/20 p-4">
+    // Clicks on the backdrop must not pull focus out of the alert.
+    <div onMouseDown={(event) => event.preventDefault()} className="absolute inset-0 z-10 flex items-center justify-center bg-black/20 p-4">
       <div
         role="alertdialog"
         aria-modal="true"

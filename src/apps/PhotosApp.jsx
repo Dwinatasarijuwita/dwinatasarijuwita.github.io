@@ -41,11 +41,11 @@ export default function PhotosApp() {
   }, [index])
 
   if (!photo) {
-    return <p className="p-6 text-sm text-gray-500">No photos yet.</p>
+    return <p className="p-6 text-sm text-gray-500 dark:text-neutral-400">No photos yet.</p>
   }
 
   return (
-    <div className="flex h-full flex-col bg-[#f5f5f5]">
+    <div className="flex h-full flex-col bg-[#f5f5f5] dark:bg-neutral-950">
       <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden p-3">
         <motion.img
           key={photo.id}
@@ -63,7 +63,7 @@ export default function PhotosApp() {
         />
       </div>
       {/* w-max + mx-auto centres the strip when it fits and still scrolls from the left when it doesn't. */}
-      <div ref={stripRef} className="shrink-0 overflow-x-auto border-t border-black/5 bg-white">
+      <div ref={stripRef} className="shrink-0 overflow-x-auto border-t border-black/5 bg-white dark:border-white/10 dark:bg-neutral-900">
         <ul aria-label="All photos" className="mx-auto flex w-max gap-1 p-1">
           {photos.map((item, itemIndex) => {
             const isCurrent = itemIndex === index

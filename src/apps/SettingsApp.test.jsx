@@ -36,4 +36,12 @@ describe('SettingsApp', () => {
     expect(document.documentElement).toHaveClass('dark')
     expect(localStorage.getItem('theme')).toBe('dark')
   })
+
+  // jsdom has no stylesheet, so check the classes: in dark mode a plain `dark:ring-*` would
+  // outrank `peer-checked:ring-blue-500` and hide which card is chosen.
+  it('keeps the blue ring on the chosen card in dark mode', () => {
+    renderSettings()
+    const preview = screen.getByRole('radio', { name: 'Dark' }).nextElementSibling
+    expect(preview).toHaveClass('peer-checked:ring-blue-500', 'dark:peer-checked:ring-blue-500')
+  })
 })

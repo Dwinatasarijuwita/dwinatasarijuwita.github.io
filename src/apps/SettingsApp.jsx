@@ -29,7 +29,7 @@ export default function SettingsApp() {
             />
             <Preview
               kind={choice.value}
-              className="ring-1 ring-black/10 peer-checked:ring-2 peer-checked:ring-blue-500 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-blue-500 dark:ring-white/10"
+              className="ring-1 ring-black/10 peer-checked:ring-2 peer-checked:ring-blue-500 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-blue-500 dark:ring-white/10 dark:peer-checked:ring-blue-500"
             />
             <span className="text-sm peer-checked:font-semibold">{choice.label}</span>
           </label>

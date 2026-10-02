@@ -9,8 +9,8 @@ const GROUPS = [
 ]
 
 const BADGES = {
-  'not-yet': { label: 'Not yet', className: 'bg-amber-100 text-amber-800' },
-  'no-longer-possible': { label: 'No longer possible', className: 'bg-gray-200 text-gray-700' },
+  'not-yet': { label: 'Not yet', className: 'bg-amber-100 text-amber-800 dark:bg-amber-400/15 dark:text-amber-300' },
+  'no-longer-possible': { label: 'No longer possible', className: 'bg-gray-200 text-gray-700 dark:bg-neutral-700 dark:text-neutral-300' },
 }
 
 export default function TrashApp() {
@@ -49,15 +49,15 @@ export default function TrashApp() {
       ref={rootRef}
       data-testid="trash"
       data-view={view}
-      className="group/trash @container relative flex h-full flex-col bg-white text-gray-900"
+      className="group/trash @container relative flex h-full flex-col bg-white text-gray-900 dark:bg-neutral-900 dark:text-neutral-100"
     >
-      <div inert={confirmingEmpty} className="flex shrink-0 items-center justify-between border-b border-gray-200 bg-gray-100 px-4 py-2">
-        <p className="text-sm font-medium text-gray-600">Trash — {dreams.length} dreams</p>
+      <div inert={confirmingEmpty} className="flex shrink-0 items-center justify-between border-b border-gray-200 bg-gray-100 px-4 py-2 dark:border-white/10 dark:bg-neutral-800">
+        <p className="text-sm font-medium text-gray-600 dark:text-neutral-300">Trash — {dreams.length} dreams</p>
         <button
           ref={emptyRef}
           type="button"
           onClick={() => setConfirmingEmpty(true)}
-          className="rounded-md border border-gray-300 bg-white px-3 py-0.5 text-sm shadow-sm hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-blue-500"
+          className="rounded-md border border-gray-300 bg-white px-3 py-0.5 text-sm shadow-sm hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-blue-500 dark:border-white/10 dark:bg-neutral-900 dark:hover:bg-neutral-800"
         >
           Empty
         </button>
@@ -66,11 +66,11 @@ export default function TrashApp() {
       <div inert={confirmingEmpty} className="flex min-h-0 flex-1">
         <nav
           aria-label="Dreams"
-          className="hidden w-full shrink-0 flex-col gap-4 overflow-y-auto bg-gray-50 p-3 group-data-[view=list]/trash:flex @min-[520px]:flex @min-[520px]:w-52 @min-[520px]:border-r @min-[520px]:border-gray-200"
+          className="hidden w-full shrink-0 flex-col gap-4 overflow-y-auto bg-gray-50 p-3 group-data-[view=list]/trash:flex @min-[520px]:flex @min-[520px]:w-52 @min-[520px]:border-r @min-[520px]:border-gray-200 dark:bg-neutral-800 dark:@min-[520px]:border-white/10"
         >
           {GROUPS.map((group) => (
             <section key={group.status}>
-              <h3 className="px-2 text-[11px] font-semibold uppercase tracking-wide text-gray-400">{group.heading}</h3>
+              <h3 className="px-2 text-[11px] font-semibold uppercase tracking-wide text-gray-400 dark:text-neutral-400">{group.heading}</h3>
               <ul className="mt-1">
                 {dreams
                   .filter((dream) => dream.status === group.status)
@@ -81,7 +81,7 @@ export default function TrashApp() {
                         data-dream-id={dream.id}
                         aria-current={dream.id === selectedId ? 'true' : undefined}
                         onClick={() => pick(dream.id)}
-                        className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm hover:bg-gray-200/70 focus-visible:outline-2 focus-visible:outline-blue-500 aria-[current=true]:bg-gray-200"
+                        className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm hover:bg-gray-200/70 dark:hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-blue-500 aria-[current=true]:bg-gray-200 dark:aria-[current=true]:bg-neutral-700"
                       >
                         <DocumentGlyph className="size-4 shrink-0" />
                         <span className="truncate">{dream.title}</span>
@@ -98,7 +98,7 @@ export default function TrashApp() {
             type="button"
             data-back
             onClick={() => setView('list')}
-            className="mb-4 self-start text-sm text-blue-600 focus-visible:outline-2 focus-visible:outline-blue-500 @min-[520px]:hidden"
+            className="mb-4 self-start text-sm text-blue-600 focus-visible:outline-2 focus-visible:outline-blue-500 @min-[520px]:hidden dark:text-blue-400"
           >
             ‹ Trash
           </button>
@@ -113,39 +113,39 @@ export default function TrashApp() {
             </div>
           </header>
 
-          <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 border-y border-gray-200 py-3 text-sm">
-            <dt className="text-gray-500">Where</dt>
+          <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 border-y border-gray-200 py-3 text-sm dark:border-white/10">
+            <dt className="text-gray-500 dark:text-neutral-400">Where</dt>
             <dd>Dreams › {selected.category}</dd>
-            <dt className="text-gray-500">Date Added</dt>
+            <dt className="text-gray-500 dark:text-neutral-400">Date Added</dt>
             <dd>{selected.added}</dd>
-            <dt className="text-gray-500">Date Deleted</dt>
+            <dt className="text-gray-500 dark:text-neutral-400">Date Deleted</dt>
             <dd>{selected.deleted ?? '—'}</dd>
           </dl>
 
-          <p className="mt-4 leading-relaxed text-gray-700">{selected.story}</p>
+          <p className="mt-4 leading-relaxed text-gray-700 dark:text-neutral-300">{selected.story}</p>
 
           {selected.instead && (
             <section className="mt-5">
-              <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-400">What came instead</h3>
-              <p className="mt-1 leading-relaxed text-gray-700">{selected.instead}</p>
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-neutral-400">What came instead</h3>
+              <p className="mt-1 leading-relaxed text-gray-700 dark:text-neutral-300">{selected.instead}</p>
             </section>
           )}
 
           <div className="mt-auto flex flex-col items-end gap-1 pt-6">
             <div className="flex items-center gap-3">
               {selected.status === 'no-longer-possible' && (
-                <span className="text-xs text-gray-500">The original location no longer exists.</span>
+                <span className="text-xs text-gray-500 dark:text-neutral-400">The original location no longer exists.</span>
               )}
               <button
                 type="button"
                 disabled={selected.status === 'no-longer-possible'}
                 onClick={() => setPutBack(true)}
-                className="rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-blue-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-white"
+                className="rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-blue-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-white dark:border-white/10 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:disabled:hover:bg-neutral-900"
               >
                 Put Back
               </button>
             </div>
-            <p aria-live="polite" className="text-xs text-gray-500">
+            <p aria-live="polite" className="text-xs text-gray-500 dark:text-neutral-400">
               {putBack ? 'Still on the list — working on it.' : ''}
             </p>
           </div>
@@ -181,13 +181,13 @@ function EmptyAlert({ onClose }) {
         aria-labelledby={`${id}-title`}
         aria-describedby={`${id}-body`}
         onKeyDown={onKeyDown}
-        className="w-full max-w-xs rounded-xl bg-gray-50 p-5 text-center shadow-2xl ring-1 ring-black/10"
+        className="w-full max-w-xs rounded-xl bg-gray-50 p-5 text-center shadow-2xl ring-1 ring-black/10 dark:bg-neutral-800 dark:ring-white/10"
       >
         <AppIcon id="trash" className="mx-auto size-12" />
         <h3 id={`${id}-title`} className="mt-3 text-sm font-semibold">
           Are you sure you want to permanently erase these dreams?
         </h3>
-        <p id={`${id}-body`} className="mt-2 text-xs text-gray-600">
+        <p id={`${id}-body`} className="mt-2 text-xs text-gray-600 dark:text-neutral-300">
           Some dreams are worth keeping, even the ones that didn't happen.
         </p>
         <button

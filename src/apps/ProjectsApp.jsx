@@ -19,7 +19,7 @@ export default function ProjectsApp() {
   }, [selectedId])
 
   return (
-    <div ref={scrollerRef} className="h-full overflow-y-auto bg-white text-gray-900">
+    <div ref={scrollerRef} className="h-full overflow-y-auto bg-white text-gray-900 dark:bg-neutral-900 dark:text-neutral-100">
       {selected ? (
         <ProjectDetail project={selected} onBack={() => setSelectedId(null)} />
       ) : (
@@ -33,8 +33,8 @@ function ProjectList({ onSelect }) {
   return (
     <div className="p-6">
       <h2 className="text-3xl font-bold">Projects</h2>
-      <p className="mt-1 text-sm text-gray-500">Team projects I've worked on at Permata Indonesia.</p>
-      <ul aria-label="Projects" className="mt-5 divide-y divide-gray-200 border-y border-gray-200">
+      <p className="mt-1 text-sm text-gray-500 dark:text-neutral-400">Team projects I've worked on at Permata Indonesia.</p>
+      <ul aria-label="Projects" className="mt-5 divide-y divide-gray-200 border-y border-gray-200 dark:divide-white/10 dark:border-white/10">
         {projects.map((project) => (
           <li key={project.id} className="flex items-center gap-3 py-3">
             {/* The Open link is a sibling, not a child, of this button so clicking it only opens the site. */}
@@ -47,7 +47,7 @@ function ProjectList({ onSelect }) {
               <ProjectIcon initials={project.initials} className="size-14 text-lg" />
               <span className="min-w-0">
                 <span className="line-clamp-2 font-semibold leading-snug">{project.name}</span>
-                <span className="block truncate text-sm text-gray-500">{project.subtitle}</span>
+                <span className="block truncate text-sm text-gray-500 dark:text-neutral-400">{project.subtitle}</span>
               </span>
             </button>
             <OpenButton project={project} />
@@ -61,17 +61,17 @@ function ProjectList({ onSelect }) {
 function ProjectDetail({ project, onBack }) {
   return (
     <article aria-label={project.name} className="p-6">
-      <button type="button" data-back onClick={onBack} className="text-sm text-blue-600 hover:underline">
+      <button type="button" data-back onClick={onBack} className="text-sm text-blue-600 hover:underline dark:text-blue-400">
         ‹ Projects
       </button>
       <header className="mt-4 flex items-center gap-4">
         <ProjectIcon initials={project.initials} className="size-20 text-2xl sm:size-24 sm:text-3xl" />
         <div className="min-w-0">
           <h2 className="text-xl font-bold sm:text-2xl">{project.name}</h2>
-          <p className="text-sm text-gray-500">{project.subtitle}</p>
+          <p className="text-sm text-gray-500 dark:text-neutral-400">{project.subtitle}</p>
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <OpenButton project={project} prominent />
-            <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">Team project</span>
+            <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-400/15 dark:text-blue-300">Team project</span>
           </div>
         </div>
       </header>
@@ -84,7 +84,7 @@ function ProjectDetail({ project, onBack }) {
               width={shot.width}
               height={shot.height}
               loading="lazy"
-              className="h-48 w-auto rounded-xl border border-gray-200 sm:h-64"
+              className="h-48 w-auto rounded-xl border border-gray-200 sm:h-64 dark:border-white/10"
             />
           </li>
         ))}
@@ -103,7 +103,7 @@ function ProjectDetail({ project, onBack }) {
       <Section title="Tech Stack">
         <ul aria-label="Tech stack" className="flex flex-wrap gap-2">
           {project.tech.map((item) => (
-            <li key={item} className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+            <li key={item} className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:bg-neutral-800 dark:text-neutral-300">
               {item}
             </li>
           ))}
@@ -115,8 +115,8 @@ function ProjectDetail({ project, onBack }) {
 
 function Section({ title, children }) {
   return (
-    <section aria-label={title} className="mt-6 border-t border-gray-200 pt-4 text-sm leading-relaxed text-gray-700">
-      <h3 className="mb-2 text-base font-semibold text-gray-900">{title}</h3>
+    <section aria-label={title} className="mt-6 border-t border-gray-200 pt-4 text-sm leading-relaxed text-gray-700 dark:border-white/10 dark:text-neutral-300">
+      <h3 className="mb-2 text-base font-semibold text-gray-900 dark:text-neutral-100">{title}</h3>
       {children}
     </section>
   )
@@ -141,7 +141,7 @@ function OpenButton({ project, prominent = false }) {
       rel="noopener noreferrer"
       aria-label={`Open ${project.name}`}
       className={`inline-block shrink-0 rounded-full px-4 py-1 text-sm font-semibold ${
-        prominent ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-blue-600 hover:bg-gray-200'
+        prominent ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-100 text-blue-600 hover:bg-gray-200 dark:bg-neutral-800 dark:text-blue-400 dark:hover:bg-neutral-700'
       }`}
     >
       Open

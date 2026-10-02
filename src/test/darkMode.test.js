@@ -1,11 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 // Files still waiting for their dark look. Shrinks to empty as each part of the site is done.
-const PENDING = [
-  'src/apps/ProjectsApp.jsx',
-  'src/apps/ResumeApp.jsx',
-  'src/apps/TrashApp.jsx',
-]
+const PENDING = []
 
 const sources = Object.entries(import.meta.glob('../**/*.jsx', { query: '?raw', import: 'default', eager: true }))
   .filter(([path]) => !path.endsWith('.test.jsx'))

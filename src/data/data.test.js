@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
+import { dreams } from './dreams'
 import { experience } from './experience'
 import { profile } from './profile'
 import { projects } from './projects'
@@ -94,3 +95,16 @@ function jpegSize(bytes) {
   }
   throw new Error('No JPEG size found')
 }
+
+describe('dreams', () => {
+  it('lists the dreams in the Trash, not-yet first', () => {
+    expect(dreams.map((d) => [d.id, d.title, d.status, d.category, d.added, d.deleted])).toEqual([
+      ['travel-solo', 'Travel the World Solo', 'not-yet', 'Travel', 'College', undefined],
+      ['umrah', 'Umrah with My Parents', 'not-yet', 'Faith', 'College', undefined],
+      ['ugm', 'Study at UGM', 'no-longer-possible', 'Education', 'High school', '2018'],
+      ['accounting', 'Work in Accounting', 'no-longer-possible', 'Career', 'Junior high', '2018'],
+    ])
+    for (const dream of dreams) expect(dream.story.length).toBeGreaterThan(0)
+    expect(dreams.filter((d) => d.instead).map((d) => d.id)).toEqual(['accounting'])
+  })
+})

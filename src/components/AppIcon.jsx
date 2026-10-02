@@ -66,6 +66,26 @@ const ICONS = {
       </>
     ),
   },
+  // Our own drawing in the style of the macOS Trash (not Apple's artwork): a see-through mesh bin, full of
+  // crumpled paper. Like the real one it has no tile, except where `tiled` asks for one.
+  trash: {
+    tile: false,
+    glyphClassName: 'h-full w-full',
+    tiledGlyphClassName: 'h-4/5 w-4/5',
+    glyph: (
+      <g strokeWidth="0.5" stroke="#9ca3af">
+        <path fill="white" d="M6.8 7l.7-3.4 2.3-.9 1.7 1.5L11.2 7z" />
+        <path fill="#f9fafb" d="M10.6 7l1-3.9 2.6-.8 2.5 1.5.6 3.2z" />
+        <path fill="white" d="M8.4 7.2l1.6-1.9 2.4.5 1.2 1.6z" />
+        <path fill="#e5e7eb" fillOpacity="0.6" strokeWidth="0.7" d="M4.8 6.2l1.6 14.4Q12 22.6 17.6 20.6l1.6-14.4z" />
+        <path
+          opacity="0.8"
+          d="M8 6.9l.6 14.4M10.5 7.1l.3 14.7M13.5 7.1l-.3 14.7M16 6.9l-.6 14.4M5.5 12.6Q12 14.2 18.5 12.6M6 17Q12 18.6 18 17"
+        />
+        <ellipse cx="12" cy="6.2" rx="7.2" ry="1.3" fill="none" stroke="#6b7280" strokeWidth="0.9" />
+      </g>
+    ),
+  },
   // The official GitHub mark, unmodified and white, as GitHub's brand rules allow for profile links.
   github: {
     background: 'linear-gradient(180deg, #2d333b, #0d1117)',
@@ -102,17 +122,20 @@ const ICONS = {
   },
 }
 
-export default function AppIcon({ id, className = '' }) {
+const PLAIN_TILE = 'linear-gradient(180deg, #f3f4f6, #d1d5db)'
+
+export default function AppIcon({ id, className = '', tiled = false }) {
   const icon = ICONS[id]
+  const hasTile = icon.tile !== false || tiled
   return (
     <span
       aria-hidden="true"
-      className={`flex aspect-square items-center justify-center rounded-[22%] shadow-md ${className}`}
-      style={{ background: icon.background }}
+      className={`flex aspect-square items-center justify-center rounded-[22%] ${hasTile ? 'shadow-md' : 'drop-shadow-md'} ${className}`}
+      style={{ background: hasTile ? (icon.background ?? PLAIN_TILE) : undefined }}
     >
       <svg
         viewBox="0 0 24 24"
-        className={icon.glyphClassName ?? 'h-3/5 w-3/5'}
+        className={(tiled && icon.tiledGlyphClassName) || icon.glyphClassName || 'h-3/5 w-3/5'}
         fill="none"
         stroke="white"
         strokeWidth="1.8"

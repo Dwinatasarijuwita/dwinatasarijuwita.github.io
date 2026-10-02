@@ -84,7 +84,7 @@ function LaunchButton({ app, onLaunch, showLabel = false }) {
         aria-label={app.title}
         className="flex w-full flex-col items-center gap-1"
       >
-        <AppIcon id={app.id} className="size-14" />
+        <AppIcon id={app.id} className="size-14" tiled />
         {showLabel && <span className="text-xs font-medium [text-shadow:0_1px_3px_rgb(0_0_0/0.8)]">{app.title}</span>}
       </a>
     )
@@ -97,7 +97,7 @@ function LaunchButton({ app, onLaunch, showLabel = false }) {
       onClick={(event) => onLaunch(app.id, event)}
       className="flex w-full flex-col items-center gap-1"
     >
-      <AppIcon id={app.id} className="size-14" />
+      <AppIcon id={app.id} className="size-14" tiled />
       {showLabel && <span className="text-xs font-medium [text-shadow:0_1px_3px_rgb(0_0_0/0.8)]">{app.title}</span>}
     </button>
   )

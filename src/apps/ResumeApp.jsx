@@ -63,7 +63,7 @@ export default function ResumeApp() {
         <a
           href={url}
           download={downloadName}
-          className="rounded-md bg-white px-3 py-1 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-gray-200 hover:bg-gray-100 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-800"
+          className="rounded-md bg-white px-3 py-1 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-gray-200 hover:bg-gray-100 dark:bg-neutral-900 dark:ring-white/10 dark:text-neutral-300 dark:hover:bg-neutral-800"
         >
           Download
         </a>

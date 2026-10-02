@@ -60,4 +60,34 @@ describe('TrashApp', () => {
     expect(root).toHaveAttribute('data-view', 'list')
     expect(within(sidebar()).getByRole('button', { name: 'Study at UGM' })).toHaveFocus()
   })
+
+  it('asks before emptying and keeps everything', () => {
+    render(<TrashApp />)
+    const empty = screen.getByRole('button', { name: 'Empty' })
+    fireEvent.click(empty)
+    const alert = screen.getByRole('alertdialog', { name: 'Are you sure you want to permanently erase these dreams?' })
+    expect(alert).toHaveAccessibleDescription("Some dreams are worth keeping, even the ones that didn't happen.")
+    const keep = within(alert).getByRole('button', { name: 'Keep Them' })
+    expect(keep).toHaveFocus()
+    fireEvent.click(keep)
+    expect(screen.queryByRole('alertdialog')).toBeNull()
+    expect(empty).toHaveFocus()
+    expect(within(sidebar()).getAllByRole('button')).toHaveLength(4)
+  })
+
+  it('closes the alert with Escape', () => {
+    render(<TrashApp />)
+    fireEvent.click(screen.getByRole('button', { name: 'Empty' }))
+    fireEvent.keyDown(screen.getByRole('alertdialog'), { key: 'Escape' })
+    expect(screen.queryByRole('alertdialog')).toBeNull()
+    expect(screen.getByRole('button', { name: 'Empty' })).toHaveFocus()
+  })
+
+  it('keeps focus inside the alert on Tab', () => {
+    render(<TrashApp />)
+    fireEvent.click(screen.getByRole('button', { name: 'Empty' }))
+    const keep = screen.getByRole('button', { name: 'Keep Them' })
+    expect(fireEvent.keyDown(keep, { key: 'Tab' })).toBe(false)
+    expect(keep).toHaveFocus()
+  })
 })

@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
+import AppIcon from '../components/AppIcon'
 import { dreams } from '../data/dreams'
 
 const GROUPS = [
@@ -16,6 +17,8 @@ export default function TrashApp() {
   // Only matters below 520px, where the list and the detail take turns; wider windows show both.
   const [view, setView] = useState('list')
   const [putBack, setPutBack] = useState(false)
+  const [confirmingEmpty, setConfirmingEmpty] = useState(false)
+  const emptyRef = useRef(null)
   const rootRef = useRef(null)
   const previousViewRef = useRef(view)
   const selected = dreams.find((dream) => dream.id === selectedId)
@@ -34,6 +37,11 @@ export default function TrashApp() {
     setPutBack(false)
   }
 
+  function closeEmptyAlert() {
+    setConfirmingEmpty(false)
+    emptyRef.current.focus()
+  }
+
   return (
     <div
       ref={rootRef}
@@ -44,7 +52,9 @@ export default function TrashApp() {
       <div className="flex shrink-0 items-center justify-between border-b border-gray-200 bg-gray-100 px-4 py-2">
         <p className="text-sm font-medium text-gray-600">Trash — {dreams.length} dreams</p>
         <button
+          ref={emptyRef}
           type="button"
+          onClick={() => setConfirmingEmpty(true)}
           className="rounded-md border border-gray-300 bg-white px-3 py-0.5 text-sm shadow-sm hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-blue-500"
         >
           Empty
@@ -138,6 +148,53 @@ export default function TrashApp() {
             </p>
           </div>
         </article>
+      </div>
+
+      {confirmingEmpty && <EmptyAlert onClose={closeEmptyAlert} />}
+    </div>
+  )
+}
+
+// A macOS-style confirmation whose only answer is to keep everything: the Trash is never emptied.
+function EmptyAlert({ onClose }) {
+  const id = useId()
+  const keepRef = useRef(null)
+
+  useEffect(() => {
+    keepRef.current.focus()
+  }, [])
+
+  function onKeyDown(event) {
+    if (event.key === 'Escape') onClose()
+    // "Keep Them" is the only control, so Tab has nowhere else to go.
+    if (event.key === 'Tab') event.preventDefault()
+  }
+
+  return (
+    <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/20 p-4">
+      <div
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby={`${id}-title`}
+        aria-describedby={`${id}-body`}
+        onKeyDown={onKeyDown}
+        className="w-full max-w-xs rounded-xl bg-gray-50 p-5 text-center shadow-2xl ring-1 ring-black/10"
+      >
+        <AppIcon id="trash" className="mx-auto size-12" />
+        <h3 id={`${id}-title`} className="mt-3 text-sm font-semibold">
+          Are you sure you want to permanently erase these dreams?
+        </h3>
+        <p id={`${id}-body`} className="mt-2 text-xs text-gray-600">
+          Some dreams are worth keeping, even the ones that didn't happen.
+        </p>
+        <button
+          ref={keepRef}
+          type="button"
+          onClick={onClose}
+          className="mt-4 w-full rounded-md bg-blue-500 px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+        >
+          Keep Them
+        </button>
       </div>
     </div>
   )

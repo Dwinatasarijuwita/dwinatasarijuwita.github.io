@@ -8,12 +8,18 @@
     <!-- Apply the saved theme before first paint so dark-mode visitors never see a white flash.
          Must match src/lib/theme.js (checked by src/lib/themeScript.test.js). -->
     <script>
-      try {
-        var preference = localStorage.getItem('theme')
-        var dark = preference === 'dark' || (preference !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)
-        document.documentElement.classList.toggle('dark', dark)
-        document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
-      } catch (error) {}
+      ;(function () {
+        var preference
+        try {
+          preference = localStorage.getItem('theme')
+        } catch (error) {}
+        try {
+          // Blocked storage leaves `preference` unset, which means Auto: follow the device.
+          var dark = preference === 'dark' || (preference !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.classList.toggle('dark', dark)
+          document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
+        } catch (error) {}
+      })()
     </script>
   </head>
   <body>

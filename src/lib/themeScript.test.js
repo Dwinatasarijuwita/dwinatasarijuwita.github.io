@@ -39,6 +39,16 @@ describe('index.html theme script', () => {
     expect(document.documentElement.style.colorScheme).toBe(expectDark ? 'dark' : 'light')
   })
 
+  it('still follows a dark device when storage is blocked', () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('blocked')
+    })
+    setSystemDark(true)
+    run()
+    expect(document.documentElement).toHaveClass('dark')
+    expect(document.documentElement.style.colorScheme).toBe('dark')
+  })
+
   it('does not throw when storage is blocked', () => {
     vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
       throw new Error('blocked')

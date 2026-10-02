@@ -64,8 +64,8 @@ export default function Window({
       aria-label={title}
       aria-hidden={isMinimized || undefined}
       inert={isMinimized}
-      className={`absolute left-0 top-0 flex flex-col overflow-hidden bg-white outline-none ${
-        isMaximized ? 'rounded-none' : 'rounded-xl border border-black/10'
+      className={`absolute left-0 top-0 flex flex-col overflow-hidden bg-white outline-none dark:bg-neutral-900 ${
+        isMaximized ? 'rounded-none' : 'rounded-xl border border-black/10 dark:border-white/15'
       } ${
         isActive ? 'shadow-2xl' : 'shadow-lg'
       } ${isMinimized ? 'pointer-events-none' : ''}`}
@@ -99,8 +99,8 @@ export default function Window({
       onPointerDown={() => onFocus(id)}
     >
       <div
-        className={`flex h-10 shrink-0 select-none items-center px-3 shadow-[inset_0_-1px_0_rgb(0_0_0/0.05)] ${
-          isActive ? 'bg-gray-100' : 'bg-gray-50 opacity-70'
+        className={`flex h-10 shrink-0 select-none items-center px-3 shadow-[inset_0_-1px_0_rgb(0_0_0/0.05)] dark:shadow-[inset_0_-1px_0_rgb(0_0_0/0.4)] ${
+          isActive ? 'bg-gray-100 dark:bg-neutral-800' : 'bg-gray-50 opacity-70 dark:bg-neutral-800'
         }`}
         style={{ touchAction: 'none' }}
         onPointerDown={startDrag}
@@ -128,7 +128,7 @@ export default function Window({
             onClick={() => onToggleMaximize(id)}
           />
         </div>
-        <h2 className="flex-1 truncate text-center text-sm font-medium text-gray-700">{title}</h2>
+        <h2 className="flex-1 truncate text-center text-sm font-medium text-gray-700 dark:text-neutral-300">{title}</h2>
         <div className="w-[52px]" aria-hidden="true" />
       </div>
       <div className={`min-h-0 flex-1 overflow-auto ${isHeld ? 'pointer-events-none' : ''}`}>

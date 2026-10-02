@@ -42,10 +42,11 @@ export default function HomeScreen() {
   const gridApps = apps.slice(DOCK_SIZE)
 
   return (
-    <div className="fixed inset-0 flex flex-col overflow-hidden bg-cover bg-center text-white" style={wallpaperStyle}>
+    <div className="fixed inset-0 isolate flex flex-col overflow-hidden bg-cover bg-center text-white" style={wallpaperStyle}>
+      <div aria-hidden="true" data-testid="wallpaper-dim" className="pointer-events-none absolute inset-0 -z-10 hidden bg-black/35 dark:block" />
       <StatusBar />
       <main className="flex-1 overflow-y-auto px-5 pt-4">
-        <section aria-label="Greeting" className="flex items-center gap-4 rounded-3xl bg-white/20 p-4 backdrop-blur-xl">
+        <section aria-label="Greeting" className="flex items-center gap-4 rounded-3xl bg-white/20 p-4 backdrop-blur-xl dark:bg-black/30">
           <Avatar size="md" />
           <div className="min-w-0">
             <p className="text-lg font-semibold">{profile.name}</p>
@@ -62,7 +63,7 @@ export default function HomeScreen() {
           </ul>
         )}
       </main>
-      <nav aria-label="Dock" className="mx-3 mb-3 flex justify-around rounded-[2rem] bg-white/25 p-3 backdrop-blur-xl">
+      <nav aria-label="Dock" className="mx-3 mb-3 flex justify-around rounded-[2rem] bg-white/25 p-3 backdrop-blur-xl dark:bg-black/30">
         {dockApps.map((item) => (
           <LaunchButton key={item.id} app={item} onLaunch={launch} />
         ))}

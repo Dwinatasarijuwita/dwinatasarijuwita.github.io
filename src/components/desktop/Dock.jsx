@@ -34,13 +34,13 @@ export default function Dock({ apps, windows, onOpen, autoHide = false }) {
         <div
           onMouseMove={(event) => mouseX.set(event.clientX)}
           onMouseLeave={() => mouseX.set(Infinity)}
-          className="pointer-events-auto flex items-end gap-3 rounded-2xl border border-white/30 bg-white/25 px-3 pb-1 pt-2 shadow-lg ring-1 ring-black/10 backdrop-blur-xl"
+          className="pointer-events-auto flex items-end gap-3 rounded-2xl border border-white/30 bg-white/25 px-3 dark:border-white/10 dark:bg-black/30 pb-1 pt-2 shadow-lg ring-1 ring-black/10 backdrop-blur-xl"
           style={{ height: DOCK_HEIGHT - 16 }}
         >
           {apps.map((app, index) => (
             <Fragment key={app.id}>
               {index > 0 && app.dockGroup === 'end' && apps[index - 1].dockGroup !== 'end' && (
-                <span role="separator" aria-orientation="vertical" className="mb-2 h-10 w-px self-center bg-gray-900/20" />
+                <span role="separator" aria-orientation="vertical" className="mb-2 h-10 w-px self-center bg-gray-900/20 dark:bg-white/25" />
               )}
               <DockItem app={app} isOpen={windows[app.id]?.isOpen ?? false} mouseX={mouseX} onOpen={onOpen} />
             </Fragment>
@@ -94,7 +94,7 @@ function DockItem({ app, isOpen, mouseX, onOpen }) {
       )}
       <span
         aria-hidden="true"
-        className={`mt-1 size-1 rounded-full bg-gray-900/80 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+        className={`mt-1 size-1 rounded-full bg-gray-900/80 dark:bg-white/80 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
       />
     </div>
   )

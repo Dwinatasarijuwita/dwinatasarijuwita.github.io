@@ -84,4 +84,9 @@ describe('HomeScreen', () => {
     const sheet = screen.getByRole('dialog', { name: 'Projects' })
     expect(within(sheet).getByRole('list', { name: 'Projects' })).toBeInTheDocument()
   })
+
+  it('dims the wallpaper only in dark mode', () => {
+    render(<HomeScreen />)
+    expect(screen.getByTestId('wallpaper-dim')).toHaveClass('hidden', 'dark:block')
+  })
 })

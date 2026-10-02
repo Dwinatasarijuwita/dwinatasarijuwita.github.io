@@ -10,10 +10,6 @@ const PENDING = [
   'src/apps/ProjectsApp.jsx',
   'src/apps/ResumeApp.jsx',
   'src/apps/TrashApp.jsx',
-  'src/components/desktop/MenuBar.jsx',
-  'src/components/desktop/Window.jsx',
-  'src/components/mobile/AppSheet.jsx',
-  'src/pages/NotFound/index.jsx',
 ]
 
 const sources = Object.entries(import.meta.glob('../**/*.jsx', { query: '?raw', import: 'default', eager: true }))

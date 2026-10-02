@@ -21,7 +21,9 @@ export default function Desktop() {
   const desktopApps = apps.filter((app) => app.placement === 'desktop')
 
   return (
-    <div className="fixed inset-0 overflow-hidden bg-cover bg-center" style={wallpaperStyle}>
+    <div className="fixed inset-0 isolate overflow-hidden bg-cover bg-center" style={wallpaperStyle}>
+      {/* Dark mode dims the wallpaper rather than swapping it. */}
+      <div aria-hidden="true" data-testid="wallpaper-dim" className="pointer-events-none absolute inset-0 -z-10 hidden bg-black/35 dark:block" />
       <MenuBar appName={activeApp?.title ?? profile.name} autoHide={isFullScreen} />
       <div ref={areaRef} className="absolute inset-x-0 bottom-0 isolate" style={{ top: MENU_BAR_HEIGHT }}>
         <DesktopIcons apps={desktopApps} onOpen={open} />

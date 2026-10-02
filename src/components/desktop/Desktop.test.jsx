@@ -249,4 +249,9 @@ describe('Desktop', () => {
     const win = screen.getByRole('dialog', { name: 'Projects' })
     expect(within(win).getByRole('list', { name: 'Projects' })).toBeInTheDocument()
   })
+
+  it('dims the wallpaper only in dark mode', () => {
+    render(<Desktop />)
+    expect(screen.getByTestId('wallpaper-dim')).toHaveClass('hidden', 'dark:block')
+  })
 })

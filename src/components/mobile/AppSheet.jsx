@@ -10,15 +10,15 @@ export default function AppSheet({ app, origin, onClose }) {
       role="dialog"
       aria-modal="true"
       aria-label={title}
-      className="fixed inset-0 z-50 flex flex-col bg-white text-gray-900"
+      className="fixed inset-0 z-50 flex flex-col bg-white text-gray-900 dark:bg-neutral-900 dark:text-neutral-100"
       style={{ transformOrigin: origin }}
       initial={hidden}
       animate={{ opacity: 1, scale: 1 }}
       exit={hidden}
       transition={{ duration: reduceMotion ? 0.1 : 0.3, ease: 'easeOut' }}
     >
-      <header className="flex shrink-0 items-center border-b border-gray-200 px-2 pb-2 pt-4">
-        <button type="button" onClick={onClose} className="px-2 py-1 text-blue-600">
+      <header className="flex shrink-0 items-center border-b border-gray-200 px-2 dark:border-white/10 pb-2 pt-4">
+        <button type="button" onClick={onClose} className="px-2 py-1 text-blue-600 dark:text-blue-400">
           ‹ Back
         </button>
         <h2 className="flex-1 text-center font-semibold">{title}</h2>
@@ -41,7 +41,7 @@ export default function AppSheet({ app, origin, onClose }) {
           }}
           className="h-5 w-36 touch-none"
         >
-          <span className="block h-1.5 w-full rounded-full bg-gray-900" />
+          <span className="block h-1.5 w-full rounded-full bg-gray-900 dark:bg-white" />
         </motion.button>
       </div>
     </motion.div>

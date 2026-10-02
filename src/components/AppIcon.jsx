@@ -66,6 +66,17 @@ const ICONS = {
       </>
     ),
   },
+  // A gear on silver, our own drawing in the spirit of System Settings.
+  settings: {
+    background: 'linear-gradient(180deg, #d1d5db, #6b7280)',
+    glyph: (
+      <>
+        <circle cx="12" cy="12" r="2.8" />
+        <circle cx="12" cy="12" r="6.2" />
+        <path d="M12 2.8v3M12 18.2v3M2.8 12h3M18.2 12h3M5.5 5.5l2.1 2.1M16.4 16.4l2.1 2.1M5.5 18.5l2.1-2.1M16.4 7.6l2.1-2.1" />
+      </>
+    ),
+  },
   // Our own drawing in the style of the macOS Trash (not Apple's artwork): a see-through mesh bin, full of
   // crumpled paper. Like the real one it has no tile, except where `tiled` asks for one.
   trash: {

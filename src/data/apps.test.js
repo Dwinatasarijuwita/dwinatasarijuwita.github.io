@@ -15,6 +15,7 @@ describe('apps', () => {
       ['github', 'GitHub'],
       ['linkedin', 'LinkedIn'],
       ['instagram', 'Instagram'],
+      ['settings', 'Settings'],
       ['trash', 'Trash'],
     ])
   })
@@ -40,6 +41,7 @@ describe('apps', () => {
       ['github', 'dock'],
       ['linkedin', 'dock'],
       ['instagram', 'dock'],
+      ['settings', 'dock'],
       ['trash', 'dock'],
     ])
     const resume = apps.find((app) => app.id === 'resume')

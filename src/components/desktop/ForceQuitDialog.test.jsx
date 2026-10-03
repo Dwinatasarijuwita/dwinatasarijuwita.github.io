@@ -9,7 +9,15 @@ const openApps = [
 ]
 
 function setup(apps = openApps) {
-  const props = { apps, onQuit: vi.fn(), onQuitAll: vi.fn(), onClose: vi.fn() }
+  const props = {
+    apps,
+    isActive: true,
+    zIndex: 1,
+    onFocus: vi.fn(),
+    onQuit: vi.fn(),
+    onQuitAll: vi.fn(),
+    onClose: vi.fn(),
+  }
   const view = render(<ForceQuitDialog {...props} />)
   return { ...props, rerender: (next) => view.rerender(<ForceQuitDialog {...props} apps={next} />) }
 }

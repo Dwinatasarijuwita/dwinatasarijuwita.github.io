@@ -67,10 +67,21 @@ describe('windowReducer', () => {
       { type: 'toggleMaximize', id: 'a' },
       open('b'),
       { type: 'minimize', id: 'b' },
-      { type: 'closeAll' },
+      { type: 'closeAll', ids: ['a', 'b'] },
     )
     expect(state.windows).toEqual(createInitialState(apps).windows)
     expect(state.activeId).toBeNull()
+  })
+
+  it('closing all leaves windows outside the list open and hands them focus', () => {
+    const three = [...apps, { id: 'c', initialPosition: { x: 0, y: 0 } }]
+    const state = [open('c'), open('a'), open('b'), { type: 'closeAll', ids: ['a', 'b'] }].reduce(
+      windowReducer,
+      createInitialState(three),
+    )
+    expect(state.windows.c.isOpen).toBe(true)
+    expect(state.windows.a.isOpen).toBe(false)
+    expect(state.activeId).toBe('c')
   })
 
   it('minimizing keeps the window open and moves focus to the next visible window', () => {
@@ -118,7 +129,7 @@ describe('useWindowManager', () => {
     expect(result.current.windows.b.isOpen).toBe(true)
     expect(result.current.activeId).toBe('b')
 
-    act(() => result.current.closeAll())
+    act(() => result.current.closeAll(['a', 'b']))
     expect(result.current.windows.b.isOpen).toBe(false)
     expect(result.current.activeId).toBeNull()
   })

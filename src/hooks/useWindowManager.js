@@ -40,8 +40,9 @@ function bringToFront(state, id, changes = {}) {
 
 export function windowReducer(state, action) {
   if (action.type === 'closeAll') {
-    const windows = Object.fromEntries(Object.keys(state.windows).map((id) => [id, closedWindow(state, id)]))
-    return { ...state, windows, activeId: null }
+    const windows = { ...state.windows }
+    for (const id of action.ids) if (windows[id]) windows[id] = closedWindow(state, id)
+    return { ...state, windows, activeId: topmostVisible(windows) }
   }
 
   const { id } = action
@@ -78,7 +79,7 @@ export function useWindowManager(apps) {
     () => ({
       open: (id) => dispatch({ type: 'open', id }),
       close: (id) => dispatch({ type: 'close', id }),
-      closeAll: () => dispatch({ type: 'closeAll' }),
+      closeAll: (ids) => dispatch({ type: 'closeAll', ids }),
       minimize: (id) => dispatch({ type: 'minimize', id }),
       toggleMaximize: (id) => dispatch({ type: 'toggleMaximize', id }),
       focus: (id) => dispatch({ type: 'focus', id }),

@@ -304,12 +304,53 @@ describe('Desktop', () => {
       expect(within(forceQuitDialog()).getByText('No apps are open.')).toBeInTheDocument()
     })
 
-    it('gives focus back to the avatar when it closes', () => {
+    it('stacks with the other windows: a clicked window covers it and a click brings it back', () => {
+      render(<Desktop />)
+      openFromDock('About Me')
+      openForceQuit()
+      const about = screen.getByRole('dialog', { name: 'About Me' })
+      const z = (element) => Number(element.style.zIndex)
+      expect(z(forceQuitDialog())).toBeGreaterThan(z(about))
+      expect(activeApp()).toHaveTextContent('Dwi Natasari Juwita')
+
+      fireEvent.pointerDown(about)
+      expect(z(about)).toBeGreaterThan(z(forceQuitDialog()))
+      expect(activeApp()).toHaveTextContent('About Me')
+
+      fireEvent.pointerDown(forceQuitDialog())
+      expect(z(forceQuitDialog())).toBeGreaterThan(z(about))
+      expect(within(forceQuitDialog()).getByRole('listbox')).toHaveFocus()
+
+      fireEvent.pointerDown(about)
+      openForceQuit()
+      expect(z(forceQuitDialog())).toBeGreaterThan(z(about))
+    })
+
+    it('stays open after Quit All', async () => {
+      render(<Desktop />)
+      openFromDock('About Me')
+      openForceQuit()
+      fireEvent.click(within(forceQuitDialog()).getByRole('button', { name: 'Quit All' }))
+      await waitFor(() => expect(screen.queryByRole('dialog', { name: 'About Me' })).not.toBeInTheDocument())
+      expect(forceQuitDialog()).toBeInTheDocument()
+    })
+
+    it('hands focus to the front window when it closes', () => {
       render(<Desktop />)
       openFromDock('About Me')
       openForceQuit()
       fireEvent.keyDown(within(forceQuitDialog()).getByRole('listbox'), { key: 'Escape' })
       expect(screen.queryByRole('dialog', { name: 'Force Quit Applications' })).not.toBeInTheDocument()
+      expect(screen.getByRole('dialog', { name: 'About Me' })).toHaveFocus()
+      expect(activeApp()).toHaveTextContent('About Me')
+    })
+
+    it('gives focus back to the avatar when no window is left in front', () => {
+      render(<Desktop />)
+      openFromDock('About Me')
+      fireEvent.click(screen.getByRole('button', { name: 'Minimize About Me' }))
+      openForceQuit()
+      fireEvent.click(within(forceQuitDialog()).getByRole('button', { name: 'Close Force Quit Applications' }))
       expect(profileButton()).toHaveFocus()
     })
   })

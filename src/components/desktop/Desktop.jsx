@@ -1,5 +1,5 @@
 import { AnimatePresence } from 'motion/react'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { apps } from '../../data/apps'
 import { profile } from '../../data/profile'
 import { useElementSize } from '../../hooks/useElementSize'
@@ -8,13 +8,16 @@ import { wallpaperStyle } from '../../lib/wallpaper'
 import { MENU_BAR_HEIGHT } from './constants'
 import DesktopIcons from './DesktopIcons'
 import Dock from './Dock'
-import ForceQuitDialog from './ForceQuitDialog'
+import ForceQuitDialog, { FORCE_QUIT_ID } from './ForceQuitDialog'
 import MenuBar from './MenuBar'
 import Window from './Window'
 
+// Force Quit is not an app, but it stacks and takes focus like the app windows.
+const managedWindows = [...apps, { id: FORCE_QUIT_ID, initialPosition: { x: 0, y: 0 } }]
+
 export default function Desktop() {
-  const { windows, activeId, open, close, closeAll, minimize, toggleMaximize, focus, move } = useWindowManager(apps)
-  const [isForceQuitOpen, setIsForceQuitOpen] = useState(false)
+  const { windows, activeId, open, close, closeAll, minimize, toggleMaximize, focus, move } =
+    useWindowManager(managedWindows)
   const areaRef = useRef(null)
   const profileButtonRef = useRef(null)
   const areaSize = useElementSize(areaRef)
@@ -25,8 +28,9 @@ export default function Desktop() {
   const openApps = apps.filter((app) => windows[app.id].isOpen)
 
   function closeForceQuit() {
-    setIsForceQuitOpen(false)
-    profileButtonRef.current?.focus()
+    close(FORCE_QUIT_ID)
+    // A window left in front takes focus itself; otherwise focus goes back to where Force Quit was opened.
+    if (!openApps.some((app) => !windows[app.id].isMinimized)) profileButtonRef.current?.focus()
   }
 
   return (
@@ -37,7 +41,7 @@ export default function Desktop() {
         appName={activeApp?.title ?? profile.name}
         autoHide={isFullScreen}
         canForceQuit={openApps.length > 0}
-        onForceQuit={() => setIsForceQuitOpen(true)}
+        onForceQuit={() => open(FORCE_QUIT_ID)}
         menuButtonRef={profileButtonRef}
       />
       <div ref={areaRef} className="absolute inset-x-0 bottom-0 isolate" style={{ top: MENU_BAR_HEIGHT }}>
@@ -59,16 +63,19 @@ export default function Desktop() {
             />
           ))}
         </AnimatePresence>
+        {windows[FORCE_QUIT_ID].isOpen && (
+          <ForceQuitDialog
+            apps={openApps}
+            isActive={activeId === FORCE_QUIT_ID}
+            zIndex={windows[FORCE_QUIT_ID].zIndex}
+            constraintsRef={areaRef}
+            onFocus={focus}
+            onQuit={close}
+            onQuitAll={() => closeAll(openApps.map((app) => app.id))}
+            onClose={closeForceQuit}
+          />
+        )}
       </div>
-      {/* Rendered after the windows so it can take focus back from one that just became active. */}
-      {isForceQuitOpen && (
-        <ForceQuitDialog
-          apps={openApps}
-          onQuit={close}
-          onQuitAll={closeAll}
-          onClose={closeForceQuit}
-        />
-      )}
       <Dock apps={dockApps} windows={windows} onOpen={open} autoHide={isFullScreen} />
     </div>
   )

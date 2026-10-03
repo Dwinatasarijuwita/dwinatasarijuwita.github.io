@@ -1,34 +1,43 @@
+import { motion, useDragControls } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import AppIcon from '../AppIcon'
 import { TrafficLight } from './Window'
 
 const TITLE = 'Force Quit Applications'
 
-export default function ForceQuitDialog({ apps, onQuit, onQuitAll, onClose }) {
+// Its id in the window manager, so it stacks with the app windows without being an app.
+export const FORCE_QUIT_ID = 'forceQuit'
+
+export default function ForceQuitDialog({
+  apps,
+  isActive,
+  zIndex,
+  constraintsRef,
+  onFocus,
+  onQuit,
+  onQuitAll,
+  onClose,
+}) {
   // Remembering the row as well as the app lets the selection settle on its neighbour once the app quits.
   const [choice, setChoice] = useState({ id: apps[0]?.id, index: 0 })
+  const sectionRef = useRef(null)
   const listRef = useRef(null)
-  const refocusList = useRef(true)
+  const dragControls = useDragControls()
   const keptIndex = apps.findIndex((app) => app.id === choice.id)
   const index = keptIndex === -1 ? Math.min(choice.index, apps.length - 1) : keptIndex
   const current = apps[index]
-  const openIds = apps.map((app) => app.id).join(' ')
 
-  // Quitting the front app hands it to the next window, which takes focus; this runs after that and wins it back.
+  // Like the app windows, coming to the front takes keyboard focus unless it is already inside.
   useEffect(() => {
-    if (!refocusList.current) return
-    refocusList.current = false
-    listRef.current?.focus()
-  }, [openIds])
+    if (isActive && !sectionRef.current?.contains(document.activeElement)) listRef.current?.focus()
+  }, [isActive])
 
   function select(next) {
     if (apps[next]) setChoice({ id: apps[next].id, index: next })
   }
 
   function quit() {
-    if (!current) return
-    refocusList.current = true
-    onQuit(current.id)
+    if (current) onQuit(current.id)
   }
 
   function onListKeyDown(event) {
@@ -40,14 +49,29 @@ export default function ForceQuitDialog({ apps, onQuit, onQuitAll, onClose }) {
   }
 
   return (
-    <section
+    <motion.section
+      ref={sectionRef}
       role="dialog"
       aria-label={TITLE}
       onKeyDown={(event) => event.key === 'Escape' && onClose()}
-      className="absolute left-1/2 top-[18%] z-[900] flex w-[340px] max-w-[calc(100%-32px)] -translate-x-1/2 flex-col overflow-hidden rounded-xl border border-black/10 bg-white shadow-2xl dark:border-white/15 dark:bg-neutral-900"
+      onPointerDown={() => onFocus(FORCE_QUIT_ID)}
+      drag
+      dragControls={dragControls}
+      dragListener={false}
+      dragMomentum={false}
+      dragElastic={0}
+      dragConstraints={constraintsRef}
+      className={`absolute left-1/2 top-[18%] flex w-[340px] max-w-[calc(100%-32px)] -translate-x-1/2 flex-col overflow-hidden rounded-xl border border-black/10 bg-white dark:border-white/15 dark:bg-neutral-900 ${
+        isActive ? 'shadow-2xl' : 'shadow-lg'
+      }`}
+      style={{ zIndex }}
     >
-      <div className="flex h-10 shrink-0 select-none items-center bg-gray-100 px-3 shadow-[inset_0_-1px_0_rgb(0_0_0/0.05)] dark:bg-neutral-800 dark:shadow-[inset_0_-1px_0_rgb(0_0_0/0.4)]">
-        <div className="group flex w-[52px]">
+      <div
+        className="flex h-10 shrink-0 select-none items-center bg-gray-100 px-3 shadow-[inset_0_-1px_0_rgb(0_0_0/0.05)] dark:bg-neutral-800 dark:shadow-[inset_0_-1px_0_rgb(0_0_0/0.4)]"
+        style={{ touchAction: 'none' }}
+        onPointerDown={(event) => dragControls.start(event)}
+      >
+        <div className="group flex w-[52px]" onPointerDown={(event) => event.stopPropagation()}>
           <TrafficLight className="bg-[#ff5f57]" label={`Close ${TITLE}`} symbol="close" onClick={onClose} />
         </div>
         <h2 className="flex-1 truncate text-center text-sm font-medium text-gray-700 dark:text-neutral-300">{TITLE}</h2>
@@ -83,10 +107,7 @@ export default function ForceQuitDialog({ apps, onQuit, onQuitAll, onClose }) {
           <button
             type="button"
             disabled={apps.length === 0}
-            onClick={() => {
-              refocusList.current = true
-              onQuitAll()
-            }}
+            onClick={onQuitAll}
             className="rounded-md border border-black/10 bg-white px-3 py-1 shadow-sm disabled:opacity-50 dark:border-white/15 dark:bg-neutral-700"
           >
             Quit All
@@ -101,6 +122,6 @@ export default function ForceQuitDialog({ apps, onQuit, onQuitAll, onClose }) {
           </button>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }

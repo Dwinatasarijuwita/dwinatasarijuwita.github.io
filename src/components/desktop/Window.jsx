@@ -156,7 +156,7 @@ const SYMBOLS = {
   maximize: <path d="M6 3.5v5M3.5 6h5" />,
 }
 
-function TrafficLight({ className, label, symbol, onClick }) {
+export function TrafficLight({ className, label, symbol, onClick }) {
   return (
     <button
       type="button"

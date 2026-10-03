@@ -254,4 +254,63 @@ describe('Desktop', () => {
     render(<Desktop />)
     expect(screen.getByTestId('wallpaper-dim')).toHaveClass('hidden', 'dark:block')
   })
+
+  describe('Force Quit', () => {
+    const profileButton = () => screen.getByRole('button', { name: 'Profile menu' })
+    const forceQuitDialog = () => screen.getByRole('dialog', { name: 'Force Quit Applications' })
+    const listed = () => within(forceQuitDialog()).getAllByRole('option').map((option) => option.textContent)
+
+    function openForceQuit() {
+      fireEvent.click(profileButton())
+      fireEvent.click(screen.getByRole('menuitem', { name: 'Force Quit…' }))
+    }
+
+    it('is greyed out in the profile menu while nothing is open', () => {
+      render(<Desktop />)
+      fireEvent.click(profileButton())
+      expect(screen.getByRole('menuitem', { name: 'Force Quit…' })).toHaveAttribute('aria-disabled', 'true')
+    })
+
+    it('lists open and minimized apps and force quits the selected one', async () => {
+      render(<Desktop />)
+      openFromDock('About Me')
+      openFromDock('Music Favorite')
+      fireEvent.click(screen.getByRole('button', { name: 'Minimize Music Favorite' }))
+      openFromDock('Contact')
+
+      openForceQuit()
+      expect(listed()).toEqual(['About Me', 'Contact', 'Music Favorite'])
+
+      fireEvent.click(within(forceQuitDialog()).getByRole('option', { name: 'Contact' }))
+      fireEvent.click(within(forceQuitDialog()).getByRole('button', { name: 'Force Quit' }))
+
+      await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Contact' })).not.toBeInTheDocument())
+      expect(dockButton('Contact')).toHaveAttribute('data-open', 'false')
+      expect(listed()).toEqual(['About Me', 'Music Favorite'])
+      expect(within(forceQuitDialog()).getByRole('listbox')).toHaveFocus()
+    })
+
+    it('quits every app with Quit All', async () => {
+      render(<Desktop />)
+      openFromDock('About Me')
+      openFromDock('Photos')
+      openForceQuit()
+
+      fireEvent.click(within(forceQuitDialog()).getByRole('button', { name: 'Quit All' }))
+
+      await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Photos' })).not.toBeInTheDocument())
+      expect(screen.queryByRole('dialog', { name: 'About Me' })).not.toBeInTheDocument()
+      expect(activeApp()).toHaveTextContent('Dwi Natasari Juwita')
+      expect(within(forceQuitDialog()).getByText('No apps are open.')).toBeInTheDocument()
+    })
+
+    it('gives focus back to the avatar when it closes', () => {
+      render(<Desktop />)
+      openFromDock('About Me')
+      openForceQuit()
+      fireEvent.keyDown(within(forceQuitDialog()).getByRole('listbox'), { key: 'Escape' })
+      expect(screen.queryByRole('dialog', { name: 'Force Quit Applications' })).not.toBeInTheDocument()
+      expect(profileButton()).toHaveFocus()
+    })
+  })
 })

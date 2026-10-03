@@ -25,6 +25,10 @@ function topmostVisible(windows) {
   return best
 }
 
+function closedWindow(state, id) {
+  return { isOpen: false, isMinimized: false, isMaximized: false, position: state.initialPositions[id], zIndex: 0 }
+}
+
 function update(state, id, changes) {
   return { ...state, windows: { ...state.windows, [id]: { ...state.windows[id], ...changes } } }
 }
@@ -35,6 +39,11 @@ function bringToFront(state, id, changes = {}) {
 }
 
 export function windowReducer(state, action) {
+  if (action.type === 'closeAll') {
+    const windows = Object.fromEntries(Object.keys(state.windows).map((id) => [id, closedWindow(state, id)]))
+    return { ...state, windows, activeId: null }
+  }
+
   const { id } = action
   const win = state.windows[id]
   if (!win) return state
@@ -46,13 +55,7 @@ export function windowReducer(state, action) {
       if (!win.isOpen || win.isMinimized || state.activeId === id) return state
       return bringToFront(state, id)
     case 'close': {
-      const next = update(state, id, {
-        isOpen: false,
-        isMinimized: false,
-        isMaximized: false,
-        position: state.initialPositions[id],
-        zIndex: 0,
-      })
+      const next = update(state, id, closedWindow(state, id))
       return { ...next, activeId: topmostVisible(next.windows) }
     }
     case 'minimize': {
@@ -75,6 +78,7 @@ export function useWindowManager(apps) {
     () => ({
       open: (id) => dispatch({ type: 'open', id }),
       close: (id) => dispatch({ type: 'close', id }),
+      closeAll: () => dispatch({ type: 'closeAll' }),
       minimize: (id) => dispatch({ type: 'minimize', id }),
       toggleMaximize: (id) => dispatch({ type: 'toggleMaximize', id }),
       focus: (id) => dispatch({ type: 'focus', id }),

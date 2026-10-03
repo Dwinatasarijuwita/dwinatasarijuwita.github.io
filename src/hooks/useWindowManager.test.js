@@ -60,6 +60,19 @@ describe('windowReducer', () => {
     expect(run(open('a'), { type: 'close', id: 'a' }).activeId).toBeNull()
   })
 
+  it('closing all resets every window, minimized ones included, and leaves nothing active', () => {
+    const state = run(
+      open('a'),
+      { type: 'move', id: 'a', position: { x: 300, y: 400 } },
+      { type: 'toggleMaximize', id: 'a' },
+      open('b'),
+      { type: 'minimize', id: 'b' },
+      { type: 'closeAll' },
+    )
+    expect(state.windows).toEqual(createInitialState(apps).windows)
+    expect(state.activeId).toBeNull()
+  })
+
   it('minimizing keeps the window open and moves focus to the next visible window', () => {
     const state = run(open('a'), open('b'), { type: 'minimize', id: 'b' })
     expect(state.windows.b.isOpen).toBe(true)
@@ -104,5 +117,9 @@ describe('useWindowManager', () => {
     act(() => result.current.open('b'))
     expect(result.current.windows.b.isOpen).toBe(true)
     expect(result.current.activeId).toBe('b')
+
+    act(() => result.current.closeAll())
+    expect(result.current.windows.b.isOpen).toBe(false)
+    expect(result.current.activeId).toBeNull()
   })
 })

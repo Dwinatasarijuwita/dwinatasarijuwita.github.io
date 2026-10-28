@@ -10,7 +10,7 @@ describe('ProjectsApp', () => {
   it('lists every project with its subtitle and an Open link to the live site', () => {
     render(<ProjectsApp />)
     expect(screen.getByRole('heading', { name: 'Projects' })).toBeInTheDocument()
-    const rows = within(list()).getAllByRole('listitem')
+    const rows = [...list().children]
     expect(rows).toHaveLength(projects.length)
     projects.forEach((project, index) => {
       const row = within(rows[index])
@@ -64,6 +64,18 @@ describe('ProjectsApp', () => {
     })
   })
 
+  it('shows the live address and a large view of the picked screenshot', () => {
+    render(<ProjectsApp />)
+    openDetail('Permata Indonesia Careers')
+    const detail = screen.getByRole('article', { name: 'Permata Indonesia Careers' })
+    expect(within(detail).getByText('karir.permataindonesia.com')).toBeInTheDocument()
+    const thumbs = within(within(detail).getByRole('list', { name: 'Screenshots' })).getAllByRole('button')
+    expect(thumbs[0]).toHaveAttribute('aria-pressed', 'true')
+    fireEvent.click(thumbs[2])
+    expect(thumbs[2]).toHaveAttribute('aria-pressed', 'true')
+    expect(within(detail).getAllByAltText('Permata Indonesia Careers – login page')).toHaveLength(2)
+  })
+
   it('says on every project page that it was built as a team', () => {
     render(<ProjectsApp />)
     for (const project of projects) {
@@ -79,7 +91,7 @@ describe('ProjectsApp', () => {
     render(<ProjectsApp />)
     openDetail('Permata Job Apply')
     fireEvent.click(screen.getByRole('button', { name: '‹ Projects' }))
-    expect(within(list()).getAllByRole('listitem')).toHaveLength(projects.length)
+    expect(list().children).toHaveLength(projects.length)
     expect(screen.queryByRole('article')).not.toBeInTheDocument()
   })
 

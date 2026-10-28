@@ -2,6 +2,7 @@ export const experience = [
   {
     role: 'Frontend Developer – Contract',
     company: 'PT Permata Indo Sejahtera (Permata Indonesia)',
+    monogram: 'PI',
     period: 'Apr 2023 – Now',
     location: 'Jakarta, Indonesia',
     highlights: [
@@ -13,6 +14,7 @@ export const experience = [
   {
     role: 'Banking Officer – Internship',
     company: 'PT Bank Mandiri (Persero) Tbk',
+    monogram: 'BM',
     period: 'Sep 2021 – Dec 2021',
     location: 'Jakarta, Indonesia',
     highlights: [
@@ -23,6 +25,7 @@ export const experience = [
   {
     role: 'Insurance Officer – Internship',
     company: 'PT Asuransi Jiwa Generali Indonesia',
+    monogram: 'GI',
     period: 'Feb 2020 – Oct 2020',
     location: 'Jakarta, Indonesia',
     highlights: [

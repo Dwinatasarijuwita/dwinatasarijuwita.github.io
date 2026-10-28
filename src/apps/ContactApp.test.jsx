@@ -35,7 +35,7 @@ describe('ContactApp', () => {
 
   it('falls back to a mailto link when the clipboard is unavailable', () => {
     render(<ContactApp />)
-    expect(screen.getByRole('link', { name: 'tasyakstr@gmail.com' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /tasyakstr@gmail\.com/ })).toHaveAttribute(
       'href',
       'mailto:tasyakstr@gmail.com',
     )

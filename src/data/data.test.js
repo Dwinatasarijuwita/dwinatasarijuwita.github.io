@@ -35,14 +35,14 @@ describe('experience', () => {
 })
 
 describe('songs', () => {
-  it('lists the favourite songs', () => {
-    expect(songs.map((song) => song.title)).toEqual([
-      'Baby Now That I Found You',
-      'Lost Stars',
-      'Dan Sore Itu',
-      'Love Never Felt So Good',
-      'Menikmati Sedih',
-    ])
+  it('follows the Spotify playlist, in its order', () => {
+    expect(songs).toHaveLength(100)
+    expect(songs.slice(0, 3).map((song) => song.title)).toEqual(['Sejauh Ku Memandang', 'Keabadian', 'Yang Kutuju'])
+    expect(songs.at(-1).title).toBe('Cinta Pertama Dan Terakhir')
+  })
+
+  it('has album art for every song', () => {
+    for (const song of songs) expect(song.cover).toMatch(/^[0-9a-f]{24}$/)
   })
 
   it('uses clean Spotify track links without tracking parameters', () => {

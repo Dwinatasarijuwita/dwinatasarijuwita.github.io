@@ -19,3 +19,13 @@ export function gradientFor(text) {
   const [from, to] = GRADIENTS[hash % GRADIENTS.length]
   return `linear-gradient(135deg, ${from}, ${to})`
 }
+
+// Spotify serves album art at fixed sizes: 300px for lists, 640px for the record.
+export function coverUrl(song, size = 300) {
+  if (!song.cover) return null
+  return `https://i.scdn.co/image/ab67616d${size === 640 ? '0000b273' : '00001e02'}${song.cover}`
+}
+
+export function trackId(song) {
+  return song.url?.match(/\/track\/([A-Za-z0-9]+)$/)?.[1] ?? null
+}

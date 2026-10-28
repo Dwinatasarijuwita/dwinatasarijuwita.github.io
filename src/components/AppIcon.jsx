@@ -37,6 +37,16 @@ const ICONS = {
       </>
     ),
   },
+  // A clapperboard on deep red, our own drawing.
+  movies: {
+    background: 'linear-gradient(180deg, #ef4444, #7f1d1d)',
+    glyph: (
+      <>
+        <rect x="3.5" y="10" width="17" height="10" rx="1.5" />
+        <path d="M3.5 10l15.6-4.2-.8-3L2.7 7zM7.6 5.9l2.2 3M12.5 4.6l2.2 3" />
+      </>
+    ),
+  },
   photos: {
     background: 'linear-gradient(180deg, #ffffff, #e5e7eb)',
     glyph: (

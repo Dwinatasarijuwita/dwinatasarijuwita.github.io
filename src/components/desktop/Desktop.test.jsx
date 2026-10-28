@@ -71,13 +71,13 @@ describe('Desktop', () => {
     render(<Desktop />)
     openFromDock('About Me')
     const win = screen.getByRole('dialog', { name: 'About Me' })
-    expect(win.style.width).toBe('540px')
+    expect(win.style.width).toBe('560px')
 
     fireEvent.click(screen.getByRole('button', { name: 'Maximize About Me' }))
     expect(win.style.width).toBe('100%')
 
     fireEvent.doubleClick(within(win).getByRole('heading', { name: 'About Me' }))
-    expect(win.style.width).toBe('540px')
+    expect(win.style.width).toBe('560px')
   })
 
   it('never lets a window grow past the desktop area on small screens', () => {
@@ -92,7 +92,7 @@ describe('Desktop', () => {
     render(<Desktop />)
     const dock = screen.getByRole('navigation', { name: 'Dock' })
     expect(within(dock).queryByRole('button', { name: 'Resume' })).not.toBeInTheDocument()
-    expect(within(dock).getAllByRole('button')).toHaveLength(7)
+    expect(within(dock).getAllByRole('button')).toHaveLength(8)
 
     fireEvent.click(resumeFile())
     expect(screen.getByRole('dialog', { name: 'Resume' })).toBeInTheDocument()

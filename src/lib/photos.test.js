@@ -14,4 +14,16 @@ describe('photos', () => {
       expect(photo.thumb).toContain('thumbs')
     }
   })
+  it('sorts each photo into an album from its file name', () => {
+    const byId = Object.fromEntries(photos.map((photo) => [photo.id, photo.album]))
+    expect(byId['01-self']).toBe('Me')
+    expect(byId['10.friends']).toBe('Friends')
+    expect(byId['12-graduation']).toBe('Moments')
+    expect(photos.filter((photo) => photo.album === 'Moments').map((photo) => photo.id)).toEqual([
+      '03-work',
+      '08-social',
+      '12-graduation',
+      '13-hacktiv8',
+    ])
+  })
 })

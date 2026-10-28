@@ -1,6 +1,7 @@
 import AboutApp from '../apps/AboutApp'
 import ContactApp from '../apps/ContactApp'
 import ExperienceApp from '../apps/ExperienceApp'
+import MoviesApp from '../apps/MoviesApp'
 import MusicApp from '../apps/MusicApp'
 import PhotosApp from '../apps/PhotosApp'
 import ProjectsApp from '../apps/ProjectsApp'
@@ -15,7 +16,7 @@ export const apps = [
     placement: 'dock',
     title: 'About Me',
     Component: AboutApp,
-    size: { width: 540, height: 420 },
+    size: { width: 560, height: 520 },
     initialPosition: { x: 120, y: 48 },
   },
   {
@@ -42,8 +43,16 @@ export const apps = [
     placement: 'dock',
     title: 'Music Favorite',
     Component: MusicApp,
-    size: { width: 460, height: 520 },
-    initialPosition: { x: 420, y: 64 },
+    size: { width: 740, height: 560 },
+    initialPosition: { x: 300, y: 48 },
+  },
+  {
+    id: 'movies',
+    placement: 'dock',
+    title: 'Movies',
+    Component: MoviesApp,
+    size: { width: 760, height: 560 },
+    initialPosition: { x: 160, y: 52 },
   },
   {
     id: 'photos',
@@ -98,7 +107,7 @@ export const apps = [
     placement: 'dock',
     title: 'Settings',
     Component: SettingsApp,
-    size: { width: 560, height: 360 },
+    size: { width: 560, height: 372 },
     initialPosition: { x: 280, y: 80 },
   },
   // Like on a Mac, Trash sits at the far end of the Dock, after a divider.

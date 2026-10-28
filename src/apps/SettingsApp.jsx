@@ -12,32 +12,46 @@ export default function SettingsApp() {
   const headingId = useId()
 
   return (
-    <div className="h-full bg-white p-6 text-gray-900 dark:bg-neutral-900 dark:text-neutral-100">
-      <h2 id={headingId} className="text-lg font-semibold">
-        Appearance
-      </h2>
-      <div role="radiogroup" aria-labelledby={headingId} className="mt-4 grid grid-cols-3 gap-3 sm:gap-5">
-        {CHOICES.map((choice) => (
-          <label key={choice.value} className="flex cursor-pointer flex-col items-center gap-2">
-            <input
-              type="radio"
-              name="appearance"
-              value={choice.value}
-              checked={preference === choice.value}
-              onChange={() => setPreference(choice.value)}
-              className="peer sr-only"
-            />
-            <Preview
-              kind={choice.value}
-              className="ring-1 ring-black/10 peer-checked:ring-2 peer-checked:ring-blue-500 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-blue-500 dark:ring-white/10 dark:peer-checked:ring-blue-500"
-            />
-            <span className="text-sm peer-checked:font-semibold">{choice.label}</span>
-          </label>
-        ))}
+    <div className="min-h-full bg-gray-100 p-6 text-gray-900 dark:bg-neutral-900 dark:text-neutral-100">
+      <div className="flex items-center gap-3">
+        <span aria-hidden="true" className="flex size-9 items-center justify-center rounded-lg bg-linear-to-b from-gray-700 to-gray-900 text-white shadow-sm dark:from-neutral-500 dark:to-neutral-700">
+          <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <circle cx="12" cy="12" r="8" />
+            <path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" />
+          </svg>
+        </span>
+        <h2 id={headingId} className="text-lg font-semibold">
+          Appearance
+        </h2>
       </div>
-      <p className="mt-5 text-sm text-gray-500 dark:text-neutral-400">
-        Auto switches between light and dark to match your device.
-      </p>
+
+      {/* A grouped panel, like a section of System Settings. */}
+      <div className="mt-4 rounded-xl bg-white p-4 ring-1 ring-black/5 dark:bg-neutral-800 dark:ring-white/10">
+        <div role="radiogroup" aria-labelledby={headingId} className="grid grid-cols-3 gap-3 sm:gap-5">
+          {CHOICES.map((choice) => (
+            <label key={choice.value} className="flex cursor-pointer flex-col items-center gap-2">
+              <input
+                type="radio"
+                name="appearance"
+                value={choice.value}
+                checked={preference === choice.value}
+                onChange={() => setPreference(choice.value)}
+                className="peer sr-only"
+              />
+              <Preview
+                kind={choice.value}
+                className="ring-1 ring-black/10 transition-shadow peer-checked:ring-3 peer-checked:ring-blue-500 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-blue-500 dark:ring-white/10 dark:peer-checked:ring-blue-500"
+              />
+              <span className="rounded-full px-2.5 py-0.5 text-sm text-gray-700 peer-checked:bg-blue-500 peer-checked:font-medium peer-checked:text-white dark:text-neutral-300 dark:peer-checked:bg-blue-500 dark:peer-checked:text-white">
+                {choice.label}
+              </span>
+            </label>
+          ))}
+        </div>
+        <p className="mt-4 border-t border-black/5 pt-3 text-sm text-gray-600 dark:border-white/10 dark:text-neutral-400">
+          Auto switches between light and dark to match your device.
+        </p>
+      </div>
     </div>
   )
 }

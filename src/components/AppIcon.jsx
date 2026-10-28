@@ -1,0 +1,170 @@
+const ICONS = {
+  about: {
+    background: 'linear-gradient(180deg, #a5b4fc, #6366f1)',
+    glyph: (
+      <>
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 20c0-4 3.6-6 8-6s8 2 8 6" />
+      </>
+    ),
+  },
+  resume: {
+    background: 'linear-gradient(180deg, #fde68a, #f59e0b)',
+    glyph: (
+      <>
+        <path d="M7 3h7l5 5v13H7z" />
+        <path d="M14 3v5h5M10 13h6M10 17h6" />
+      </>
+    ),
+  },
+  contact: {
+    background: 'linear-gradient(180deg, #d6d3d1, #78716c)',
+    glyph: (
+      <>
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <circle cx="9" cy="11" r="2" />
+        <path d="M5.5 16c.6-1.5 1.9-2.3 3.5-2.3s2.9.8 3.5 2.3M14.5 10h3.5M14.5 13.5h3.5" />
+      </>
+    ),
+  },
+  music: {
+    background: 'linear-gradient(180deg, #fb7185, #e11d48)',
+    glyph: (
+      <>
+        <path d="M9 18V6l10-2v12" />
+        <circle cx="6.5" cy="18" r="2.5" />
+        <circle cx="16.5" cy="16" r="2.5" />
+      </>
+    ),
+  },
+  // A clapperboard on deep red, our own drawing.
+  movies: {
+    background: 'linear-gradient(180deg, #ef4444, #7f1d1d)',
+    glyph: (
+      <>
+        <rect x="3.5" y="10" width="17" height="10" rx="1.5" />
+        <path d="M3.5 10l15.6-4.2-.8-3L2.7 7zM7.6 5.9l2.2 3M12.5 4.6l2.2 3" />
+      </>
+    ),
+  },
+  photos: {
+    background: 'linear-gradient(180deg, #ffffff, #e5e7eb)',
+    glyph: (
+      <>
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#f97316" opacity="0.85" stroke="none" transform="rotate(0 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#facc15" opacity="0.85" stroke="none" transform="rotate(45 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#84cc16" opacity="0.85" stroke="none" transform="rotate(90 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#22c55e" opacity="0.85" stroke="none" transform="rotate(135 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#06b6d4" opacity="0.85" stroke="none" transform="rotate(180 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#6366f1" opacity="0.85" stroke="none" transform="rotate(225 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#a855f7" opacity="0.85" stroke="none" transform="rotate(270 12 12)" />
+        <ellipse cx="12" cy="7" rx="2.6" ry="4.4" fill="#ec4899" opacity="0.85" stroke="none" transform="rotate(315 12 12)" />
+      </>
+    ),
+  },
+  // App Store–like colours and bold white strokes, with our own </> glyph instead of Apple's "A" mark.
+  projects: {
+    background: 'linear-gradient(180deg, #1ec8fa, #1a6ef0)',
+    glyph: <path strokeWidth="2.4" d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4.5l-3 15" />,
+  },
+  experience: {
+    background: 'linear-gradient(180deg, #7dd3fc, #2563eb)',
+    glyph: (
+      <>
+        <rect x="3" y="7" width="18" height="13" rx="2" />
+        <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18" />
+      </>
+    ),
+  },
+  // A gear on silver, our own drawing in the spirit of System Settings.
+  settings: {
+    background: 'linear-gradient(180deg, #d1d5db, #6b7280)',
+    glyph: (
+      <>
+        <circle cx="12" cy="12" r="2.8" />
+        <circle cx="12" cy="12" r="6.2" />
+        <path d="M12 2.8v3M12 18.2v3M2.8 12h3M18.2 12h3M5.5 5.5l2.1 2.1M16.4 16.4l2.1 2.1M5.5 18.5l2.1-2.1M16.4 7.6l2.1-2.1" />
+      </>
+    ),
+  },
+  // Our own drawing in the style of the macOS Trash (not Apple's artwork): a see-through mesh bin, full of
+  // crumpled paper. Like the real one it has no tile, except where `tiled` asks for one.
+  trash: {
+    tile: false,
+    glyphClassName: 'h-full w-full',
+    tiledGlyphClassName: 'h-4/5 w-4/5',
+    glyph: (
+      <g strokeWidth="0.5" stroke="#9ca3af">
+        <path fill="white" d="M6.8 7l.7-3.4 2.3-.9 1.7 1.5L11.2 7z" />
+        <path fill="#f9fafb" d="M10.6 7l1-3.9 2.6-.8 2.5 1.5.6 3.2z" />
+        <path fill="white" d="M8.4 7.2l1.6-1.9 2.4.5 1.2 1.6z" />
+        <path fill="#e5e7eb" fillOpacity="0.6" strokeWidth="0.7" d="M4.8 6.2l1.6 14.4Q12 22.6 17.6 20.6l1.6-14.4z" />
+        <path
+          opacity="0.8"
+          d="M8 6.9l.6 14.4M10.5 7.1l.3 14.7M13.5 7.1l-.3 14.7M16 6.9l-.6 14.4M5.5 12.6Q12 14.2 18.5 12.6M6 17Q12 18.6 18 17"
+        />
+        <ellipse cx="12" cy="6.2" rx="7.2" ry="1.3" fill="none" stroke="#6b7280" strokeWidth="0.9" />
+      </g>
+    ),
+  },
+  // The official GitHub mark, unmodified and white, as GitHub's brand rules allow for profile links.
+  github: {
+    background: 'linear-gradient(180deg, #2d333b, #0d1117)',
+    glyph: (
+      <path
+        fill="white"
+        stroke="none"
+        d="M10.226 17.284c-2.965-.36-5.054-2.493-5.054-5.256 0-1.123.404-2.336 1.078-3.144-.292-.741-.247-2.314.09-2.965.898-.112 2.111.36 2.83 1.01.853-.269 1.752-.404 2.853-.404 1.1 0 1.999.135 2.807.382.696-.629 1.932-1.1 2.83-.988.315.606.36 2.179.067 2.942.72.854 1.101 2 1.101 3.167 0 2.763-2.089 4.852-5.098 5.234.763.494 1.28 1.572 1.28 2.807v2.336c0 .674.561 1.056 1.235.786 4.066-1.55 7.255-5.615 7.255-10.646C23.5 6.188 18.334 1 11.978 1 5.62 1 .5 6.188.5 12.545c0 4.986 3.167 9.12 7.435 10.669.606.225 1.19-.18 1.19-.786V20.63a2.9 2.9 0 0 1-1.078.224c-1.483 0-2.359-.808-2.987-2.313-.247-.607-.517-.966-1.034-1.033-.27-.023-.359-.135-.359-.27 0-.27.45-.471.898-.471.652 0 1.213.404 1.797 1.235.45.651.921.943 1.483.943.561 0 .92-.202 1.437-.719.382-.381.674-.718.944-.943"
+      />
+    ),
+  },
+  // The [in] logo in LinkedIn blue on white, its preferred colorway.
+  linkedin: {
+    background: 'linear-gradient(180deg, #ffffff, #e5e7eb)',
+    glyph: (
+      <path
+        fill="#0a66c2"
+        stroke="none"
+        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+      />
+    ),
+  },
+  // The Instagram glyph (not the app icon) in solid black; sized so it stays above Instagram's 29px minimum in the Dock.
+  instagram: {
+    background: 'linear-gradient(180deg, #ffffff, #e5e7eb)',
+    glyphClassName: 'h-2/3 w-2/3',
+    glyph: (
+      <path
+        fill="black"
+        stroke="none"
+        d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"
+      />
+    ),
+  },
+}
+
+const PLAIN_TILE = 'linear-gradient(180deg, #f3f4f6, #d1d5db)'
+
+export default function AppIcon({ id, className = '', tiled = false }) {
+  const icon = ICONS[id]
+  const hasTile = icon.tile !== false || tiled
+  return (
+    <span
+      aria-hidden="true"
+      className={`flex aspect-square items-center justify-center rounded-[22%] ${hasTile ? 'shadow-md' : 'drop-shadow-md'} ${className}`}
+      style={{ background: hasTile ? (icon.background ?? PLAIN_TILE) : undefined }}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        className={(tiled && icon.tiledGlyphClassName) || icon.glyphClassName || 'h-3/5 w-3/5'}
+        fill="none"
+        stroke="white"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {icon.glyph}
+      </svg>
+    </span>
+  )
+}
